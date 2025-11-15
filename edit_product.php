@@ -1,5 +1,5 @@
 <?php
-require 'functions.php';
+require 'config.php';
 if (!is_logged_in()) redirect('login.php');
 
 $id = (int)($_GET['id'] ?? 0);

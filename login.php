@@ -1,4 +1,4 @@
-<?php require 'functions.php';
+<?php require 'config.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email']);
     $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");

@@ -1,51 +1,54 @@
-<?php require 'functions.php'; 
-if (!is_logged_in()) redirect('login.php'); 
+<?php
+// config.php - NO DATABASE
+session_start();
+
+// CSRF token
+if (empty($_SESSION['csrf'])) {
+    $_SESSION['csrf'] = bin2hex(random_bytes(32));
+}
+
+// === FILE PATHS ===
+define('DATA_DIR', __DIR__ . '/data');
+define('USERS_FILE', DATA_DIR . '/users.json');
+define('PRODUCTS_FILE', DATA_DIR . '/products.json');
+
+// Create data folder if not exists
+if (!is_dir(DATA_DIR)) {
+    mkdir(DATA_DIR, 0755, true);
+}
+
+// === HELPERS ===
+if (!function_exists('is_logged_in')) {
+    function is_logged_in() {
+        return isset($_SESSION['user_id']);
+    }
+}
+
+if (!function_exists('redirect')) {
+    function redirect($url) {
+        header("Location: $url");
+        exit;
+    }
+}
+
+if (!function_exists('h')) {
+    function h($str) {
+        return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
+    }
+}
+
+// === JSON DB HELPERS ===
+function read_json($file, $default = []) {
+    if (!file_exists($file)) return $default;
+    $content = file_get_contents($file);
+    return $content ? json_decode($content, true) : $default;
+}
+
+function write_json($file, $data) {
+    file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+}
+
+// Init empty files if missing
+if (!file_exists(USERS_FILE)) write_json(USERS_FILE, []);
+if (!file_exists(PRODUCTS_FILE)) write_json(PRODUCTS_FILE, []);
 ?>
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sepetim</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-<?php include 'navbar.php'; ?>
-
-<div class="container" style="padding: 2rem 1rem;">
-    <h2 style="color: var(--green-600); margin-bottom: 1.5rem; text-align: center;">Sepetiniz</h2>
-
-    <?php if (isset($_GET['msg'])): ?>
-        <div class="alert alert-success"><?php echo h($_GET['msg']); ?></div>
-    <?php endif; ?>
-
-    <div id="empty-cart" style="text-align: center; padding: 3rem; display: none;">
-        <p style="font-size: 1.2rem; color: var(--gray-600);">Sepetiniz boş.</p>
-        <a href="index.php" class="btn btn-success" style="margin-top: 1rem;">Alışverişe Devam Et</a>
-    </div>
-
-    <table class="table" id="cart-table" style="display: none;">
-        <thead>
-            <tr>
-                <th>Ürün</th>
-                <th style="text-align: right;">Fiyat</th>
-                <th style="text-align: center;">Adet</th>
-                <th style="text-align: right;">Toplam</th>
-                <th style="text-align: center;">İşlem</th>
-            </tr>
-        </thead>
-        <tbody id="cart-body"></tbody>
-    </table>
-
-    <div id="cart-summary" style="display: none; text-align: right; margin-top: 1.5rem; font-size: 1.4rem;">
-        <strong>Genel Toplam: ₺<span id="cart-total">0.00</span></strong>
-        <button id="checkout-btn" class="btn btn-success" style="margin-left: 1rem; padding: 0.75rem 1.5rem; font-size: 1.1rem;">
-            Ödemeye Geç (Demo)
-        </button>
-    </div>
-</div>
-
-<?php include 'footer.php'; ?>
-<script src="cart.js"></script>
-</body>
-</html>

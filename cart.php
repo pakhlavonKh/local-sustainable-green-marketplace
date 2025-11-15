@@ -1,4 +1,4 @@
-<?php require 'functions.php'; if (!is_logged_in()) redirect('login.php'); ?>
+<?php require 'config.php'; if (!is_logged_in()) redirect('login.php'); ?>
 <!DOCTYPE html>
 <html lang="tr">
 <head>

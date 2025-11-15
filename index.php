@@ -1,4 +1,4 @@
-<?php require 'functions.php'; ?>
+<?php require 'config.php'; ?>
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -10,7 +10,7 @@
 <body>
     <?php include 'navbar.php'; ?>
 
-    <div class="container" style="padding: 2rem 1rem;">
+    <div class="container py-4">
         <div class="hero-header">
             <h1>Yerel. Sürdürülebilir. Yeşil.</h1>
             <p>Topluluğunuzdan çevre dostu ürünleri alın ve satın</p>
@@ -42,7 +42,7 @@
                             <a href="delete_product.php?id=<?php echo $p['id']; ?>" class="btn btn-outline-danger" onclick="return confirm('Silmek istediğinizden emin misiniz?');">Sil</a>
                         <?php endif; ?>
 
-                        <button class="btn btn-success add-to-cart" style="margin-top: 0.5rem;" data-id="<?php echo $p['id']; ?>" data-title="<?php echo h($p['title']); ?>" data-price="<?php echo $p['price']; ?>">
+                        <button class="btn btn-success add-to-cart mt-2" data-id="<?php echo $p['id']; ?>" data-title="<?php echo h($p['title']); ?>" data-price="<?php echo $p['price']; ?>">
                             Sepete Ekle
                         </button>
                     </div>

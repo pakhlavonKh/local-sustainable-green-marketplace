@@ -1,4 +1,4 @@
-<?php require 'functions.php';
+<?php require 'config.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name  = trim($_POST['name']);
     $email = trim($_POST['email']);
