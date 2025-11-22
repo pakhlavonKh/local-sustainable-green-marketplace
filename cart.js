@@ -3,9 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const cart = JSON.parse(localStorage.getItem('cart') || '{}');
     const tbody = document.getElementById('cart-body');
     const totalEl = document.getElementById('cart-total');
-    const table = document.getElementById('cart-table');
-    const summary = document.getElementById('cart-summary');
-    const empty = document.getElementById('empty-cart');
 
     updateCartCount();
     renderCart();
@@ -21,10 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
             cart[id].qty++;
             saveCart();
             updateCartCount();
-            btn.textContent = 'Eklendi ✓';
+
+            btn.textContent = 'Added ✓';
             btn.disabled = true;
             setTimeout(() => {
-                btn.textContent = 'Sepete Ekle';
+                btn.textContent = 'Add to Cart';
                 btn.disabled = false;
             }, 1000);
         });
@@ -33,12 +31,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // Checkout button
     document.getElementById('checkout-btn')?.addEventListener('click', () => {
         if (Object.keys(cart).length === 0) {
-            alert('Sepetiniz boş!');
+            alert('Your cart is empty!');
             return;
         }
-        alert('Bu bir demo sitesidir. Gerçek ödeme sistemi entegre edilmemiştir.\n\nSepetinizdeki ürünler:\n' +
-              Object.values(cart).map(item => `• ${item.title} x${item.qty} = ₺${(item.price * item.qty).toFixed(2)}`).join('\n') +
-              `\n\nToplam: ₺${Object.values(cart).reduce((sum, i) => sum + i.price * i.qty, 0).toFixed(2)}`
+
+        const itemsList = Object.values(cart)
+            .map(item => `• ${item.title} ×${item.qty} = ₺${(item.price * item.qty).toFixed(2)}`)
+            .join('\n');
+
+        const grandTotal = Object.values(cart)
+            .reduce((sum, i) => sum + i.price * i.qty, 0)
+            .toFixed(2);
+
+        alert(
+            `This is a demo site. No real payment system is integrated.\n\n` +
+            `Items in your cart:\n${itemsList}\n\n` +
+            `Total: ₺${grandTotal}`
         );
     });
 });
@@ -48,10 +56,10 @@ function saveCart() {
 }
 
 function updateCartCount() {
-    const total = Object.values(JSON.parse(localStorage.getItem('cart') || '{}'))
+    const totalItems = Object.values(JSON.parse(localStorage.getItem('cart') || '{}'))
         .reduce((sum, item) => sum + item.qty, 0);
     const countEl = document.getElementById('cart-count');
-    if (countEl) countEl.textContent = total;
+    if (countEl) countEl.textContent = totalItems;
 }
 
 function renderCart() {
@@ -63,15 +71,15 @@ function renderCart() {
     const empty = document.getElementById('empty-cart');
 
     if (Object.keys(cart).length === 0) {
-        table.style.display = 'none';
-        summary.style.display = 'none';
-        empty.style.display = 'block';
+        if (table) table.style.display = 'none';
+        if (summary) summary.style.display = 'none';
+        if (empty) empty.style.display = 'block';
         return;
     }
 
-    table.style.display = 'table';
-    summary.style.display = 'block';
-    empty.style.display = 'none';
+    if (table) table.style.display = 'table';
+    if (summary) summary.style.display = 'block';
+    if (empty) empty.style.display = 'none';
 
     tbody.innerHTML = '';
     let total = 0;
@@ -96,7 +104,7 @@ function renderCart() {
 
     totalEl.textContent = total.toFixed(2);
 
-    // Quantity change
+    // Quantity change handler
     tbody.querySelectorAll('.qty-input').forEach(input => {
         input.addEventListener('change', e => {
             const id = e.target.dataset.id;
@@ -112,10 +120,10 @@ function renderCart() {
         });
     });
 
-    // Remove item
+    // Remove item handler
     tbody.querySelectorAll('.remove-item').forEach(btn => {
-        btn.addEventListener('click', e => {
-            delete cart[e.target.dataset.id];
+        btn.addEventListener('click', () => {
+            delete cart[btn.dataset.id];
             saveCart();
             renderCart();
             updateCartCount();

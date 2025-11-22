@@ -51,4 +51,3 @@ function write_json($file, $data) {
 // Init empty files if missing
 if (!file_exists(USERS_FILE)) write_json(USERS_FILE, []);
 if (!file_exists(PRODUCTS_FILE)) write_json(PRODUCTS_FILE, []);
-?>

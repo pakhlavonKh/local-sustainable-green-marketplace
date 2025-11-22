@@ -16,5 +16,5 @@ if ($product) {
     $stmt->execute([$id, $_SESSION['user_id']]);
 }
 
-redirect('index.php?msg=Ürün+silindi');
+redirect('index.php?msg=Product+deleted+successfully');
 ?>
