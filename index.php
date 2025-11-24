@@ -5,6 +5,10 @@ require 'config.php';
 $products = read_json(PRODUCTS_FILE, []);
 $users    = read_json(USERS_FILE, []);
 
+// some shanges 
+
+
+
 // Build user_id → user map
 $userById = [];
 foreach ($users as $u) {
