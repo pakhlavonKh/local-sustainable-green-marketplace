@@ -2,7 +2,6 @@
 require 'config.php';
 
 // Helper function to safely read JSON files
-// If the file doesn't exist, it returns an empty array [] instead of crashing
 function read_json_safe($filename, $default = []) {
     return file_exists($filename) ? json_decode(file_get_contents($filename), true) : $default;
 }
