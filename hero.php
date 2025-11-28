@@ -1,3 +1,5 @@
+<?php require_once 'lang_config.php'; ?>
+
 <!-- HERO SLIDER SECTION -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet">
 
@@ -11,15 +13,13 @@
         <div class="hero-overlay"></div>
         
         <div class="hero-content">
-            <h1 class="hero-title">Sustainable Future.</h1>
+            <h1 class="hero-title"><?php echo $text['slide1_title']; ?></h1>
             <p class="hero-goal">
-                We are committed to ecological balance and sustainable development. 
-                Our goal is to reduce carbon footprints by connecting you directly 
-                with local producers, ensuring a greener earth for future generations.
+                <?php echo $text['slide1_text']; ?>
             </p>
             <div class="quote-box">
-                <p class="hero-quote">"The Earth is what we all have in common."</p>
-                <p class="quote-author">— Wendell Berry</p>
+                <p class="hero-quote"><?php echo $text['slide1_quote']; ?></p>
+                <p class="quote-author"><?php echo $text['slide1_author']; ?></p>
             </div>
         </div>
     </div>
@@ -31,15 +31,13 @@
         <div class="hero-overlay"></div>
         
         <div class="hero-content">
-            <h1 class="hero-title">Grow Together.</h1>
+            <h1 class="hero-title"><?php echo $text['slide2_title']; ?></h1>
             <p class="hero-goal">
-                Empowering local economies is at the heart of what we do. 
-                By supporting nearby farmers and artisans, we build a resilient 
-                community where fresh, ethical choices are accessible to everyone.
+                <?php echo $text['slide2_text']; ?>
             </p>
             <div class="quote-box">
-                <p class="hero-quote">"Alone we can do so little; together we can do so much."</p>
-                <p class="quote-author">— Helen Keller</p>
+                <p class="hero-quote"><?php echo $text['slide2_quote']; ?></p>
+                <p class="quote-author"><?php echo $text['slide2_author']; ?></p>
             </div>
         </div>
     </div>
@@ -51,13 +49,13 @@
         <div class="hero-overlay"></div> 
         
         <div class="hero-content" style="max-width: 800px;">
-            <h1 class="hero-title">Fresh & Organic.</h1>
+            <h1 class="hero-title"><?php echo $text['slide3_title']; ?></h1>
             <p class="hero-subtitle" style="font-size: 1.5rem; font-weight: bold; color: #b8ffce; margin-bottom: 1rem;">
-                Vegetables &bull; Dairy &bull; Pantry &bull; Fruits
+                <?php echo $text['slide3_sub1']; ?>
             </p>
-            <p class="hero-subtitle" style="color: #f0f0f0;">Everything you need, ethically sourced from your neighbors.</p>
+            <p class="hero-subtitle" style="color: #f0f0f0;"><?php echo $text['slide3_sub2']; ?></p>
             <!-- Targeted Button for Pause Logic -->
-            <a href="#catalog-anchor" class="hero-btn">CHOOSE A CATEGORY BELOW</a>
+            <a href="#catalog-anchor" class="hero-btn"><?php echo $text['slide3_btn']; ?></a>
         </div>
     </div>
 

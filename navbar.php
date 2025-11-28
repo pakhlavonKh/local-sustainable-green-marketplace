@@ -1,66 +1,59 @@
-<!-- TOP GOAL BAR (Does not stick, scrolls away) -->
-<div class="top-goal-bar">
-    <div class="container">
-        <span class="goal-item"><i class="fas fa-leaf"></i> 100% Sustainable Sourcing</span>
-        <span class="goal-item"><i class="fas fa-truck-fast"></i> Low Carbon Delivery</span>
-        <span class="goal-item"><i class="fas fa-hand-holding-heart"></i> Supporting Local Farmers</span>
-    </div>
-</div>
+<?php require_once 'lang_config.php'; ?>
 
-<!-- STICKY WRAPPER: Holds both the Main Nav and Category Nav -->
-<div class="sticky-header-wrapper">
-    
-    <!-- MAIN NAVBAR: Forest Green & Chic -->
-    <nav class="navbar">
-        <div class="container navbar-container">
-            
-            <!-- LOGO -->
-            <a href="index.php" class="navbar-brand">
-                Leaf Leaf <span style="font-weight: 300; font-size: 0.9em;">Market</span>
+<nav class="navbar">
+    <!-- Top Bar: Logo, Search, User Actions -->
+    <div class="nav-top">
+        <div class="logo">
+            <a href="index.php">Leaf Leaf Market</a>
+        </div>
+        
+        <div class="search-bar">
+            <input type="text" placeholder="<?php echo $text['search_place']; ?>">
+            <button><i class="fas fa-search"></i></button>
+        </div>
+
+        <div class="user-actions">
+            <a href="#"><i class="far fa-heart"></i></a>
+            <a href="login.php"><i class="far fa-user"></i> <?php echo $text['nav_login']; ?></a>
+            <a href="cart.php" class="basket-btn">
+                <i class="fas fa-shopping-basket"></i> <?php echo $text['basket']; ?>
             </a>
-
-            <!-- SEARCH BAR -->
-            <div class="search-wrapper">
-                <form action="index.php" method="GET" class="search-form">
-                    <input type="text" name="search" placeholder="Search for fresh greens, dairy..." class="search-input">
-                    <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
-                </form>
-            </div>
-
-            <!-- ICONS -->
-            <div class="nav-icons">
-                <a href="#" class="icon-link tooltip" data-tooltip="Favorites"><i class="far fa-heart"></i></a>
-                <a href="login.php" class="icon-link tooltip" data-tooltip="Account"><i class="far fa-user"></i></a>
-                <a href="cart.php" class="icon-link cart-link tooltip" data-tooltip="My Basket">
-                    <div class="icon-wrapper">
-                        <i class="fas fa-shopping-basket"></i>
-                        <span id="cart-count" class="cart-badge">0</span>
-                    </div>
-                    <span class="link-text">Basket</span>
-                </a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- NEW SECONDARY NAVBAR (Hermes Style) -->
-    <div class="secondary-nav">
-        <div class="container">
-            <ul class="category-links">
-                <!-- Adapted Categories for Leaf Market -->
-                <li><a href="index.php?category=produce">Fresh Produce</a></li>
-                <li><a href="index.php?category=dairy">Dairy & Eggs</a></li>
-                <li><a href="index.php?category=bakery">Bakery</a></li>
-                <li><a href="index.php?category=pantry">Pantry</a></li>
-                <li><a href="index.php?category=beverages">Beverages</a></li>
-                <li><a href="index.php?category=home">Home & Garden</a></li>
-                
-                <!-- Special Divider -->
-                <li class="nav-divider">|</li>
-                
-                <!-- About Section -->
-                <li><a href="about.php" class="highlight-link">About Leaf Market</a></li>
-            </ul>
         </div>
     </div>
 
-</div>
+    <!-- Bottom Bar: Categories -->
+    <div class="nav-bottom">
+        <ul>
+            <li><a href="index.php?category=fresh_produce"><?php echo $text['cat_fresh']; ?></a></li>
+            <li><a href="index.php?category=dairy_eggs"><?php echo $text['cat_dairy']; ?></a></li>
+            <li><a href="index.php?category=bakery"><?php echo $text['cat_bakery']; ?></a></li>
+            <li><a href="index.php?category=pantry"><?php echo $text['cat_pantry']; ?></a></li>
+            <li><a href="index.php?category=beverages"><?php echo $text['cat_bev']; ?></a></li>
+            <li><a href="index.php?category=home_garden"><?php echo $text['cat_home']; ?></a></li>
+            <li class="nav-special"><a href="about.php"><?php echo $text['nav_about']; ?></a></li>
+        </ul>
+    </div>
+</nav>
+
+<style>
+/* Simplified Navbar Styles matching your screenshot */
+.navbar { font-family: 'Arial', sans-serif; }
+.nav-top { 
+    background: #1a4d2e; /* Dark Green */
+    padding: 15px 40px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+}
+.logo a { color: #fff; text-decoration: none; font-size: 24px; font-family: serif; }
+.search-bar { display: flex; background: #2f6142; border-radius: 25px; padding: 5px 15px; width: 40%; }
+.search-bar input { background: transparent; border: none; color: #fff; width: 100%; outline: none; }
+.search-bar button { background: #4ade80; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; }
+.user-actions a { color: #fff; text-decoration: none; margin-left: 20px; font-size: 14px; }
+.basket-btn { background: #2f6142; padding: 8px 15px; border-radius: 20px; }
+
+.nav-bottom { background: #fdfbf7; border-bottom: 1px solid #eee; padding: 15px 40px; }
+.nav-bottom ul { list-style: none; padding: 0; margin: 0; display: flex; gap: 30px; justify-content: center; }
+.nav-bottom a { text-decoration: none; color: #333; font-size: 13px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+.nav-special a { color: #1a4d2e; }
+</style>

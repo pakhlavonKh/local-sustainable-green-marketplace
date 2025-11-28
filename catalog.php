@@ -1,119 +1,158 @@
-<?php
-// --- EXISTING DUMMY DATA FOR MAIN LIST ---
-if (empty($products)) {
-    $products = [
-        ['id'=>101, 'category'=>'vegetables', 'title'=>'Organic Carrots', 'price'=>15.00, 'user_id'=>0, 'image'=>'https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=800&q=80'],
-        ['id'=>102, 'category'=>'vegetables', 'title'=>'Fresh Spinach',  'price'=>20.00, 'user_id'=>0, 'image'=>'https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=800&q=80'],
-        ['id'=>103, 'category'=>'dairy',      'title'=>'Free Range Eggs', 'price'=>45.00, 'user_id'=>0, 'image'=>'https://images.unsplash.com/photo-1516482738381-adb36a36bdc9?auto=format&fit=crop&w=800&q=80'],
-        ['id'=>104, 'category'=>'dairy',      'title'=>'Goat Cheese',     'price'=>85.00, 'user_id'=>0, 'image'=>'https://images.unsplash.com/photo-1559561853-08451507cbe7?auto=format&fit=crop&w=800&q=80'],
-        ['id'=>105, 'category'=>'fruits',     'title'=>'Red Apples',      'price'=>25.00, 'user_id'=>0, 'image'=>'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=800&q=80'],
-        ['id'=>106, 'category'=>'pantry',     'title'=>'Raw Honey',       'price'=>120.00,'user_id'=>0, 'image'=>'https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=800&q=80'],
-    ];
+<?php 
+// --- SAFE MODE LOGIC ---
+
+// 1. Define Default Titles (Fallbacks)
+$t_fresh  = 'TAZE ÜRÜNLER';
+$t_dairy  = 'SÜT VE YUMURTA';
+$t_bakery = 'FIRIN';
+$t_pantry = 'KİLER';
+$t_bev    = 'İÇECEKLER';
+$t_home   = 'EV VE BAHÇE';
+
+// 2. Try to load translations
+// Using @ to suppress errors if file is missing
+@include_once 'lang_config.php'; 
+
+// 3. Overwrite defaults ONLY if the translation array is valid
+if (isset($text) && is_array($text)) {
+    if (!empty($text['cat_fresh']))  $t_fresh  = $text['cat_fresh'];
+    if (!empty($text['cat_dairy']))  $t_dairy  = $text['cat_dairy'];
+    if (!empty($text['cat_bakery'])) $t_bakery = $text['cat_bakery'];
+    if (!empty($text['cat_pantry'])) $t_pantry = $text['cat_pantry'];
+    if (!empty($text['cat_bev']))    $t_bev    = $text['cat_bev'];
+    if (!empty($text['cat_home']))   $t_home   = $text['cat_home'];
 }
 
-$selectedCategory = $_GET['category'] ?? null;
+// 4. Image Sources (Centralized here to ensure they aren't broken)
+$img_fresh  = "https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=600&q=80";
+$img_dairy  = "https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=600&q=80";
+$img_bakery = "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80";
+// Pantry uses a color instead of an image
+$img_bev    = "https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=600&q=80";
+$img_home   = "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=600&q=80";
 ?>
 
-<!-- === EXISTING CATALOG SECTION === -->
-<div id="catalog-anchor" class="container" style="padding: 60px 20px;">
-
-    <!-- SCENARIO A: CHIC CATEGORY ROW (Default) -->
-    <?php if (!$selectedCategory): ?>
-        
-        <div class="section-header">
-            <h2 id="browse-categories">Browse by Category</h2>
-            <p>Select a department to view local products.</p>
+<!-- CATALOG GRID -->
+<div class="catalog-container" id="catalog-anchor">
+    
+    <!-- 1. Fresh Produce -->
+    <a href="index.php?category=fresh_produce" class="catalog-item">
+        <div class="cat-img" style="background-image: url('<?php echo $img_fresh; ?>');"></div>
+        <div class="cat-overlay">
+            <h3><?php echo $t_fresh; ?></h3>
         </div>
+    </a>
 
-        <div class="category-grid">
-            <!-- 1. Vegetables -->
-            <a href="index.php?category=vegetables#catalog-anchor" class="category-card">
-                <img src="https://images.unsplash.com/photo-1566385101042-1a0aa0c1268c?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Veg">
-                <div class="category-overlay">
-                    <h3>Vegetables</h3>
-                    <p>Seasonal & Organic</p>
-                </div>
-            </a>
-            <!-- 2. Dairy -->
-            <a href="index.php?category=dairy#catalog-anchor" class="category-card">
-                <img src="https://images.unsplash.com/photo-1628088062854-d1870b4553da?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Dairy">
-                <div class="category-overlay">
-                    <h3>Dairy & Eggs</h3>
-                    <p>Ethical Animal Products</p>
-                </div>
-            </a>
-            <!-- 3. Fruits -->
-            <a href="index.php?category=fruits#catalog-anchor" class="category-card">
-                <img src="https://images.unsplash.com/photo-1610832958506-aa56368176cf?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Fruit">
-                <div class="category-overlay">
-                    <h3>Fruits</h3>
-                    <p>Pesticide-Free</p>
-                </div>
-            </a>
-            <!-- 4. Pantry -->
-            <a href="index.php?category=pantry#catalog-anchor" class="category-card">
-                <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Pantry">
-                <div class="category-overlay">
-                    <h3>Pantry</h3>
-                    <p>Honey, Oils & Grains</p>
-                </div>
-            </a>
+    <!-- 2. Dairy & Eggs -->
+    <a href="index.php?category=dairy_eggs" class="catalog-item">
+        <div class="cat-img" style="background-image: url('<?php echo $img_dairy; ?>');"></div>
+        <div class="cat-overlay">
+            <h3><?php echo $t_dairy; ?></h3>
         </div>
+    </a>
 
-    <!-- SCENARIO B: PRODUCT LIST (Filtered) -->
-    <?php else: ?>
-
-        <div class="section-header" style="text-align: center; margin-bottom: 30px;">
-            <a href="index.php#catalog-anchor" class="btn btn-success" style="background:transparent; border:1px solid #1a4d2e; color:#1a4d2e; text-decoration:none; padding:8px 16px; width:auto; display:inline-block; margin-bottom:15px;">
-                &larr; Back to Categories
-            </a>
-            <h2 style="text-transform: capitalize; color:#1a4d2e; margin-top:10px;">Category: <?php echo htmlspecialchars($selectedCategory); ?></h2>
+    <!-- 3. Bakery -->
+    <a href="index.php?category=bakery" class="catalog-item">
+        <div class="cat-img" style="background-image: url('<?php echo $img_bakery; ?>');"></div>
+        <div class="cat-overlay">
+            <h3><?php echo $t_bakery; ?></h3>
         </div>
+    </a>
 
-        <div class="catalog-grid">
-            <?php 
-            $found = false;
-            foreach ($products as $p): 
-                if (isset($p['category']) && $p['category'] !== $selectedCategory && $selectedCategory !== 'all') continue;
-                
-                $found = true;
-                $price = isset($p['price']) ? (float)$p['price'] : 0.0;
-                $imgSrc = !empty($p['image']) ? $p['image'] : 'https://via.placeholder.com/300x400?text=No+Image';
-            ?>
-                <!-- Product Card -->
-                <div class="product-card" onclick="window.location.href='product_details.php?id=<?php echo $p['id']; ?>'">
-                    <div class="card-image-wrapper">
-                        <img src="<?php echo htmlspecialchars($imgSrc); ?>" alt="<?php echo htmlspecialchars($p['title'] ?? ''); ?>">
-                        <button class="wishlist-btn" style="position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,0.8); border-radius: 50%; width: 30px; height: 30px; border: none; cursor: pointer;" onclick="event.stopPropagation();">
-                            <i class="far fa-heart"></i>
-                        </button>
-                    </div>
-                    <div class="card-info">
-                        <h3 class="card-title"><?php echo htmlspecialchars($p['title'] ?? 'Product'); ?></h3>
-                        <div class="card-price">₺<?php echo number_format($price, 2); ?></div>
-                        <div class="card-actions">
-                            <button 
-                                class="btn btn-success" 
-                                onclick="event.stopPropagation();"
-                                data-id="<?php echo $p['id']; ?>" 
-                                data-title="<?php echo htmlspecialchars($p['title'] ?? ''); ?>" 
-                                data-price="<?php echo $price; ?>">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            <?php endforeach; ?>
+    <!-- 4. Pantry (Gray Box) -->
+    <a href="index.php?category=pantry" class="catalog-item">
+        <div class="cat-img" style="background-color: #9ca3af; background-image: none;"></div>
+        <div class="cat-overlay">
+            <h3><?php echo $t_pantry; ?></h3>
         </div>
+    </a>
 
-        <?php if (!$found): ?>
-            <div style="text-align: center; padding: 50px; background-color: #f9fafb; border-radius: 12px; margin-top: 20px;">
-                <h3 style="color: #4b5563;">No products found here yet.</h3>
-                <p style="color: #6b7280;">Be the first neighbor to sell <?php echo htmlspecialchars($selectedCategory); ?>!</p>
-                <a href="add_product.php" class="btn btn-success" style="margin-top: 15px; display:inline-block; width:auto;">Start Selling</a>
-            </div>
-        <?php endif; ?>
+    <!-- 5. Beverages -->
+    <a href="index.php?category=beverages" class="catalog-item">
+        <div class="cat-img" style="background-image: url('<?php echo $img_bev; ?>');"></div>
+        <div class="cat-overlay">
+            <h3><?php echo $t_bev; ?></h3>
+        </div>
+    </a>
 
-    <?php endif; ?>
+    <!-- 6. Home & Garden -->
+    <a href="index.php?category=home_garden" class="catalog-item">
+        <div class="cat-img" style="background-image: url('<?php echo $img_home; ?>');"></div>
+        <div class="cat-overlay">
+            <h3><?php echo $t_home; ?></h3>
+        </div>
+    </a>
 
 </div>
+
+<style>
+/* ROBUST STYLES */
+.catalog-container {
+    max-width: 1200px;
+    margin: 60px auto; /* Increased top margin to prevent overlap */
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 25px;
+    position: relative;
+    z-index: 5;
+    min-height: 500px; /* FORCE HEIGHT: Container cannot collapse to 0 */
+}
+
+.catalog-item {
+    position: relative;
+    height: 250px; /* Fixed height for items */
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+    background: #333; /* Dark fallback if image fails */
+    display: block; /* Ensure it behaves as a block */
+}
+
+.catalog-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.cat-img {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.6s ease;
+}
+
+.catalog-item:hover .cat-img {
+    transform: scale(1.1);
+}
+
+.cat-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cat-overlay h3 {
+    color: white;
+    font-size: 26px;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-family: 'Arial', sans-serif;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.7);
+    margin: 0;
+    text-align: center;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .catalog-container {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
