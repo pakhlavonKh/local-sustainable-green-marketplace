@@ -13,7 +13,7 @@ if (!isset($_SESSION['lang'])) {
 
 // --- ENGLISH DICTIONARY ---
 $lang_en = [
-    // ... (Keep existing Navbar/Footer/Hero keys) ...
+    // ... (Keep ALL existing keys) ...
     'nav_home'       => 'Home',
     'nav_login'      => 'Log In',
     'nav_register'   => 'Register',
@@ -33,12 +33,12 @@ $lang_en = [
     'hero_btn'       => 'Shop Now',
 
     'slide1_title'   => 'Sustainable Future.',
-    'slide1_text'    => 'We are committed to ecological balance and sustainable development. Our goal is to reduce carbon footprints by connecting you directly with local producers.',
+    'slide1_text'    => 'We are committed to ecological balance and sustainable development.',
     'slide1_quote'   => '"The Earth is what we all have in common."',
     'slide1_author'  => '— Wendell Berry',
 
     'slide2_title'   => 'Grow Together.',
-    'slide2_text'    => 'Empowering local economies is at the heart of what we do. By supporting nearby farmers and artisans, we build a resilient community.',
+    'slide2_text'    => 'Empowering local economies is at the heart of what we do.',
     'slide2_quote'   => '"Alone we can do so little; together we can do so much."',
     'slide2_author'  => '— Helen Keller',
 
@@ -50,6 +50,7 @@ $lang_en = [
     'carousel_title' => 'You Might Be Interested In',
     'low_stock'      => 'Low Stock',
     'currency'       => 'TL',
+    'add_cart'       => 'Add to Basket',
 
     'banner_title'   => "Nature's Best, Locally Sourced",
     'banner_sub'     => 'Support your community • Eat fresh • Live sustainable',
@@ -67,8 +68,47 @@ $lang_en = [
     'rights'         => 'All rights reserved.',
     'lang_label'     => 'Language:',
 
-    // --- NEW: PRODUCT TRANSLATIONS (English Map) ---
-    // The key must match the EXACT title in your JSON/Array
+    'eco_score_label' => 'Sustainability Score',
+    'impact_high'     => 'Excellent Eco-Impact',
+    'impact_med'      => 'Good Eco-Impact',
+    'impact_low'      => 'Standard Impact',
+    'delivery_type'   => 'Green Delivery:',
+    'packaging'       => 'Packaging:',
+    'seller_loc'      => 'Seller Location:',
+    
+    'del_bike'        => '🚲 Bike Courier (Zero Carbon)',
+    'del_walk'        => '🚶 Walking Courier (Zero Carbon)',
+    'del_public'      => '🚌 Public Transport',
+    'del_cargo'       => '🚛 Standard Cargo',
+    
+    'pack_plastic_free' => 'Plastic-Free',
+    'pack_recycled'     => 'Recycled Paper',
+    'pack_standard'     => 'Standard',
+
+    'seller_profile'  => 'Seller Profile',
+    'seller_bio'      => 'Bio',
+    'seller_rating'   => 'Seller Rating',
+    'other_products'  => 'Other products by this seller',
+    'verified_seller' => 'Verified Local Producer',
+    'eco_level'       => 'Eco Level',
+
+    'reviews_title'   => 'Customer Reviews',
+    'verified_buyer'  => 'Verified Buyer',
+    'rating_label'    => 'Rating',
+
+    // --- NEW: CART KEYS (English) ---
+    'cart_title'      => 'Your Green Basket',
+    'cart_empty'      => 'Your basket is empty',
+    'cart_empty_sub'  => 'Start filling it with eco-friendly local goods!',
+    'continue_shop'   => 'Continue Shopping',
+    'start_shop'      => 'Start Shopping',
+    'total_carbon'    => 'Total Carbon Saved',
+    'total_price'     => 'Total Price',
+    'clear_cart'      => 'Clear Cart',
+    'checkout'        => 'Checkout',
+    'quantity'        => 'Qty',
+    'impact_fun_fact' => 'Equivalent to charging %s smartphones!',
+
     'products' => [
         'Red Apples'      => 'Red Apples',
         'Organic Carrots' => 'Organic Carrots',
@@ -76,13 +116,12 @@ $lang_en = [
         'Fresh Spinach'   => 'Fresh Spinach',
         'Sourdough Bread' => 'Sourdough Bread',
         'Honey Jar'       => 'Honey Jar',
-        // Add more products here as needed
     ]
 ];
 
 // --- TURKISH DICTIONARY ---
 $lang_tr = [
-    // ... (Keep existing Navbar/Footer/Hero keys) ...
+    // ... (Keep ALL existing keys) ...
     'nav_home'       => 'Anasayfa',
     'nav_login'      => 'Giriş Yap',
     'nav_register'   => 'Kayıt Ol',
@@ -102,12 +141,12 @@ $lang_tr = [
     'hero_btn'       => 'Alışverişe Başla',
 
     'slide1_title'   => 'Sürdürülebilir Gelecek.',
-    'slide1_text'    => 'Ekolojik dengeye ve sürdürülebilir kalkınmaya kararlıyız. Amacımız, sizi doğrudan yerel üreticilerle buluşturarak karbon ayak izini azaltmaktır.',
+    'slide1_text'    => 'Ekolojik dengeye ve sürdürülebilir kalkınmaya kararlıyız.',
     'slide1_quote'   => '"Dünya hepimizin ortak noktasıdır."',
     'slide1_author'  => '— Wendell Berry',
 
     'slide2_title'   => 'Birlikte Büyüyelim.',
-    'slide2_text'    => 'Yerel ekonomileri güçlendirmek işimizin kalbidir. Yakındaki çiftçileri ve zanaatkarları destekleyerek dayanıklı bir topluluk inşa ediyoruz.',
+    'slide2_text'    => 'Yerel ekonomileri güçlendirmek işimizin kalbidir.',
     'slide2_quote'   => '"Yalnızken çok az şey yapabiliriz; birlikte çok şey yapabiliriz."',
     'slide2_author'  => '— Helen Keller',
 
@@ -119,6 +158,7 @@ $lang_tr = [
     'carousel_title' => 'İlginizi Çekebilir',
     'low_stock'      => 'Az Stok',
     'currency'       => 'TL',
+    'add_cart'       => 'Sepete Ekle',
 
     'banner_title'   => "Doğanın En İyisi, Yerelden",
     'banner_sub'     => 'Topluluğunu destekle • Taze ye • Sürdürülebilir yaşa',
@@ -136,7 +176,47 @@ $lang_tr = [
     'rights'         => 'Tüm hakları saklıdır.',
     'lang_label'     => 'Dil:',
 
-    // --- NEW: PRODUCT TRANSLATIONS (Turkish Map) ---
+    'eco_score_label' => 'Sürdürülebilirlik Puanı',
+    'impact_high'     => 'Mükemmel Eko-Etki',
+    'impact_med'      => 'İyi Eko-Etki',
+    'impact_low'      => 'Standart Etki',
+    'delivery_type'   => 'Yeşil Teslimat:',
+    'packaging'       => 'Paketleme:',
+    'seller_loc'      => 'Satıcı Konumu:',
+
+    'del_bike'        => '🚲 Bisiklet Kurye (Sıfır Karbon)',
+    'del_walk'        => '🚶 Yaya Kurye (Sıfır Karbon)',
+    'del_public'      => '🚌 Toplu Taşıma',
+    'del_cargo'       => '🚛 Standart Kargo',
+
+    'pack_plastic_free' => 'Plastiksiz',
+    'pack_recycled'     => 'Geri Dönüştürülmüş Kağıt',
+    'pack_standard'     => 'Standart',
+
+    'seller_profile'  => 'Satıcı Profili',
+    'seller_bio'      => 'Biyografi',
+    'seller_rating'   => 'Satıcı Puanı',
+    'other_products'  => 'Bu satıcının diğer ürünleri',
+    'verified_seller' => 'Doğrulanmış Yerel Üretici',
+    'eco_level'       => 'Eko Seviyesi',
+
+    'reviews_title'   => 'Müşteri Yorumları',
+    'verified_buyer'  => 'Doğrulanmış Alıcı',
+    'rating_label'    => 'Puan',
+
+    // --- NEW: CART KEYS (Turkish) ---
+    'cart_title'      => 'Yeşil Sepetiniz',
+    'cart_empty'      => 'Sepetiniz boş',
+    'cart_empty_sub'  => 'Çevre dostu yerel ürünlerle doldurmaya başlayın!',
+    'continue_shop'   => 'Alışverişe Devam Et',
+    'start_shop'      => 'Alışverişe Başla',
+    'total_carbon'    => 'Toplam Karbon Tasarrufu',
+    'total_price'     => 'Toplam Tutar',
+    'clear_cart'      => 'Sepeti Temizle',
+    'checkout'        => 'Ödeme Yap',
+    'quantity'        => 'Adet',
+    'impact_fun_fact' => '%s adet akıllı telefon şarjına eşdeğer!',
+
     'products' => [
         'Red Apples'      => 'Kırmızı Elma',
         'Organic Carrots' => 'Organik Havuç',

@@ -43,16 +43,9 @@ $selectedCategory = $_GET['category'] ?? null;
     <?php include 'catalog.php'; ?>
 
     <!-- 4. HOMEPAGE ONLY SECTIONS -->
-    <?php if (!$selectedCategory): ?>
-        
-        <!-- NEW: Smooth Transition Banner -->
-        <!-- This sits between Categories (Catalog) and the Carousel -->
-        <?php include 'transition_banner.php'; ?>
-
-        <!-- The "You Might Be Interested" Carousel -->
-        <?php include 'product_carousel.php'; ?>
-
-    <?php endif; ?>
+    <!-- NEW CODE (Always visible) -->
+<?php include 'transition_banner.php'; ?>
+<?php include 'product_carousel.php'; ?>
 
     <!-- 5. Footer -->
     <?php include 'footer.php'; ?>
