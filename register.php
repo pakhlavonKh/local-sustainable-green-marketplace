@@ -1,8 +1,7 @@
 <?php
-require 'config.php';
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+session_start();
+// Use the MongoDB connection
+require_once 'db_connect.php'; 
 
 $error = '';
 $success = '';
@@ -17,36 +16,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($name) || empty($email) || empty($password)) {
         $error = "All fields are required.";
     } else {
-        $users = file_exists(USERS_FILE) ? json_decode(file_get_contents(USERS_FILE), true) : [];
+        $db = getDBConnection();
+        
+        if ($db) {
+            $usersCollection = $db->users;
 
-        // Check if email already exists
-        $emailExists = false;
-        foreach ($users as $u) {
-            if ($u['email'] === $email) {
-                $emailExists = true;
-                break;
+            // Check if email already exists
+            $existingUser = $usersCollection->findOne(['email' => $email]);
+
+            if ($existingUser) {
+                $error = "An account with this email already exists.";
+            } else {
+                // Add new user
+                $newUser = [
+                    'name' => $name,
+                    'email' => $email,
+                    'password' => password_hash($password, PASSWORD_DEFAULT), // Secure hashing
+                    'role' => 'customer', // Default role
+                    'created_at' => new MongoDB\BSON\UTCDateTime()
+                ];
+
+                $insertResult = $usersCollection->insertOne($newUser);
+
+                if ($insertResult->getInsertedCount() == 1) {
+                    // Log them in immediately
+                    $_SESSION['user_id'] = (string)$insertResult->getInsertedId();
+                    $_SESSION['user_name'] = $name;
+                    $_SESSION['role'] = 'customer'; // Default role
+
+                    $success = "Account created successfully! Redirecting...";
+                    header("refresh:2;url=index.php"); // Redirect after 2 seconds
+                } else {
+                    $error = "Registration failed. Please try again.";
+                }
             }
-        }
-
-        if ($emailExists) {
-            $error = "An account with this email already exists.";
         } else {
-            // Add new user
-            $newUser = [
-                'id' => uniqid(),
-                'name' => $name,
-                'email' => $email,
-                'password' => $password, // In a real app, hash this!
-                'role' => 'customer' // Default role
-            ];
-            $users[] = $newUser;
-            file_put_contents(USERS_FILE, json_encode($users, JSON_PRETTY_PRINT));
-            
-            // Log them in immediately
-            $_SESSION['user_id'] = $newUser['id'];
-            $_SESSION['user_name'] = $newUser['name'];
-            $success = "Account created successfully! Redirecting...";
-            header("refresh:2;url=index.php"); // Redirect after 2 seconds
+            // Fallback for Safe Mode (No DB)
+            $error = "Database connection failed. Cannot register at this time.";
         }
     }
 }

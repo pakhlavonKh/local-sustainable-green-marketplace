@@ -9,6 +9,14 @@ if (!isset($_SESSION['cart'])) {
 // 1. ADD ITEM (From Product Page)
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['action'] == 'add') {
     
+    // SECURITY CHECK: Are you logged in?
+    if (!isset($_SESSION['user_id'])) {
+        // Not logged in? Go to login page, then come back to this product
+        $prod_id = $_POST['product_id'];
+        header("Location: login.php?redirect=product_detail.php?id=" . $prod_id);
+        exit();
+    }
+
     $id = $_POST['product_id'];
     $title = $_POST['title'];
     $price = $_POST['price'];
@@ -19,7 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['a
     if (isset($_SESSION['cart'][$id])) {
         $_SESSION['cart'][$id]['quantity']++;
     } else {
-        // Add new item
         $_SESSION['cart'][$id] = [
             'id' => $id,
             'title' => $title,
@@ -29,11 +36,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['a
             'quantity' => 1
         ];
     }
-    header("Location: cart.php");
+    header("Location: cart.php"); // Go to cart after adding
     exit();
 }
 
-// 2. REMOVE ITEM (From Cart Page)
+// ... (Rest of the file remains the same for remove/increase/decrease) ...
+// 2. REMOVE ITEM
 if (isset($_GET['action']) && $_GET['action'] == 'remove' && isset($_GET['id'])) {
     $id = $_GET['id'];
     unset($_SESSION['cart'][$id]);
@@ -58,7 +66,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'decrease' && isset($_GET['id']
         if ($_SESSION['cart'][$id]['quantity'] > 1) {
             $_SESSION['cart'][$id]['quantity']--;
         } else {
-            // Optional: Remove if quantity goes to 0
             unset($_SESSION['cart'][$id]);
         }
     }
@@ -73,7 +80,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'clear') {
     exit();
 }
 
-// Fallback redirect
 header("Location: index.php");
 exit();
 ?>

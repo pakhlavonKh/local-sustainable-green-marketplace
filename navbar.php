@@ -1,4 +1,10 @@
-<?php require_once 'lang_config.php'; ?>
+<?php 
+// Ensure session is started
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+require_once 'lang_config.php'; 
+?>
 
 <nav class="navbar">
     <!-- Top Bar: Logo, Search, User Actions -->
@@ -8,15 +14,29 @@
         </div>
         
         <div class="search-bar">
-            <input type="text" placeholder="<?php echo $text['search_place']; ?>">
+            <input type="text" placeholder="<?php echo isset($text['search_place']) ? $text['search_place'] : 'Search...'; ?>">
             <button><i class="fas fa-search"></i></button>
         </div>
 
         <div class="user-actions">
             <a href="#"><i class="far fa-heart"></i></a>
-            <a href="login.php"><i class="far fa-user"></i> <?php echo $text['nav_login']; ?></a>
+            
+            <!-- DYNAMIC USER LOGIN SECTION -->
+            <?php if(isset($_SESSION['user_id']) && !empty($_SESSION['username'])): ?>
+                <!-- If Logged In: Show Name & Logout -->
+                <span class="user-welcome" style="color: white; margin-left: 15px; font-size: 14px;">
+                    <i class="far fa-user"></i> Hi, <strong><?php echo htmlspecialchars($_SESSION['username']); ?></strong>
+                </span>
+                <a href="logout.php" style="font-size: 12px; margin-left: 5px; opacity: 0.8;">(Logout)</a>
+            <?php else: ?>
+                <!-- If Guest: Show Login Link -->
+                <a href="login.php">
+                    <i class="far fa-user"></i> <?php echo isset($text['nav_login']) ? $text['nav_login'] : 'Log In'; ?>
+                </a>
+            <?php endif; ?>
+
             <a href="cart.php" class="basket-btn">
-                <i class="fas fa-shopping-basket"></i> <?php echo $text['basket']; ?>
+                <i class="fas fa-shopping-basket"></i> <?php echo isset($text['basket']) ? $text['basket'] : 'Basket'; ?>
             </a>
         </div>
     </div>
@@ -24,19 +44,20 @@
     <!-- Bottom Bar: Categories -->
     <div class="nav-bottom">
         <ul>
-            <li><a href="index.php?category=fresh_produce"><?php echo $text['cat_fresh']; ?></a></li>
-            <li><a href="index.php?category=dairy_eggs"><?php echo $text['cat_dairy']; ?></a></li>
-            <li><a href="index.php?category=bakery"><?php echo $text['cat_bakery']; ?></a></li>
-            <li><a href="index.php?category=pantry"><?php echo $text['cat_pantry']; ?></a></li>
-            <li><a href="index.php?category=beverages"><?php echo $text['cat_bev']; ?></a></li>
-            <li><a href="index.php?category=home_garden"><?php echo $text['cat_home']; ?></a></li>
-            <li class="nav-special"><a href="about.php"><?php echo $text['nav_about']; ?></a></li>
+            <li><a href="index.php"><i class="fas fa-home"></i> <?php echo isset($text['nav_home']) ? $text['nav_home'] : 'Home'; ?></a></li>
+            <li><a href="category_page.php?category=fresh_produce"><?php echo isset($text['cat_fresh']) ? $text['cat_fresh'] : 'Fresh Produce'; ?></a></li>
+            <li><a href="category_page.php?category=dairy_eggs"><?php echo isset($text['cat_dairy']) ? $text['cat_dairy'] : 'Dairy & Eggs'; ?></a></li>
+            <li><a href="category_page.php?category=bakery"><?php echo isset($text['cat_bakery']) ? $text['cat_bakery'] : 'Bakery'; ?></a></li>
+            <li><a href="category_page.php?category=pantry"><?php echo isset($text['cat_pantry']) ? $text['cat_pantry'] : 'Pantry'; ?></a></li>
+            <li><a href="category_page.php?category=beverages"><?php echo isset($text['cat_bev']) ? $text['cat_bev'] : 'Beverages'; ?></a></li>
+            <li><a href="category_page.php?category=home_garden"><?php echo isset($text['cat_home']) ? $text['cat_home'] : 'Home & Garden'; ?></a></li>
+            <li class="nav-special"><a href="about.php"><?php echo isset($text['nav_about']) ? $text['nav_about'] : 'About'; ?></a></li>
         </ul>
     </div>
 </nav>
 
 <style>
-/* Simplified Navbar Styles matching your screenshot */
+/* Simplified Navbar Styles */
 .navbar { font-family: 'Arial', sans-serif; }
 .nav-top { 
     background: #1a4d2e; /* Dark Green */

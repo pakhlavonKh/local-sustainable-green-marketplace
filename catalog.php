@@ -29,42 +29,41 @@ $img_home   = "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=60
 ?>
 
 <!-- CATEGORY GRID SECTION -->
-<!-- FIX: Added 'width: 100%' to fix the narrowness and 'background' to make items visible without images -->
 <div class="catalog-container" id="catalog-anchor" 
      style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1200px; width: 100%; margin: 50px auto; padding: 0 20px; position: relative; z-index: 50;">
     
     <!-- 1. Fresh Produce -->
-    <a href="index.php?category=fresh_produce" class="catalog-item" style="position: relative; height: 250px; border-radius: 12px; overflow: hidden; display: block; background: #222; text-decoration: none;">
+    <a href="category_page.php?category=fresh_produce" class="catalog-item" style="position: relative; height: 250px; border-radius: 12px; overflow: hidden; display: block; background: #222; text-decoration: none;">
         <div class="cat-img" style="background-image: url('<?php echo $img_fresh; ?>'); width: 100%; height: 100%; background-size: cover; background-position: center; transition: transform 0.5s;"></div>
         <div class="cat-overlay"><h3><?php echo $t_fresh; ?></h3></div>
     </a>
 
     <!-- 2. Dairy & Eggs -->
-    <a href="index.php?category=dairy_eggs" class="catalog-item" style="position: relative; height: 250px; border-radius: 12px; overflow: hidden; display: block; background: #222; text-decoration: none;">
+    <a href="category_page.php?category=dairy_eggs" class="catalog-item" style="position: relative; height: 250px; border-radius: 12px; overflow: hidden; display: block; background: #222; text-decoration: none;">
         <div class="cat-img" style="background-image: url('<?php echo $img_dairy; ?>'); width: 100%; height: 100%; background-size: cover; background-position: center; transition: transform 0.5s;"></div>
         <div class="cat-overlay"><h3><?php echo $t_dairy; ?></h3></div>
     </a>
 
     <!-- 3. Bakery -->
-    <a href="index.php?category=bakery" class="catalog-item" style="position: relative; height: 250px; border-radius: 12px; overflow: hidden; display: block; background: #222; text-decoration: none;">
+    <a href="category_page.php?category=bakery" class="catalog-item" style="position: relative; height: 250px; border-radius: 12px; overflow: hidden; display: block; background: #222; text-decoration: none;">
         <div class="cat-img" style="background-image: url('<?php echo $img_bakery; ?>'); width: 100%; height: 100%; background-size: cover; background-position: center; transition: transform 0.5s;"></div>
         <div class="cat-overlay"><h3><?php echo $t_bakery; ?></h3></div>
     </a>
 
     <!-- 4. Pantry (Gray Box) -->
-    <a href="index.php?category=pantry" class="catalog-item" style="position: relative; height: 250px; border-radius: 12px; overflow: hidden; display: block; background: #9ca3af; text-decoration: none;">
+    <a href="category_page.php?category=pantry" class="catalog-item" style="position: relative; height: 250px; border-radius: 12px; overflow: hidden; display: block; background: #9ca3af; text-decoration: none;">
         <div class="cat-img" style="background-image: none; width: 100%; height: 100%;"></div>
         <div class="cat-overlay"><h3><?php echo $t_pantry; ?></h3></div>
     </a>
 
     <!-- 5. Beverages -->
-    <a href="index.php?category=beverages" class="catalog-item" style="position: relative; height: 250px; border-radius: 12px; overflow: hidden; display: block; background: #222; text-decoration: none;">
+    <a href="category_page.php?category=beverages" class="catalog-item" style="position: relative; height: 250px; border-radius: 12px; overflow: hidden; display: block; background: #222; text-decoration: none;">
         <div class="cat-img" style="background-image: url('<?php echo $img_bev; ?>'); width: 100%; height: 100%; background-size: cover; background-position: center; transition: transform 0.5s;"></div>
         <div class="cat-overlay"><h3><?php echo $t_bev; ?></h3></div>
     </a>
 
     <!-- 6. Home & Garden -->
-    <a href="index.php?category=home_garden" class="catalog-item" style="position: relative; height: 250px; border-radius: 12px; overflow: hidden; display: block; background: #222; text-decoration: none;">
+    <a href="category_page.php?category=home_garden" class="catalog-item" style="position: relative; height: 250px; border-radius: 12px; overflow: hidden; display: block; background: #222; text-decoration: none;">
         <div class="cat-img" style="background-image: url('<?php echo $img_home; ?>'); width: 100%; height: 100%; background-size: cover; background-position: center; transition: transform 0.5s;"></div>
         <div class="cat-overlay"><h3><?php echo $t_home; ?></h3></div>
     </a>
@@ -72,7 +71,7 @@ $img_home   = "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=60
 </div>
 
 <style>
-/* Keeping hover effects in style block */
+/* CATALOG STYLES */
 .cat-overlay {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -93,7 +92,7 @@ $img_home   = "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=60
 
 .cat-overlay h3 {
     color: white;
-    font-size: 24px;
+    font-size: 28px;
     text-transform: uppercase;
     font-family: 'Arial', sans-serif;
     letter-spacing: 1.5px;

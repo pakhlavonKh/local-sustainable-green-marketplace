@@ -1,33 +1,40 @@
 <?php
-require 'config.php';
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+session_start();
+require_once 'db_connect.php';
 
 $error = '';
 
-// Handle Login Logic
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'] ?? '';
-    $password = $_POST['password'] ?? '';
+// Check if we have a place to redirect back to
+$redirect_to = isset($_GET['redirect']) ? $_GET['redirect'] : 'index.php';
 
-    $users = file_exists(USERS_FILE) ? json_decode(file_get_contents(USERS_FILE), true) : [];
-    
-    $foundUser = null;
-    foreach ($users as $u) {
-        if ($u['email'] === $email && $u['password'] === $password) {
-            $foundUser = $u;
-            break;
-        }
-    }
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = trim($_POST['email']);
+    $password = $_POST['password'];
+    // Preserve the redirect target through the form post
+    $redirect_to = isset($_POST['redirect']) ? $_POST['redirect'] : 'index.php';
 
-    if ($foundUser) {
-        $_SESSION['user_id'] = $foundUser['id'];
-        $_SESSION['user_name'] = $foundUser['name'];
-        header('Location: index.php');
-        exit;
+    if (empty($email) || empty($password)) {
+        $error = "Please fill in both fields.";
     } else {
-        $error = "Invalid email or password.";
+        $db = getDBConnection();
+        if ($db) {
+            $usersCollection = $db->users;
+            $user = $usersCollection->findOne(['email' => $email]);
+
+            if ($user && password_verify($password, $user['password'])) {
+                $_SESSION['user_id'] = (string)$user['_id'];
+                $_SESSION['username'] = $user['name'];
+                $_SESSION['role'] = $user['role'];
+                
+                // SUCCESS: Redirect to the intended page (Cart or Home)
+                header("Location: " . $redirect_to); 
+                exit();
+            } else {
+                $error = "Invalid email or password.";
+            }
+        } else {
+            $error = "Database connection failed.";
+        }
     }
 }
 ?>
@@ -37,58 +44,78 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Leaf Leaf Green Market</title>
-    <!-- Updated to v=16 to force refresh -->
-    <link rel="stylesheet" href="style.css?v=16"> 
+    <link rel="stylesheet" href="style.css?v=22"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* (Keeping your existing exact styles from previous step) */
+        body { font-family: 'Lato', sans-serif; background-color: #fff; color: #333; }
+        .auth-wrapper { max-width: 1200px; margin: 60px auto; padding: 0 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
+        .auth-title { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 400; margin-bottom: 20px; color: #000; }
+        .auth-subtitle { font-size: 16px; color: #666; margin-bottom: 30px; font-weight: 300; }
+        .form-group { margin-bottom: 25px; }
+        .form-label { display: block; margin-bottom: 8px; font-weight: 700; font-size: 14px; color: #333; }
+        .required-star { color: #e53e3e; }
+        .form-input { width: 100%; padding: 12px 15px; border: 1px solid #e2e8f0; border-radius: 4px; font-size: 15px; color: #333; box-sizing: border-box; transition: border-color 0.2s; }
+        .form-input:focus { outline: none; border-color: #1a4d2e; }
+        .btn-black { background-color: #000; color: #fff; border: none; padding: 15px 40px; font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; width: 100%; border-radius: 2px; transition: background 0.3s; }
+        .btn-black:hover { background-color: #333; }
+        .benefits-list { list-style: none; padding: 0; margin: 0; }
+        .benefits-list li { margin-bottom: 15px; display: flex; align-items: flex-start; font-size: 15px; color: #555; line-height: 1.5; }
+        .benefits-list i { color: #1a4d2e; margin-right: 12px; margin-top: 4px; }
+        .error-box { background: #fff5f5; color: #c53030; padding: 12px; margin-bottom: 20px; font-size: 14px; border-left: 4px solid #c53030; }
+        @media (max-width: 768px) { .auth-wrapper { grid-template-columns: 1fr; gap: 40px; } }
+    </style>
 </head>
 <body class="login-page">
 
     <?php include 'navbar.php'; ?>
 
-    <div class="login-container-split">
-        
+    <div class="auth-wrapper">
         <!-- LEFT COLUMN: Login Form -->
-        <div class="login-form-column">
-            <h1 class="login-page-title">Log In</h1>
-            <p class="login-description">Please enter your e-mail and password:</p>
+        <div class="login-column">
+            <h1 class="auth-title">Login</h1>
+            <p class="auth-subtitle">Please enter your e-mail and password:</p>
 
             <?php if ($error): ?>
-                <div class="error-message">
-                    <i class="fas fa-exclamation-circle"></i> <?php echo htmlspecialchars($error); ?>
-                </div>
+                <div class="error-box"><?php echo htmlspecialchars($error); ?></div>
             <?php endif; ?>
 
             <form action="login.php" method="POST">
-                
-                <div class="input-group-standard">
-                    <label for="email">E-mail <span>*</span></label>
-                    <input type="email" name="email" id="email" required placeholder="E-mail">
+                <!-- IMPORTANT: Pass the redirect target -->
+                <input type="hidden" name="redirect" value="<?php echo htmlspecialchars($redirect_to); ?>">
+
+                <div class="form-group">
+                    <label class="form-label">E-mail <span class="required-star">*</span></label>
+                    <input type="email" name="email" class="form-input" required placeholder="example@domain.com">
                 </div>
 
-                <div class="input-group-standard">
-                    <label for="password">Password <span>*</span></label>
-                    <input type="password" name="password" id="password" required placeholder="Password">
+                <div class="form-group">
+                    <label class="form-label">Password <span class="required-star">*</span></label>
+                    <input type="password" name="password" class="form-input" required placeholder="••••••••">
                 </div>
 
-                <a href="#" class="forgot-password-link">Forgot password?</a>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                    <a href="#" style="font-size:13px; color:#666; text-decoration:underline;">Forgot password?</a>
+                </div>
 
-                <button type="submit" class="btn-black-wide">LOGIN</button>
-
+                <button type="submit" class="btn-black">LOG IN</button>
             </form>
         </div>
 
         <!-- RIGHT COLUMN: New Customer -->
-        <div class="new-customer-column">
-            <h2 class="new-customer-title">New Customer</h2>
-            <p class="new-customer-text">
-                Create an account to check out faster, track your orders, and save your favorite items.
-            </p>
-            <a href="register.php" class="btn-outline-black">CREATE AN ACCOUNT</a>
+        <div class="info-column">
+            <h1 class="auth-title">New Customer?</h1>
+            <p class="auth-subtitle">Create an account with us and you'll be able to:</p>
+            <ul class="benefits-list">
+                <li><i class="fas fa-check"></i> Check out faster with saved information.</li>
+                <li><i class="fas fa-check"></i> Track your current orders.</li>
+                <li><i class="fas fa-check"></i> Save your favorite items.</li>
+            </ul>
+            <a href="register.php" class="btn-black" style="display:inline-block; text-align:center; text-decoration:none; margin-top:20px;">CREATE ACCOUNT</a>
         </div>
-
     </div>
 
     <?php include 'footer.php'; ?>
-
 </body>
 </html>
