@@ -3,16 +3,7 @@ session_start();
 require_once 'db_connect.php';
 
 $error = '';
-
-// 1. DETERMINE REDIRECT TARGET
-// Check GET first, then POST. 
-// If nothing is set, $redirect_to remains empty for now.
-$redirect_to = '';
-if (isset($_POST['redirect']) && !empty($_POST['redirect'])) {
-    $redirect_to = $_POST['redirect'];
-} elseif (isset($_GET['redirect']) && !empty($_GET['redirect'])) {
-    $redirect_to = $_GET['redirect'];
-}
+$redirect_to = isset($_REQUEST['redirect']) ? $_REQUEST['redirect'] : 'index.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($_POST['email']);
@@ -31,16 +22,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['username'] = $user['name'];
                 $_SESSION['role'] = $user['role'];
                 
-                // 2. SMART REDIRECT LOGIC (FIXED ORDER)
+                // SMART REDIRECT LOGIC
                 if ($user['role'] === 'admin') {
-                    // Admins ALWAYS go to dashboard
                     header("Location: admin.php");
-                } elseif (!empty($redirect_to)) {
-                    // If user was trying to buy something, send them back there
-                    header("Location: " . $redirect_to);
+                } elseif ($user['role'] === 'seller') {
+                    header("Location: seller_dashboard.php");
                 } else {
-                    // Default: Go to Home
-                    header("Location: index.php");
+                    header("Location: " . $redirect_to);
                 }
                 exit();
             } else {
@@ -57,11 +45,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Login - Leaf Leaf Green Market</title>
-    <link rel="stylesheet" href="style.css?v=24"> 
+    <link rel="stylesheet" href="style.css?v=25"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        /* Exact Design from your Screenshot */
         body { font-family: 'Lato', sans-serif; background-color: #fff; color: #333; }
         .auth-wrapper { max-width: 1200px; margin: 60px auto; padding: 0 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
         .auth-title { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 400; margin-bottom: 20px; color: #000; }
@@ -77,6 +64,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .benefits-list li { margin-bottom: 15px; display: flex; align-items: flex-start; font-size: 15px; color: #555; line-height: 1.5; }
         .benefits-list i { color: #1a4d2e; margin-right: 12px; margin-top: 4px; }
         .error-box { background: #fff5f5; color: #c53030; padding: 12px; margin-bottom: 20px; font-size: 14px; border-left: 4px solid #c53030; }
+        
+        .seller-promo { margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px; }
+        .seller-link { color: #1a4d2e; font-weight: bold; text-decoration: underline; cursor: pointer; }
+        
         @media (max-width: 768px) { .auth-wrapper { grid-template-columns: 1fr; gap: 40px; } }
     </style>
 </head>
@@ -112,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </form>
         </div>
 
-        <!-- New Customer Info -->
+        <!-- New Customer & Seller Info -->
         <div class="info-column">
             <h1 class="auth-title">New Customer?</h1>
             <p class="auth-subtitle">Create an account with us:</p>
@@ -122,6 +113,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <li><i class="fas fa-check"></i> Save favorites.</li>
             </ul>
             <a href="register.php" class="btn-black" style="display:inline-block; text-align:center; text-decoration:none; margin-top:20px;">CREATE ACCOUNT</a>
+
+            <!-- SELLER OPTION ADDED HERE -->
+            <div class="seller-promo">
+                <p class="auth-subtitle" style="margin-bottom: 10px;">Want to sell your products?</p>
+                <a href="register.php?role=seller" class="seller-link">Join as a Seller &rarr;</a>
+            </div>
         </div>
 
     </div>

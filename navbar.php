@@ -1,16 +1,19 @@
 <?php 
-// Ensure session is started
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 require_once 'lang_config.php'; 
+
+// Determine Profile Link based on Role
+$profile_link = 'profile.php';
+if (isset($_SESSION['role']) && $_SESSION['role'] === 'seller') {
+    $profile_link = 'seller_dashboard.php';
+}
 ?>
 
 <nav class="navbar">
     <div class="nav-top">
-        <div class="logo">
-            <a href="index.php">Leaf Leaf Market</a>
-        </div>
+        <div class="logo"><a href="index.php">Leaf Leaf Market</a></div>
         
         <form action="search.php" method="GET" class="search-bar">
             <input type="text" name="q" placeholder="<?php echo isset($text['search_place']) ? $text['search_place'] : 'Search...'; ?>" required>
@@ -23,29 +26,22 @@ require_once 'lang_config.php';
             <?php if(isset($_SESSION['user_id']) && !empty($_SESSION['username'])): ?>
                 <span class="user-welcome" style="margin-left: 15px; font-size: 14px;">
                     <i class="far fa-user" style="color:white;"></i> 
-                    <!-- CLICKABLE PROFILE LINK -->
-                    <a href="profile.php" style="color: white; text-decoration: none; font-weight: bold;">
+                    <a href="<?php echo $profile_link; ?>" style="color: white; text-decoration: none; font-weight: bold;">
                         Hi, <?php echo htmlspecialchars($_SESSION['username']); ?>
                     </a>
                 </span>
                 <a href="logout.php" style="font-size: 12px; margin-left: 5px; opacity: 0.8; color: white; text-decoration: underline;">(Logout)</a>
             <?php else: ?>
-                <a href="login.php">
-                    <i class="far fa-user"></i> <?php echo isset($text['nav_login']) ? $text['nav_login'] : 'Log In'; ?>
-                </a>
+                <a href="login.php"><i class="far fa-user"></i> <?php echo isset($text['nav_login']) ? $text['nav_login'] : 'Log In'; ?></a>
             <?php endif; ?>
 
-            <a href="cart.php" class="basket-btn">
-                <i class="fas fa-shopping-basket"></i> <?php echo isset($text['basket']) ? $text['basket'] : 'Basket'; ?>
-            </a>
+            <a href="cart.php" class="basket-btn"><i class="fas fa-shopping-basket"></i> <?php echo isset($text['basket']) ? $text['basket'] : 'Basket'; ?></a>
         </div>
     </div>
 
     <div class="nav-bottom">
         <ul>
-            <!-- HOME BUTTON: Direct link to index.php -->
             <li><a href="index.php"><i class="fas fa-home"></i> <?php echo isset($text['nav_home']) ? $text['nav_home'] : 'Home'; ?></a></li>
-            
             <li><a href="category_page.php?category=fresh_produce"><?php echo isset($text['cat_fresh']) ? $text['cat_fresh'] : 'Fresh Produce'; ?></a></li>
             <li><a href="category_page.php?category=dairy_eggs"><?php echo isset($text['cat_dairy']) ? $text['cat_dairy'] : 'Dairy & Eggs'; ?></a></li>
             <li><a href="category_page.php?category=bakery"><?php echo isset($text['cat_bakery']) ? $text['cat_bakery'] : 'Bakery'; ?></a></li>
