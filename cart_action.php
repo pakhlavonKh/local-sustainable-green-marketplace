@@ -9,15 +9,17 @@ if (!isset($_SESSION['cart'])) {
 // 1. ADD ITEM (From Product Page)
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['action'] == 'add') {
     
+    $id = $_POST['product_id'];
+    
     // SECURITY CHECK: Are you logged in?
     if (!isset($_SESSION['user_id'])) {
-        // Not logged in? Go to login page, then come back to this product
-        $prod_id = $_POST['product_id'];
-        header("Location: login.php?redirect=product_detail.php?id=" . $prod_id);
+        // If not logged in, go to Login, but set the "Return To" address to where they currently are
+        // This ensures they come back to Home/Category after login, not just the product page
+        $current_page = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "product_detail.php?id=" . $id;
+        header("Location: login.php?redirect=" . urlencode($current_page));
         exit();
     }
 
-    $id = $_POST['product_id'];
     $title = $_POST['title'];
     $price = $_POST['price'];
     $image = $_POST['image'];
@@ -36,12 +38,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['a
             'quantity' => 1
         ];
     }
-    header("Location: cart.php"); // Go to cart after adding
+    
+    // --- FIX: SMART REDIRECT ---
+    // Instead of forcing product_detail.php, we go back to wherever the user clicked the button.
+    // If they were on Home, they stay on Home. If on Category, they stay on Category.
+    if (isset($_SERVER['HTTP_REFERER'])) {
+        header("Location: " . $_SERVER['HTTP_REFERER']);
+    } else {
+        header("Location: index.php"); // Fallback
+    }
     exit();
 }
 
-// ... (Rest of the file remains the same for remove/increase/decrease) ...
-// 2. REMOVE ITEM
+// 2. REMOVE ITEM (From Cart Page)
 if (isset($_GET['action']) && $_GET['action'] == 'remove' && isset($_GET['id'])) {
     $id = $_GET['id'];
     unset($_SESSION['cart'][$id]);

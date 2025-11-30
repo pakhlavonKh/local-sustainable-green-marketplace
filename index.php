@@ -1,55 +1,50 @@
 <?php
-// FIX: Use require_once to prevent "Cannot redeclare function" error
-require_once 'config.php';
-
-// Helper function to safely read JSON files (Only if not in config.php)
-if (!function_exists('read_json_safe')) {
-    function read_json_safe($filename, $default = []) {
-        return file_exists($filename) ? json_decode(file_get_contents($filename), true) : $default;
-    }
+// 1. Start Session safely
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
 }
 
-// Read Data
-// Note: If you are moving to SQL, you might eventually remove these JSON lines
-if (defined('PRODUCTS_FILE')) {
-    $products = read_json_safe(PRODUCTS_FILE);
-}
-if (defined('USERS_FILE')) {
-    $users = read_json_safe(USERS_FILE);
-}
+// 2. Load Language Settings
+require_once 'lang_config.php';
 
-// Check if a category is selected
-$selectedCategory = $_GET['category'] ?? null;
+// IMPORTANT: There is NO redirect to login.php here.
+// This ensures the homepage is visible to everyone (Guests & Users).
 ?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?php echo isset($_SESSION['lang']) ? $_SESSION['lang'] : 'en'; ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leaf Leaf Green Market</title>
+    <title>Leaf Leaf Market</title>
+    
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="style.css?v=25"> 
-    <link rel="stylesheet" href="carousel_style.css"> <!-- Carousel CSS -->
+    <link rel="stylesheet" href="carousel_style.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <!-- 1. Navbar -->
+    <!-- 1. Navigation Bar -->
     <?php include 'navbar.php'; ?>
 
-    <!-- 2. Hero Slider -->
+    <!-- 2. Hero Slider (The Big Images) -->
     <?php include 'hero.php'; ?>
 
-    <!-- 3. Catalog (Category Grid) -->
-    <?php include 'catalog.php'; ?>
+    <!-- 3. Categories Grid (Kiler, Firin, etc.) -->
+    <!-- Added white background container for clean look -->
+    <div style="background: #fff; padding-bottom: 40px; padding-top: 20px;">
+        <?php include 'catalog.php'; ?>
+    </div>
 
-    <!-- 4. HOMEPAGE ONLY SECTIONS -->
-    <!-- NEW CODE (Always visible) -->
-<?php include 'transition_banner.php'; ?>
-<?php include 'product_carousel.php'; ?>
+    <!-- 4. Transition Banner (The Parallax Image) -->
+    <?php include 'transition_banner.php'; ?>
 
-    <!-- 5. Footer -->
+    <!-- 5. Product Carousel (You Might Be Interested In) -->
+    <?php include 'product_carousel.php'; ?>
+
+    <!-- 6. Footer -->
     <?php include 'footer.php'; ?>
-    
-    <script src="cart.js"></script>
+
 </body>
 </html>

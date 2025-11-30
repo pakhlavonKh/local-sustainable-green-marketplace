@@ -4,14 +4,19 @@ require_once 'db_connect.php';
 
 $error = '';
 
-// Check if we have a place to redirect back to
-$redirect_to = isset($_GET['redirect']) ? $_GET['redirect'] : 'index.php';
+// 1. DETERMINE REDIRECT TARGET
+// Check GET first, then POST. 
+// If nothing is set, $redirect_to remains empty for now.
+$redirect_to = '';
+if (isset($_POST['redirect']) && !empty($_POST['redirect'])) {
+    $redirect_to = $_POST['redirect'];
+} elseif (isset($_GET['redirect']) && !empty($_GET['redirect'])) {
+    $redirect_to = $_GET['redirect'];
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($_POST['email']);
     $password = $_POST['password'];
-    // Preserve the redirect target through the form post
-    $redirect_to = isset($_POST['redirect']) ? $_POST['redirect'] : 'index.php';
 
     if (empty($email) || empty($password)) {
         $error = "Please fill in both fields.";
@@ -26,8 +31,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['username'] = $user['name'];
                 $_SESSION['role'] = $user['role'];
                 
-                // SUCCESS: Redirect to the intended page (Cart or Home)
-                header("Location: " . $redirect_to); 
+                // 2. SMART REDIRECT LOGIC (FIXED ORDER)
+                if ($user['role'] === 'admin') {
+                    // Admins ALWAYS go to dashboard
+                    header("Location: admin.php");
+                } elseif (!empty($redirect_to)) {
+                    // If user was trying to buy something, send them back there
+                    header("Location: " . $redirect_to);
+                } else {
+                    // Default: Go to Home
+                    header("Location: index.php");
+                }
                 exit();
             } else {
                 $error = "Invalid email or password.";
@@ -42,13 +56,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Leaf Leaf Green Market</title>
-    <link rel="stylesheet" href="style.css?v=22"> 
+    <link rel="stylesheet" href="style.css?v=24"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        /* (Keeping your existing exact styles from previous step) */
+        /* Exact Design from your Screenshot */
         body { font-family: 'Lato', sans-serif; background-color: #fff; color: #333; }
         .auth-wrapper { max-width: 1200px; margin: 60px auto; padding: 0 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
         .auth-title { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 400; margin-bottom: 20px; color: #000; }
@@ -72,7 +85,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php include 'navbar.php'; ?>
 
     <div class="auth-wrapper">
-        <!-- LEFT COLUMN: Login Form -->
+        
+        <!-- Login Form -->
         <div class="login-column">
             <h1 class="auth-title">Login</h1>
             <p class="auth-subtitle">Please enter your e-mail and password:</p>
@@ -82,40 +96,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php endif; ?>
 
             <form action="login.php" method="POST">
-                <!-- IMPORTANT: Pass the redirect target -->
                 <input type="hidden" name="redirect" value="<?php echo htmlspecialchars($redirect_to); ?>">
 
                 <div class="form-group">
                     <label class="form-label">E-mail <span class="required-star">*</span></label>
-                    <input type="email" name="email" class="form-input" required placeholder="example@domain.com">
+                    <input type="email" name="email" class="form-input" required>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Password <span class="required-star">*</span></label>
-                    <input type="password" name="password" class="form-input" required placeholder="••••••••">
-                </div>
-
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                    <a href="#" style="font-size:13px; color:#666; text-decoration:underline;">Forgot password?</a>
+                    <input type="password" name="password" class="form-input" required>
                 </div>
 
                 <button type="submit" class="btn-black">LOG IN</button>
             </form>
         </div>
 
-        <!-- RIGHT COLUMN: New Customer -->
+        <!-- New Customer Info -->
         <div class="info-column">
             <h1 class="auth-title">New Customer?</h1>
-            <p class="auth-subtitle">Create an account with us and you'll be able to:</p>
+            <p class="auth-subtitle">Create an account with us:</p>
             <ul class="benefits-list">
-                <li><i class="fas fa-check"></i> Check out faster with saved information.</li>
-                <li><i class="fas fa-check"></i> Track your current orders.</li>
-                <li><i class="fas fa-check"></i> Save your favorite items.</li>
+                <li><i class="fas fa-check"></i> Check out faster.</li>
+                <li><i class="fas fa-check"></i> Track orders.</li>
+                <li><i class="fas fa-check"></i> Save favorites.</li>
             </ul>
             <a href="register.php" class="btn-black" style="display:inline-block; text-align:center; text-decoration:none; margin-top:20px;">CREATE ACCOUNT</a>
         </div>
+
     </div>
 
     <?php include 'footer.php'; ?>
+
 </body>
 </html>
