@@ -48,4 +48,84 @@ $carousel_items = array_slice($carousel_items, 0, 8);
             </div>
         <?php endforeach; ?>
     </div>
+    <!-- Dots / pagination indicators -->
+    <div class="carousel-dots" aria-hidden="false"></div>
 </div>
+
+<script>
+// Initialize carousels on the page (support multiple instances)
+(function(){
+    const containers = document.querySelectorAll('.carousel-container');
+    if(!containers || containers.length === 0) return;
+
+    containers.forEach(container => {
+        const track = container.querySelector('.carousel-track, .product-carousel');
+        if(!track) return;
+        const cards = Array.from(track.querySelectorAll('.carousel-card'));
+        let dotsWrap = container.querySelector('.carousel-dots');
+        const leftArrow = container.querySelector('.carousel-arrows span:first-child');
+        const rightArrow = container.querySelector('.carousel-arrows span:last-child');
+        const gap = parseInt(getComputedStyle(track).gap) || 25;
+
+        function cardWidth() {
+            if(cards.length === 0) return 300;
+            const w = cards[0].getBoundingClientRect().width;
+            return w + gap;
+        }
+
+        function renderDots(){
+            if(!dotsWrap){
+                dotsWrap = document.createElement('div');
+                dotsWrap.className = 'carousel-dots';
+                track.parentNode.insertBefore(dotsWrap, track.nextSibling);
+            }
+            dotsWrap.innerHTML = '';
+            const pageWidth = track.getBoundingClientRect().width;
+            const cw = cardWidth();
+            const perPage = Math.max(1, Math.floor((pageWidth + gap) / cw));
+            const pages = Math.max(1, Math.ceil(cards.length / perPage));
+            for(let i=0;i<pages;i++){
+                const b = document.createElement('button');
+                b.className = 'carousel-dot';
+                b.setAttribute('data-index', i);
+                b.addEventListener('click', ()=>{
+                    track.scrollTo({left: i * perPage * cw, behavior:'smooth'});
+                });
+                dotsWrap.appendChild(b);
+            }
+            updateActiveDot();
+        }
+
+        function updateActiveDot(){
+            if(!dotsWrap) return;
+            const pageWidth = track.getBoundingClientRect().width;
+            const cw = cardWidth();
+            const perPage = Math.max(1, Math.floor((pageWidth + gap) / cw));
+            const scrollLeft = track.scrollLeft + 5; // small offset
+            const pageIndex = Math.floor(scrollLeft / (perPage * cw));
+            const dots = Array.from(dotsWrap.querySelectorAll('.carousel-dot'));
+            dots.forEach(d=>d.classList.remove('active'));
+            if(dots[pageIndex]) dots[pageIndex].classList.add('active');
+        }
+
+        // arrows
+        leftArrow && leftArrow.addEventListener('click', ()=>{
+            track.scrollBy({left: -track.getBoundingClientRect().width, behavior:'smooth'});
+        });
+        rightArrow && rightArrow.addEventListener('click', ()=>{
+            track.scrollBy({left: track.getBoundingClientRect().width, behavior:'smooth'});
+        });
+
+        track.addEventListener('scroll', ()=>{
+            requestAnimationFrame(updateActiveDot);
+        });
+
+        window.addEventListener('resize', ()=>{
+            renderDots();
+        });
+
+        // initial render
+        renderDots();
+    });
+})();
+</script>

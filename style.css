@@ -880,3 +880,50 @@ footer { background: var(--green-800); color: white; text-align: center; padding
     .showcase-header { flex-direction: column; align-items: flex-start; gap: 10px; }
     .scroll-btn { display: none; }
 }
+
+/* Carousel arrows & dots (shared styling for all carousels) */
+.carousel-arrows span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: #ffffffcc;
+    border-radius: 50%;
+    box-shadow: 0 6px 18px rgba(15,23,42,0.08);
+    margin-left: 8px;
+    cursor: pointer;
+    transition: transform .12s ease, background .12s ease;
+    font-weight: 700;
+}
+.carousel-arrows span:hover{ transform: translateY(-2px); background:#fff; }
+
+.carousel-dots{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    align-items:center;
+    margin-top: 16px;
+}
+.carousel-dot{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background: #d1d5db;
+    border: none;
+    padding:0;
+    cursor:pointer;
+    transition: all .18s ease;
+}
+.carousel-dot.active{
+    width:22px;
+    height:10px;
+    border-radius:999px;
+    background: linear-gradient(90deg,#10b981,#059669);
+    box-shadow: 0 6px 18px rgba(6,95,70,0.12);
+}
+
+@media (max-width: 700px){
+    .carousel-card{ flex: 0 0 220px; }
+    .carousel-image-wrapper { height: 200px; }
+}
