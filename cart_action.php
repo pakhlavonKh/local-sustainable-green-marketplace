@@ -38,6 +38,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['a
             'quantity' => 1
         ];
     }
+
+    $_SESSION['cart_notice'] = [
+        'type' => 'added',
+        'message' => sprintf('%s added to your basket', strip_tags($title))
+    ];
     
     // --- FIX: SMART REDIRECT ---
     // Instead of forcing product_detail.php, we go back to wherever the user clicked the button.
@@ -53,6 +58,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['a
 // 2. REMOVE ITEM (From Cart Page)
 if (isset($_GET['action']) && $_GET['action'] == 'remove' && isset($_GET['id'])) {
     $id = $_GET['id'];
+    if (isset($_SESSION['cart'][$id])) {
+        $removed_title = strip_tags($_SESSION['cart'][$id]['title'] ?? 'Item');
+        $_SESSION['cart_notice'] = [
+            'type' => 'removed',
+            'message' => sprintf('%s removed from your basket', $removed_title)
+        ];
+    }
     unset($_SESSION['cart'][$id]);
     header("Location: cart.php");
     exit();
@@ -75,7 +87,12 @@ if (isset($_GET['action']) && $_GET['action'] == 'decrease' && isset($_GET['id']
         if ($_SESSION['cart'][$id]['quantity'] > 1) {
             $_SESSION['cart'][$id]['quantity']--;
         } else {
+            $removed_title = strip_tags($_SESSION['cart'][$id]['title'] ?? 'Item');
             unset($_SESSION['cart'][$id]);
+            $_SESSION['cart_notice'] = [
+                'type' => 'removed',
+                'message' => sprintf('%s removed from your basket', $removed_title)
+            ];
         }
     }
     header("Location: cart.php");
@@ -85,6 +102,10 @@ if (isset($_GET['action']) && $_GET['action'] == 'decrease' && isset($_GET['id']
 // 5. CLEAR ENTIRE CART
 if (isset($_GET['action']) && $_GET['action'] == 'clear') {
     unset($_SESSION['cart']);
+    $_SESSION['cart_notice'] = [
+        'type' => 'removed',
+        'message' => 'Basket cleared'
+    ];
     header("Location: cart.php");
     exit();
 }

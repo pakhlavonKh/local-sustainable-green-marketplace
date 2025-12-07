@@ -22,6 +22,7 @@ $phones_charged = ($total_co2 > 0) ? floor($total_co2 / 0.015) : 0;
 <head>
     <meta charset="UTF-8">
     <title><?php echo isset($text['cart_title']) ? $text['cart_title'] : 'Basket'; ?> - Leaf Market</title>
+    <link rel="stylesheet" href="style.css?v=26">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body { font-family: 'Arial', sans-serif; background: #fdfbf7; margin: 0; color: #333; }

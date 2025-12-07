@@ -4,6 +4,13 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 require_once 'lang_config.php'; 
 
+$cart_items = isset($_SESSION['cart']) && is_array($_SESSION['cart']) ? $_SESSION['cart'] : [];
+$unique_cart_count = count($cart_items);
+$cart_notice = $_SESSION['cart_notice'] ?? null;
+if ($cart_notice) {
+    unset($_SESSION['cart_notice']);
+}
+
 // Determine Profile Link based on Role
 $profile_link = 'profile.php';
 if (isset($_SESSION['role']) && $_SESSION['role'] === 'seller') {
@@ -35,7 +42,19 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === 'seller') {
                 <a href="login.php"><i class="far fa-user"></i> <?php echo isset($text['nav_login']) ? $text['nav_login'] : 'Log In'; ?></a>
             <?php endif; ?>
 
-            <a href="cart.php" class="basket-btn"><i class="fas fa-shopping-basket"></i> <?php echo isset($text['basket']) ? $text['basket'] : 'Basket'; ?></a>
+            <a href="cart.php" class="basket-btn">
+                <span class="icon-shell">
+                    <i class="fas fa-shopping-basket"></i>
+                    <span
+                        class="basket-count"
+                        id="basket-count"
+                        data-count="<?php echo $unique_cart_count; ?>"
+                    >
+                        <?php echo $unique_cart_count; ?>
+                    </span>
+                </span>
+                <span class="basket-label"><?php echo isset($text['basket']) ? $text['basket'] : 'Basket'; ?></span>
+            </a>
         </div>
     </div>
 
@@ -53,17 +72,36 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === 'seller') {
     </div>
 </nav>
 
-<style>
-.navbar { font-family: 'Arial', sans-serif; }
-.nav-top { background: #1a4d2e; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; }
-.logo a { color: #fff; text-decoration: none; font-size: 24px; font-family: serif; }
-.search-bar { display: flex; background: #2f6142; border-radius: 25px; padding: 5px 15px; width: 40%; border: none; }
-.search-bar input { background: transparent; border: none; color: #fff; width: 100%; outline: none; }
-.search-bar button { background: #4ade80; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-.user-actions a { color: #fff; text-decoration: none; margin-left: 20px; font-size: 14px; }
-.basket-btn { background: #2f6142; padding: 8px 15px; border-radius: 20px; }
-.nav-bottom { background: #fdfbf7; border-bottom: 1px solid #eee; padding: 15px 40px; }
-.nav-bottom ul { list-style: none; padding: 0; margin: 0; display: flex; gap: 30px; justify-content: center; }
-.nav-bottom a { text-decoration: none; color: #333; font-size: 13px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
-.nav-special a { color: #1a4d2e; }
-</style>
+<?php if ($cart_notice): ?>
+    <div class="toast-stack" aria-live="polite" aria-atomic="true">
+        <div class="cart-toast <?php echo ($cart_notice['type'] ?? '') === 'removed' ? 'toast-danger' : 'toast-success'; ?>" id="cart-toast">
+            <div class="toast-icon" aria-hidden="true">
+                <?php if (($cart_notice['type'] ?? '') === 'removed'): ?>
+                    <i class="fas fa-minus-circle"></i>
+                <?php else: ?>
+                    <i class="fas fa-check-circle"></i>
+                <?php endif; ?>
+            </div>
+            <div class="toast-copy">
+                <div class="toast-title">
+                    <?php echo ($cart_notice['type'] ?? '') === 'removed' ? 'Item removed' : 'Item added'; ?>
+                </div>
+                <div class="toast-message">
+                    <?php echo htmlspecialchars($cart_notice['message'] ?? 'Basket updated'); ?>
+                </div>
+            </div>
+            <button class="toast-close" type="button" aria-label="Close notification">&times;</button>
+        </div>
+    </div>
+    <script>
+        (() => {
+            const toast = document.getElementById('cart-toast');
+            if (!toast) return;
+
+            const closeToast = () => toast.classList.remove('show');
+            setTimeout(() => toast.classList.add('show'), 40);
+            setTimeout(closeToast, 4200);
+            toast.querySelector('.toast-close')?.addEventListener('click', closeToast);
+        })();
+    </script>
+<?php endif; ?>
