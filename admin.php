@@ -18,35 +18,41 @@ $total_users = 0;
 $search_term = isset($_GET['search']) ? trim($_GET['search']) : '';
 
 if ($db) {
-    $productsCollection = $db->products;
-    $ordersCollection = $db->orders;
-    $usersCollection = $db->users;
+    try {
+        $productsCollection = $db->products;
+        $ordersCollection = $db->orders;
+        $usersCollection = $db->users;
 
-    // 2. FETCH PRODUCTS (With Search Logic)
-    $query = [];
-    if (!empty($search_term)) {
-        // Case-insensitive search for title
-        $query['title'] = ['$regex' => $search_term, '$options' => 'i'];
-    }
-    $products = $productsCollection->find($query, ['sort' => ['id' => 1]])->toArray();
-    
-    // Fetch All Orders
-    $orders = $ordersCollection->find([], ['sort' => ['order_date' => -1]])->toArray();
-    
-    // Calculate Stats
-    foreach ($orders as $order) {
-        $order = (array)$order;
-        if (isset($order['total_price'])) $total_sales += $order['total_price'];
-        if (isset($order['items'])) {
-            foreach ($order['items'] as $item) {
-                $item = (array)$item;
-                if (isset($item['co2_saved'])) $total_co2 += ($item['co2_saved'] * $item['quantity']);
+        // 2. FETCH PRODUCTS (With Search Logic)
+        $query = [];
+        if (!empty($search_term)) {
+            // Case-insensitive search for title
+            $query['title'] = ['$regex' => $search_term, '$options' => 'i'];
+        }
+        $products = $productsCollection->find($query, ['sort' => ['id' => 1]])->toArray();
+        
+        // Fetch All Orders
+        $orders = $ordersCollection->find([], ['sort' => ['order_date' => -1]])->toArray();
+        
+        // Calculate Stats
+        foreach ($orders as $order) {
+            $order = (array)$order;
+            if (isset($order['total_price'])) $total_sales += $order['total_price'];
+            if (isset($order['items'])) {
+                foreach ($order['items'] as $item) {
+                    $item = (array)$item;
+                    if (isset($item['co2_saved'])) $total_co2 += ($item['co2_saved'] * $item['quantity']);
+                }
             }
         }
+        
+        // Count Users
+        $total_users = $usersCollection->countDocuments(['role' => 'customer']);
+    } catch (MongoDB\Driver\Exception\ConnectionTimeoutException $e) {
+        error_log('MongoDB timeout in admin.php: ' . $e->getMessage());
+    } catch (Exception $e) {
+        error_log('MongoDB error in admin.php: ' . $e->getMessage());
     }
-    
-    // Count Users
-    $total_users = $usersCollection->countDocuments(['role' => 'customer']);
 }
 ?>
 

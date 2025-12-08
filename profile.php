@@ -15,27 +15,33 @@ $orders = [];
 $total_co2 = 0;
 
 if ($db) {
-    // Fetch User Details
-    $usersCollection = $db->users;
-    $user = $usersCollection->findOne(['_id' => new MongoDB\BSON\ObjectId($_SESSION['user_id'])]);
+    try {
+        // Fetch User Details
+        $usersCollection = $db->users;
+        $user = $usersCollection->findOne(['_id' => new MongoDB\BSON\ObjectId($_SESSION['user_id'])]);
 
-    // Fetch Order History
-    $ordersCollection = $db->orders;
-    $cursor = $ordersCollection->find(
-        ['user_id' => $_SESSION['user_id']],
-        ['sort' => ['order_date' => -1]] 
-    );
+        // Fetch Order History
+        $ordersCollection = $db->orders;
+        $cursor = $ordersCollection->find(
+            ['user_id' => $_SESSION['user_id']],
+            ['sort' => ['order_date' => -1]] 
+        );
 
-    foreach ($cursor as $doc) {
-        $order = (array)$doc;
-        // Calculate total lifetime impact
-        if(isset($order['shipping']['co2_cost'])) {
-             // Summing estimated savings
-             if (isset($order['items'])) {
-                $total_co2 += 0.5 * count($order['items']);
-             }
+        foreach ($cursor as $doc) {
+            $order = (array)$doc;
+            // Calculate total lifetime impact
+            if(isset($order['shipping']['co2_cost'])) {
+                 // Summing estimated savings
+                 if (isset($order['items'])) {
+                    $total_co2 += 0.5 * count($order['items']);
+                 }
+            }
+            $orders[] = $order;
         }
-        $orders[] = $order;
+    } catch (MongoDB\Driver\Exception\ConnectionTimeoutException $e) {
+        error_log('MongoDB timeout in profile.php: ' . $e->getMessage());
+    } catch (Exception $e) {
+        error_log('MongoDB error in profile.php: ' . $e->getMessage());
     }
 }
 ?>

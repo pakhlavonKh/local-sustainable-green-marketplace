@@ -109,8 +109,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 dot.className = "carousel-dot";
                 if (i === 0) dot.classList.add("active");
                 dot.addEventListener("click", () => {
+                    const scrollPosition = i * visibleCards * cardWidth;
                     track.scrollTo({
-                        left: i * visibleCards * cardWidth,
+                        left: scrollPosition,
                         behavior: "smooth"
                     });
                 });

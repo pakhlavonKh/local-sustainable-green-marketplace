@@ -39,8 +39,10 @@ if ($db) {
             if (isset($user_data['city']))    $saved_city    = $user_data['city'];
             if (isset($user_data['phone']))   $saved_phone   = $user_data['phone'];
         }
+    } catch (MongoDB\Driver\Exception\ConnectionTimeoutException $e) {
+        error_log('MongoDB timeout in checkout.php (user fetch): ' . $e->getMessage());
     } catch (Exception $e) {
-        // Handle ID errors silently
+        error_log('MongoDB error in checkout.php (user fetch): ' . $e->getMessage());
     }
 }
 
@@ -59,59 +61,67 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $db) {
     if(empty($address) || empty($city) || empty($phone)) {
         $error = "Please fill in all shipping details.";
     } else {
-        $productsCollection = $db->products;
-        $ordersCollection = $db->orders;
-        $usersCollection = $db->users;
+        try {
+            $productsCollection = $db->products;
+            $ordersCollection = $db->orders;
+            $usersCollection = $db->users;
 
-        // Calculate Impact
-        $delivery_impact = 0;
-        if($delivery_type == 'bike' || $delivery_type == 'walk') $delivery_impact = 0;
-        elseif($delivery_type == 'public') $delivery_impact = 0.5;
-        else $delivery_impact = 2.0;
+            // Calculate Impact
+            $delivery_impact = 0;
+            if($delivery_type == 'bike' || $delivery_type == 'walk') $delivery_impact = 0;
+            elseif($delivery_type == 'public') $delivery_impact = 0.5;
+            else $delivery_impact = 2.0;
 
-        // Create Order
-        $order = [
-            'user_id' => $_SESSION['user_id'],
-            'user_name' => $_SESSION['username'],
-            'shipping' => [
-                'address' => $address,
-                'city' => $city,
-                'phone' => $phone,
-                'method' => $delivery_type,
-                'co2_cost' => $delivery_impact
-            ],
-            'payment' => [
-                'method' => $payment_method,
-                'status' => 'paid'
-            ],
-            'items' => array_values($cart),
-            'total_price' => $total_price,
-            'order_date' => new MongoDB\BSON\UTCDateTime()
-        ];
+            // Create Order
+            $order = [
+                'user_id' => $_SESSION['user_id'],
+                'user_name' => $_SESSION['username'],
+                'shipping' => [
+                    'address' => $address,
+                    'city' => $city,
+                    'phone' => $phone,
+                    'method' => $delivery_type,
+                    'co2_cost' => $delivery_impact
+                ],
+                'payment' => [
+                    'method' => $payment_method,
+                    'status' => 'paid'
+                ],
+                'items' => array_values($cart),
+                'total_price' => $total_price,
+                'order_date' => new MongoDB\BSON\UTCDateTime()
+            ];
 
-        // Update Stock
-        foreach ($cart as $item) {
-            $productsCollection->updateOne(
-                ['id' => (int)$item['id']], 
-                ['$inc' => ['stock' => -((int)$item['quantity'])]]
+            // Update Stock
+            foreach ($cart as $item) {
+                $productsCollection->updateOne(
+                    ['id' => (int)$item['id']], 
+                    ['$inc' => ['stock' => -((int)$item['quantity'])]]
+                );
+            }
+
+            // Save Order
+            $ordersCollection->insertOne($order);
+
+            // SAVE USER DATA FOR NEXT TIME
+            $usersCollection->updateOne(
+                ['_id' => new MongoDB\BSON\ObjectId($_SESSION['user_id'])],
+                ['$set' => [
+                    'address' => $address,
+                    'city' => $city,
+                    'phone' => $phone
+                ]]
             );
+            
+            unset($_SESSION['cart']);
+            $success = true;
+        } catch (MongoDB\Driver\Exception\ConnectionTimeoutException $e) {
+            error_log('MongoDB timeout in checkout.php (order creation): ' . $e->getMessage());
+            $error = "Database connection timeout. Please try again.";
+        } catch (Exception $e) {
+            error_log('MongoDB error in checkout.php (order creation): ' . $e->getMessage());
+            $error = "Order processing failed. Please try again.";
         }
-
-        // Save Order
-        $ordersCollection->insertOne($order);
-
-        // SAVE USER DATA FOR NEXT TIME
-        $usersCollection->updateOne(
-            ['_id' => new MongoDB\BSON\ObjectId($_SESSION['user_id'])],
-            ['$set' => [
-                'address' => $address,
-                'city' => $city,
-                'phone' => $phone
-            ]]
-        );
-        
-        unset($_SESSION['cart']);
-        $success = true;
     }
 }
 ?>

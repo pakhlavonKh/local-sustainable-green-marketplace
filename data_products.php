@@ -249,21 +249,29 @@ if (file_exists('db_connect.php')) {
         $db = getDBConnection();
         
         if ($db) {
-            $collection = $db->products;
-            // Fetch all documents as arrays
-            $cursor = $collection->find();
-            $mongo_products = [];
-            
-            foreach ($cursor as $doc) {
-                $item = (array)$doc;
-                if (isset($item['id'])) {
-                    $mongo_products[$item['id']] = $item;
+            try {
+                $collection = $db->products;
+                // Fetch all documents as arrays
+                $cursor = $collection->find();
+                $mongo_products = [];
+                
+                foreach ($cursor as $doc) {
+                    $item = (array)$doc;
+                    if (isset($item['id'])) {
+                        $mongo_products[$item['id']] = $item;
+                    }
                 }
-            }
-            
-            // If we successfully got data from MongoDB, use it!
-            if (!empty($mongo_products)) {
-                $products_db = $mongo_products;
+                
+                // If we successfully got data from MongoDB, use it!
+                if (!empty($mongo_products)) {
+                    $products_db = $mongo_products;
+                }
+            } catch (MongoDB\Driver\Exception\ConnectionTimeoutException $e) {
+                // MongoDB connection timeout - silently fall back to local array
+                error_log('MongoDB timeout in data_products.php: ' . $e->getMessage());
+            } catch (Exception $e) {
+                // Other MongoDB errors - silently fall back to local array
+                error_log('MongoDB error in data_products.php: ' . $e->getMessage());
             }
         }
     }

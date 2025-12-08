@@ -27,8 +27,10 @@ if ($q !== '') {
                     $item = (array)$doc;
                     $results[] = $item;
                 }
+            } catch (MongoDB\Driver\Exception\ConnectionTimeoutException $e) {
+                error_log('MongoDB timeout in search.php: ' . $e->getMessage());
             } catch (Exception $e) {
-                // fallback to local array
+                error_log('MongoDB error in search.php: ' . $e->getMessage());
             }
         }
     }

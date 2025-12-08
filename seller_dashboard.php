@@ -13,13 +13,19 @@ $db = getDBConnection();
 $my_products = [];
 
 if ($db) {
-    $productsCollection = $db->products;
-    // Fetch products linked to this seller's ID (string)
-    $seller_id = (string)$_SESSION['user_id'];
-    $my_products = $productsCollection->find(
-        ['seller_id' => $seller_id], 
-        ['sort' => ['id' => -1]]
-    )->toArray();
+    try {
+        $productsCollection = $db->products;
+        // Fetch products linked to this seller's ID (string)
+        $seller_id = (string)$_SESSION['user_id'];
+        $my_products = $productsCollection->find(
+            ['seller_id' => $seller_id], 
+            ['sort' => ['id' => -1]]
+        )->toArray();
+    } catch (MongoDB\Driver\Exception\ConnectionTimeoutException $e) {
+        error_log('MongoDB timeout in seller_dashboard.php: ' . $e->getMessage());
+    } catch (Exception $e) {
+        error_log('MongoDB error in seller_dashboard.php: ' . $e->getMessage());
+    }
 }
 ?>
 

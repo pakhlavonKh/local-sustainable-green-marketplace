@@ -41,6 +41,7 @@ $my_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '';
 <head>
     <meta charset="UTF-8">
     <title><?php echo $page_title; ?> - Leaf Market</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <style>

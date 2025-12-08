@@ -14,34 +14,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $db = getDBConnection();
         if ($db) {
-            $usersCollection = $db->users;
-            $existingUser = $usersCollection->findOne(['email' => $email]);
+            try {
+                $usersCollection = $db->users;
+                $existingUser = $usersCollection->findOne(['email' => $email]);
 
-            if ($existingUser) {
-                $error = "An account with this email already exists.";
-            } else {
-                $newUser = [
-                    'name' => $name,
-                    'email' => $email,
-                    'password' => password_hash($password, PASSWORD_DEFAULT),
-                    'role' => 'customer',
-                    'created_at' => new MongoDB\BSON\UTCDateTime()
-                ];
-
-                $insertResult = $usersCollection->insertOne($newUser);
-
-                if ($insertResult->getInsertedCount() == 1) {
-                    // LOG IN IMMEDIATELY
-                    $_SESSION['user_id'] = (string)$insertResult->getInsertedId();
-                    $_SESSION['username'] = $name;
-                    $_SESSION['role'] = 'customer';
-
-                    // REDIRECT TO HOMEPAGE
-                    header("Location: index.php");
-                    exit();
+                if ($existingUser) {
+                    $error = "An account with this email already exists.";
                 } else {
-                    $error = "Registration failed.";
+                    $newUser = [
+                        'name' => $name,
+                        'email' => $email,
+                        'password' => password_hash($password, PASSWORD_DEFAULT),
+                        'role' => 'customer',
+                        'created_at' => new MongoDB\BSON\UTCDateTime()
+                    ];
+
+                    $insertResult = $usersCollection->insertOne($newUser);
+
+                    if ($insertResult->getInsertedCount() == 1) {
+                        // LOG IN IMMEDIATELY
+                        $_SESSION['user_id'] = (string)$insertResult->getInsertedId();
+                        $_SESSION['username'] = $name;
+                        $_SESSION['role'] = 'customer';
+
+                        // REDIRECT TO HOMEPAGE
+                        header("Location: index.php");
+                        exit();
+                    } else {
+                        $error = "Registration failed.";
+                    }
                 }
+            } catch (Exception $e) {
+                error_log('MongoDB error in register.php: ' . $e->getMessage());
+                $error = "Database connection failed. Please try again later.";
             }
         } else {
             $error = "Database connection failed.";

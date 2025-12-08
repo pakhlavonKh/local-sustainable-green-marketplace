@@ -14,8 +14,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $db = getDBConnection();
         if ($db) {
-            $usersCollection = $db->users;
-            $user = $usersCollection->findOne(['email' => $email]);
+            try {
+                $usersCollection = $db->users;
+                $user = $usersCollection->findOne(['email' => $email]);
+            } catch (Exception $e) {
+                error_log('MongoDB error in login.php: ' . $e->getMessage());
+                $error = "Database connection failed. Please try again later.";
+                $user = null;
+            }
 
             if ($user && password_verify($password, $user['password'])) {
                 $_SESSION['user_id'] = (string)$user['_id'];
