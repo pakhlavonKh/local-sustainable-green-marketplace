@@ -112,7 +112,21 @@ $lang_en = [
     'clear_cart'      => 'Clear Cart',
     'checkout'        => 'Checkout',
     'quantity'        => 'Qty',
-    'impact_fun_fact' => 'Equivalent to charging %s smartphones!'
+    'impact_fun_fact' => 'Equivalent to charging %s smartphones!',
+
+    // About Page
+    'about_eyebrow'   => 'ABOUT LEAF LEAF',
+    'about_headline1' => 'CULTIVATING SUSTAINABILITY',
+    'about_headline2' => 'IN YOUR NEIGHBORHOOD',
+    'about_intro'     => 'Since 2025, Leaf Leaf Green Market has remained faithful to its artisanal model and its ecological values. The freedom to grow, the constant quest for sustainable materials, and the transmission of exceptional local produce forge the uniqueness of Leaf Leaf.',
+    'about_section1_title' => 'A COMMUNITY SPIRIT',
+    'about_section1_text'  => 'For the first generation of Leaf Leaf, we have been an independent, family-oriented platform. We believe that the best way to predict the future is to grow it yourself. Our entrepreneurial spirit drives us to connect local artisans with conscious consumers.',
+    'about_section1_link'  => 'DISCOVER OUR MODEL',
+    'about_section2_title' => 'CREATIVE FREEDOM',
+    'about_section2_text'  => 'Sustainability is not just a goal; it is our canvas. The sixteen categories of our market create collections that combine freedom with inventiveness. From hand-woven baskets to heirloom tomatoes, every object tells a story.',
+    'about_section2_link'  => 'VIEW OUR VALUES',
+    'about_quote'     => '"The Earth is what we all have in common."',
+    'about_quote_author' => '— Wendell Berry'
 ];
 
 // --- TURKISH DICTIONARY ---
@@ -216,7 +230,21 @@ $lang_tr = [
     'clear_cart'      => 'Sepeti Temizle',
     'checkout'        => 'Ödeme Yap',
     'quantity'        => 'Adet',
-    'impact_fun_fact' => '%s adet akıllı telefon şarjına eşdeğer!'
+    'impact_fun_fact' => '%s adet akıllı telefon şarjına eşdeğer!',
+
+    // About Page
+    'about_eyebrow'   => 'LEAF LEAF HAKKINDA',
+    'about_headline1' => 'SÜRDÜRÜLEBİLİRLİĞİ',
+    'about_headline2' => 'MAHALLENİZDE YETİŞTİRMEK',
+    'about_intro'     => '2025\'ten beri Leaf Leaf Green Market, zanaatkarlık modeline ve ekolojik değerlerine sadık kalmıştır. Büyüme özgürlüğü, sürdürülebilir malzemeler arayışı ve istisnai yerel ürünlerin aktarımı, Leaf Leaf\'in benzersizliğini oluşturur.',
+    'about_section1_title' => 'BİR TOPLULUK RUHU',
+    'about_section1_text'  => 'Leaf Leaf\'in ilk nesli için bağımsız, aile odaklı bir platform olduk. Geleceği tahmin etmenin en iyi yolunun onu kendiniz yetiştirmek olduğuna inanıyoruz. Girişimcilik ruhumuz bizi yerel zanaatkarları bilinçli tüketicilerle buluşturmaya yönlendiriyor.',
+    'about_section1_link'  => 'MODELİMİZİ KEŞFEDİN',
+    'about_section2_title' => 'YARATICI ÖZGÜRLÜK',
+    'about_section2_text'  => 'Sürdürülebilirlik sadece bir hedef değil; bizim tuvalimizdir. Pazarımızın on altı kategorisi, özgürlüğü yaratıcılıkla birleştiren koleksiyonlar oluşturur. El dokuması sepetlerden ata tohumlu domateslerine kadar her nesne bir hikaye anlatır.',
+    'about_section2_link'  => 'DEĞERLERİMİZİ GÖRÜNTÜLE',
+    'about_quote'     => '"Dünya hepimizin ortak noktasıdır."',
+    'about_quote_author' => '— Wendell Berry'
 ];
 
 $text = ($_SESSION['lang'] == 'tr') ? $lang_tr : $lang_en;
