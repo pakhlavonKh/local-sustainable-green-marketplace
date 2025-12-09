@@ -68,6 +68,9 @@ $lang_en = [
     'sustainability' => 'Sustainability',
     'rights'         => 'All rights reserved.',
     'lang_label'     => 'Language:',
+    'learn_more'     => 'Learn More About Us',
+    'about_teaser_title' => 'Supporting Local Communities & Sustainable Living',
+    'about_teaser_text'  => 'Leaf Market connects local producers with conscious consumers. We believe in sustainable practices, reducing carbon footprints, and building stronger communities through local commerce.',
 
     // Eco Score
     'eco_score_label' => 'Sustainability Score',
@@ -169,6 +172,9 @@ $lang_tr = [
     'sustainability' => 'Sürdürülebilirlik',
     'rights'         => 'Tüm hakları saklıdır.',
     'lang_label'     => 'Dil:',
+    'learn_more'     => 'Hakkımızda Daha Fazla Bilgi',
+    'about_teaser_title' => 'Yerel Toplulukları ve Sürdürülebilir Yaşamı Destekleme',
+    'about_teaser_text'  => 'Leaf Market, yerel üreticileri bilinçli tüketicilerle buluşturuyor. Sürdürülebilir uygulamalara, karbon ayak izini azaltmaya ve yerel ticaret yoluyla daha güçlü topluluklar oluşturmaya inanıyoruz.',
 
     // Eco Score
     'eco_score_label' => 'Sürdürülebilirlik Puanı',

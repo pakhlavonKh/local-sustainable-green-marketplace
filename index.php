@@ -42,6 +42,21 @@ require_once 'lang_config.php';
         <?php include 'transition_banner.php'; ?>
     </div>
 
+    <!-- 4.5 About Section Teaser -->
+    <div style="background: #fff; padding: 60px 20px;">
+        <div class="about-teaser">
+            <div class="about-teaser-content">
+                <span class="about-label"><?php echo isset($text['about_header']) ? $text['about_header'] : 'About Us'; ?></span>
+                <h2><?php echo isset($text['about_teaser_title']) ? $text['about_teaser_title'] : 'Supporting Local Communities & Sustainable Living'; ?></h2>
+                <p><?php echo isset($text['about_teaser_text']) ? $text['about_teaser_text'] : 'Leaf Market connects local producers with conscious consumers. We believe in sustainable practices, reducing carbon footprints, and building stronger communities through local commerce.'; ?></p>
+                <a href="about.php" class="about-teaser-btn">
+                    <?php echo isset($text['learn_more']) ? $text['learn_more'] : 'Learn More About Us'; ?>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
     <!-- 5. Product Carousel (You Might Be Interested In) -->
     <div style="background: #fff; padding: 40px 0;">
         <?php include 'product_carousel.php'; ?>

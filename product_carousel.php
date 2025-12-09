@@ -65,6 +65,14 @@ $lang = $_SESSION['lang'] ?? 'en';
 
     <!-- MATCHES .carousel-dots / .carousel-dot -->
     <div class="carousel-dots"></div>
+    
+    <!-- See More Link -->
+    <div style="text-align: center; margin-top: 40px;">
+        <a href="category_page.php?category=all" class="carousel-see-more">
+            <?php echo htmlspecialchars($text['shop_all'] ?? 'See All Products'); ?>
+            <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
 </div>
 
 <script>
