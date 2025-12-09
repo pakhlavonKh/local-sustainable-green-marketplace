@@ -32,8 +32,11 @@ $seller = isset($sellers_db[$seller_id]) ? $sellers_db[$seller_id] : null;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $seller ? $seller['name'] : 'Seller'; ?> - Leaf Market</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body class="seller-profile-body">
         body { margin: 0; font-family: 'Arial', sans-serif; background: #fdfbf7; color: #333; }
         
         .seller-header {
@@ -79,11 +82,7 @@ $seller = isset($sellers_db[$seller_id]) ? $sellers_db[$seller_id] : null;
         .product-card:hover { transform: translateY(-5px); }
         .p-img { height: 200px; background-size: cover; background-position: center; }
         .p-info { padding: 15px; }
-        .p-title { font-weight: bold; display: block; margin-bottom: 5px; }
-        .p-price { color: #1a4d2e; font-weight: bold; }
-    </style>
-</head>
-<body>
+
 
 <?php include 'navbar.php'; ?>
 

@@ -13,6 +13,35 @@ $db = getDBConnection();
 $user = null;
 $orders = [];
 $total_co2 = 0;
+$success_msg = '';
+$error_msg = '';
+
+// Handle address update
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_address'])) {
+    $address = trim($_POST['address'] ?? '');
+    $city = trim($_POST['city'] ?? '');
+    $phone = trim($_POST['phone'] ?? '');
+    
+    if ($db) {
+        try {
+            $usersCollection = $db->users;
+            $result = $usersCollection->updateOne(
+                ['_id' => new MongoDB\BSON\ObjectId($_SESSION['user_id'])],
+                ['$set' => [
+                    'address' => $address,
+                    'city' => $city,
+                    'phone' => $phone
+                ]]
+            );
+            if ($result->getModifiedCount() > 0 || $result->getMatchedCount() > 0) {
+                $success_msg = 'Address updated successfully!';
+            }
+        } catch (Exception $e) {
+            error_log('Address update error: ' . $e->getMessage());
+            $error_msg = 'Failed to update address.';
+        }
+    }
+}
 
 if ($db) {
     try {
@@ -54,97 +83,9 @@ if ($db) {
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Lato', sans-serif; background-color: #fdfbf7; color: #333; }
-        
-        .profile-container { max-width: 1200px; margin: 60px auto; padding: 0 40px; display: grid; grid-template-columns: 300px 1fr; gap: 60px; }
-        
-        /* SIDEBAR (Centered & Fixed) */
-        .profile-sidebar { 
-            padding-right: 40px;
-            display: flex; flex-direction: column; align-items: center; text-align: center;
-            border-right: 1px solid #eee;
-        }
-        
-        .user-avatar {
-            width: 120px; height: 120px; background-color: #1a4d2e; color: white;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-family: 'Playfair Display', serif; font-size: 48px; margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(26, 77, 46, 0.2);
-        }
-        
-        .user-name { font-family: 'Playfair Display', serif; font-size: 28px; margin-bottom: 5px; color: #000; }
-        .user-email { color: #666; font-size: 14px; margin-bottom: 40px; }
-        
-        .stat-box { 
-            background: #fff; padding: 25px; border-radius: 12px; margin-bottom: 20px; 
-            width: 100%; box-sizing: border-box; border: 1px solid #f0f0f0;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.02);
-        }
-        .stat-num { font-family: 'Playfair Display', serif; font-size: 36px; color: #1a4d2e; display: block; line-height: 1; margin-bottom: 5px; }
-        .stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #999; font-weight: 700; }
-
-        .btn-logout {
-            display: block; width: 100%; padding: 15px; border: 1px solid #333; background: white;
-            color: #333; text-align: center; text-decoration: none; font-weight: bold; font-size: 13px;
-            text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; margin-top: 40px;
-        }
-        .btn-logout:hover { background: #000; color: white; }
-
-        /* MAIN CONTENT */
-        .section-title {
-            font-family: 'Playfair Display', serif; font-size: 32px; margin: 0 0 40px 0; color: #000; 
-        }
-
-        /* TABLE STYLING */
-        table { 
-            width: 100%; 
-            border-collapse: separate; 
-            border-spacing: 0 15px; /* Space between rows */
-        }
-        
-        th { 
-            text-align: left; padding: 0 20px 15px 20px; color: #999; font-size: 11px; 
-            text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; 
-        }
-        
-        tr.order-row { 
-            background: white; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.02); /* Static shadow, no hover movement */
-        }
-
-        td { 
-            padding: 25px 20px; 
-            vertical-align: top; /* Align text to top */
-            border-top: 1px solid #f9f9f9;
-            border-bottom: 1px solid #f9f9f9;
-            font-size: 15px; color: #333;
-        }
-        
-        td:first-child { border-left: 1px solid #f9f9f9; border-top-left-radius: 8px; border-bottom-left-radius: 8px; }
-        td:last-child { border-right: 1px solid #f9f9f9; border-top-right-radius: 8px; border-bottom-right-radius: 8px; }
-        
-        .status-badge {
-            background: #f0fdf4; color: #166534; padding: 6px 12px; border-radius: 4px; 
-            font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px;
-            display: inline-block;
-        }
-        
-        .items-text { line-height: 1.6; }
-        .items-text div { margin-bottom: 4px; }
-        
-        .date-text { font-weight: 600; color: #555; }
-
-        .total-price { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: bold; color: #1a4d2e; }
-
-        @media (max-width: 900px) {
-            .profile-container { grid-template-columns: 1fr; border: none; }
-            .profile-sidebar { border-right: none; border-bottom: 1px solid #eee; padding-bottom: 40px; padding-right: 0; }
-            table { display: block; overflow-x: auto; }
-        }
-    </style>
 </head>
-<body>
+<body class="profile-page-body">
+        
 
 <?php include 'navbar.php'; ?>
 
@@ -169,12 +110,54 @@ if ($db) {
             <span class="stat-num"><?php echo count($orders); ?></span>
             <span class="stat-label">Total Orders</span>
         </div>
+        
+        <a href="wishlist.php" style="display: block; width: 100%; padding: 15px; background: #1a4d2e; color: white; text-align: center; text-decoration: none; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; margin-bottom: 10px; border-radius: 4px;">
+            <i class="fas fa-heart"></i> My Favorites
+        </a>
 
         <a href="logout.php" class="btn-logout">Sign Out</a>
     </div>
 
     <!-- Main Content -->
     <div class="profile-content">
+        
+        <?php if ($success_msg): ?>
+            <div style="background: #f0fdf4; color: #166534; padding: 15px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #bbf7d0;">
+                <i class="fas fa-check-circle"></i> <?php echo htmlspecialchars($success_msg); ?>
+            </div>
+        <?php endif; ?>
+        
+        <?php if ($error_msg): ?>
+            <div style="background: #fef2f2; color: #991b1b; padding: 15px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #fecaca;">
+                <i class="fas fa-exclamation-circle"></i> <?php echo htmlspecialchars($error_msg); ?>
+            </div>
+        <?php endif; ?>
+        
+        <!-- Address Section -->
+        <h2 class="section-title">Shipping Address</h2>
+        <div style="background: #fff; padding: 30px; border-radius: 10px; margin-bottom: 40px; border: 1px solid #eee;">
+            <form method="POST" action="profile.php">
+                <input type="hidden" name="update_address" value="1">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px;">Full Address</label>
+                        <input type="text" name="address" value="<?php echo isset($user['address']) ? htmlspecialchars($user['address']) : ''; ?>" class="form-input" placeholder="Street, Building, Apt" style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 4px; font-size: 15px;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px;">City</label>
+                        <input type="text" name="city" value="<?php echo isset($user['city']) ? htmlspecialchars($user['city']) : ''; ?>" class="form-input" placeholder="Istanbul" style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 4px; font-size: 15px;">
+                    </div>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px;">Phone Number</label>
+                    <input type="tel" name="phone" value="<?php echo isset($user['phone']) ? htmlspecialchars($user['phone']) : ''; ?>" class="form-input" placeholder="+90 555 123 4567" style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 4px; font-size: 15px;">
+                </div>
+                <button type="submit" style="background: #1a4d2e; color: white; padding: 12px 30px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 14px;">
+                    <i class="fas fa-save"></i> Save Address
+                </button>
+            </form>
+        </div>
+        
         <h2 class="section-title">Order History</h2>
         
         <?php if (empty($orders)): ?>

@@ -61,8 +61,10 @@ if ($db) {
 <head>
     <meta charset="UTF-8">
     <title>Admin Dashboard - Leaf Market</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
+</head>
+<body class="admin-page-body">
         body { font-family: 'Arial', sans-serif; background: #f1f5f9; margin: 0; display: flex; }
         
         /* Sidebar */
@@ -112,16 +114,7 @@ if ($db) {
         
         /* Modal for Adding Product */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; }
-        .modal-content { background: white; width: 500px; margin: 50px auto; padding: 30px; border-radius: 10px; position: relative; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px; }
-        .form-control { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
-        .close-btn { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 24px; color: #666; }
-    </style>
-</head>
-<body>
 
-    <div class="sidebar">
         <a href="index.php" class="brand">Leaf Admin</a>
         <a href="#" class="menu-item active"><i class="fas fa-chart-line"></i> Dashboard</a>
         <a href="#products" class="menu-item"><i class="fas fa-box"></i> Products</a>

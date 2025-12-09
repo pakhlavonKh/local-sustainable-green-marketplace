@@ -24,48 +24,9 @@ $phones_charged = ($total_co2 > 0) ? floor($total_co2 / 0.015) : 0;
     <title><?php echo isset($text['cart_title']) ? $text['cart_title'] : 'Basket'; ?> - Leaf Market</title>
     <link rel="stylesheet" href="style.css?v=26">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body { font-family: 'Arial', sans-serif; background: #fdfbf7; margin: 0; color: #333; }
-        .cart-container { max-width: 900px; margin: 40px auto; padding: 20px; min-height: 60vh; }
-        .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-        .cart-header h1 { color: #1a4d2e; margin: 0; }
-        
-        /* Impact Box */
-        .impact-box { background: linear-gradient(135deg, #1a4d2e 0%, #2f855a 100%); color: white; padding: 25px; border-radius: 15px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; box-shadow: 0 10px 20px rgba(26, 77, 46, 0.2); }
-        .impact-stat h3 { margin: 0; font-size: 32px; font-weight: 800; }
-        .impact-stat p { margin: 0; font-size: 14px; opacity: 0.9; text-transform: uppercase; letter-spacing: 1px;}
-        .impact-fun { font-size: 12px; background: rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 4px; margin-top: 5px; display: inline-block; }
-        
-        /* Cart List */
-        .cart-list { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .cart-item { display: flex; align-items: center; padding: 20px; border-bottom: 1px solid #eee; }
-        .cart-item:last-child { border-bottom: none; }
-        .item-img { width: 80px; height: 80px; border-radius: 10px; object-fit: cover; margin-right: 20px; }
-        .item-details { flex-grow: 1; }
-        .item-title { font-weight: bold; font-size: 18px; color: #1a4d2e; display: block; }
-        .item-eco { font-size: 12px; color: #15803d; background: #dcfce7; padding: 3px 8px; border-radius: 10px; font-weight: bold; margin-top: 5px; display: inline-block;}
-        
-        /* Quantity & Price */
-        .qty-controls { display: flex; align-items: center; gap: 10px; margin-right: 30px; }
-        .qty-btn { width: 28px; height: 28px; background: #f3f4f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; color: #333; font-weight: bold; font-size: 16px; transition: all 0.2s; cursor: pointer; }
-        .qty-btn:hover { background: #e5e7eb; transform: scale(1.1); }
-        .qty-num { font-weight: bold; min-width: 20px; text-align: center; font-size: 16px; }
-        .item-price { font-weight: bold; font-size: 18px; min-width: 80px; text-align: right; }
-        .remove-btn { color: #ef4444; margin-left: 20px; cursor: pointer; transition: color 0.2s; }
-        .remove-btn:hover { color: #b91c1c; }
-        
-        /* Checkout */
-        .checkout-actions { margin-top: 30px; text-align: right; }
-        .btn-checkout { background: #e11d48; color: white; padding: 15px 40px; border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 18px; transition: 0.3s; display: inline-flex; align-items: center; gap: 10px; border: none; cursor: pointer; }
-        .btn-checkout:hover { background: #be123c; transform: translateY(-2px); }
-        
-        .empty-cart { text-align: center; padding: 60px; }
-        .empty-icon { font-size: 60px; color: #ccc; margin-bottom: 20px; }
-    </style>
 </head>
-<body>
-
-<?php include 'navbar.php'; ?>
+<body class="cart-page-body">
+        
 
 <div class="cart-container">
     <div class="cart-header">

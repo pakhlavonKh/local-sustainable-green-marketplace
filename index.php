@@ -38,10 +38,14 @@ require_once 'lang_config.php';
     </div>
 
     <!-- 4. Transition Banner (The Parallax Image) -->
-    <?php include 'transition_banner.php'; ?>
+    <div style="background: #f0f0f0; padding: 0; margin: 0;">
+        <?php include 'transition_banner.php'; ?>
+    </div>
 
     <!-- 5. Product Carousel (You Might Be Interested In) -->
-    <?php include 'product_carousel.php'; ?>
+    <div style="background: #fff; padding: 40px 0;">
+        <?php include 'product_carousel.php'; ?>
+    </div>
 
     <!-- 6. Footer -->
     <?php include 'footer.php'; ?>

@@ -133,7 +133,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $db) {
     <title>Checkout - Leaf Market</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
+</head>
+<body class="checkout-page-body">
         body { font-family: 'Arial', sans-serif; background: #fdfbf7; margin: 0; color: #333; }
         .checkout-container { max-width: 900px; margin: 40px auto; padding: 20px; display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; }
         .box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
@@ -151,14 +152,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $db) {
         .total-row { font-weight: 800; font-size: 20px; border-top: 1px solid #eee; padding-top: 15px; margin-top: 15px; color: #1a4d2e; }
         .btn-confirm { width: 100%; background: #1a4d2e; color: white; padding: 15px; border: none; border-radius: 30px; font-weight: 800; font-size: 18px; cursor: pointer; margin-top: 20px; transition: 0.3s; }
         .btn-confirm:hover { background: #143d23; transform: translateY(-2px); }
-        .success-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:white; z-index:999; display: flex; justify-content: center; align-items: center; text-align: center; }
-        .icon-circle { width: 80px; height: 80px; background: #dcfce7; color: #166534; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; margin: 0 auto 20px auto; }
-        @media (max-width: 768px) { .checkout-container { grid-template-columns: 1fr; } }
-    </style>
-</head>
-<body>
 
-<?php include 'navbar.php'; ?>
 
 <?php if($success): ?>
     <div class="success-overlay">

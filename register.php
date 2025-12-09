@@ -8,6 +8,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST['name'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
+    $role = $_POST['role'] ?? 'customer';
+
+    // Validate role
+    if (!in_array($role, ['customer', 'seller', 'admin'])) {
+        $role = 'customer';
+    }
 
     if (empty($name) || empty($email) || empty($password)) {
         $error = "All fields are required.";
@@ -25,7 +31,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         'name' => $name,
                         'email' => $email,
                         'password' => password_hash($password, PASSWORD_DEFAULT),
-                        'role' => 'customer',
+                        'role' => $role,
+                        'wishlist' => [],
+                        'address' => '',
+                        'city' => '',
+                        'phone' => '',
                         'created_at' => new MongoDB\BSON\UTCDateTime()
                     ];
 
@@ -35,10 +45,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         // LOG IN IMMEDIATELY
                         $_SESSION['user_id'] = (string)$insertResult->getInsertedId();
                         $_SESSION['username'] = $name;
-                        $_SESSION['role'] = 'customer';
+                        $_SESSION['role'] = $role;
 
-                        // REDIRECT TO HOMEPAGE
-                        header("Location: index.php");
+                        // REDIRECT BASED ON ROLE
+                        if ($role === 'seller') {
+                            header("Location: seller_dashboard.php");
+                        } elseif ($role === 'admin') {
+                            header("Location: admin.php");
+                        } else {
+                            header("Location: index.php");
+                        }
                         exit();
                     } else {
                         $error = "Registration failed.";
@@ -63,26 +79,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="style.css?v=23"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Lato', sans-serif; background-color: #fff; color: #333; }
-        .auth-wrapper { max-width: 1200px; margin: 60px auto; padding: 0 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
-        .auth-title { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 400; margin-bottom: 20px; color: #000; }
-        .auth-subtitle { font-size: 16px; color: #666; margin-bottom: 30px; font-weight: 300; }
-        .form-group { margin-bottom: 25px; }
-        .form-label { display: block; margin-bottom: 8px; font-weight: 700; font-size: 14px; color: #333; }
-        .required-star { color: #e53e3e; }
-        .form-input { width: 100%; padding: 12px 15px; border: 1px solid #e2e8f0; border-radius: 4px; font-size: 15px; color: #333; box-sizing: border-box; transition: border-color 0.2s; }
-        .form-input:focus { outline: none; border-color: #1a4d2e; }
-        .btn-black { background-color: #000; color: #fff; border: none; padding: 15px 40px; font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; width: 100%; border-radius: 2px; transition: background 0.3s; }
-        .btn-black:hover { background-color: #333; }
-        .benefits-list { list-style: none; padding: 0; margin: 0; }
-        .benefits-list li { margin-bottom: 15px; display: flex; align-items: flex-start; font-size: 15px; color: #555; line-height: 1.5; }
-        .benefits-list i { color: #1a4d2e; margin-right: 12px; margin-top: 4px; }
-        .error-box { background: #fff5f5; color: #c53030; padding: 12px; margin-bottom: 20px; font-size: 14px; border-left: 4px solid #c53030; }
-        @media (max-width: 768px) { .auth-wrapper { grid-template-columns: 1fr; gap: 40px; } }
-    </style>
 </head>
-<body class="login-page">
+<body class="auth-page-body login-page">
 
     <?php include 'navbar.php'; ?>
 
@@ -109,6 +107,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="form-group">
                     <label class="form-label">Password <span class="required-star">*</span></label>
                     <input type="password" name="password" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Account Type <span class="required-star">*</span></label>
+                    <select name="role" class="form-input" required>
+                        <option value="customer">Customer</option>
+                        <option value="seller">Seller</option>
+                        <option value="admin">Administrator</option>
+                    </select>
                 </div>
 
                 <button type="submit" class="btn-black">CREATE ACCOUNT</button>

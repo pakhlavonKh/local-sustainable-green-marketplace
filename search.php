@@ -47,7 +47,16 @@ if ($q !== '') {
 }
 
 ?>
-
+<!DOCTYPE html>
+<html lang="<?php echo $_SESSION['lang']; ?>">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Results - Leaf Market</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
 <?php include 'navbar.php'; ?>
 <div class="container" style="padding:40px 20px;">
     <h1>Search results for: <?php echo htmlspecialchars($q); ?></h1>

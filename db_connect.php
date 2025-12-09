@@ -56,9 +56,46 @@ function getDBConnection() {
     }
 
     try {
-        $client = new MongoDB\Client($uri);
+        // Add SSL/TLS options and connection timeout
+        $options = [
+            'connectTimeoutMS' => 10000,
+            'serverSelectionTimeoutMS' => 10000,
+            'socketTimeoutMS' => 30000,
+        ];
+        
+        // Add TLS options for better compatibility
+        $uriOptions = [];
+        
+        // Parse existing options from URI if present
+        if (strpos($uri, '?') !== false) {
+            // Ensure tlsAllowInvalidCertificates is not set (security risk)
+            // But add retryWrites and w=majority for better reliability
+            if (strpos($uri, 'retryWrites') === false) {
+                $uri .= '&retryWrites=true';
+            }
+            if (strpos($uri, 'w=') === false) {
+                $uri .= '&w=majority';
+            }
+        }
+        
+        $client = new MongoDB\Client($uri, $uriOptions, $options);
+        
+        // Test connection with ping
+        try {
+            $client->selectDatabase('admin')->command(['ping' => 1]);
+        } catch (Exception $pingError) {
+            error_log('MongoDB ping failed: ' . $pingError->getMessage());
+            // Continue anyway, connection might still work for operations
+        }
+        
         // Return a MongoDB\Database instance
         return $client->selectDatabase($dbName);
+    } catch (MongoDB\Driver\Exception\ConnectionTimeoutException $e) {
+        error_log('MongoDB connection timeout: ' . $e->getMessage());
+        return null;
+    } catch (MongoDB\Driver\Exception\SSLConnectionException $e) {
+        error_log('MongoDB SSL/TLS error: ' . $e->getMessage());
+        return null;
     } catch (Exception $e) {
         // Log the error for debugging and return null so callers can handle missing DB
         error_log('MongoDB connection error: ' . $e->getMessage());

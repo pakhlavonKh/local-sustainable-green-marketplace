@@ -64,96 +64,10 @@ if ($product) {
     <title><?php echo $product ? htmlspecialchars($display_title) : 'Product Not Found'; ?> - Leaf Market</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body { margin: 0; font-family: 'Arial', sans-serif; background: #fdfbf7; color: #333; }
-        
-        /* Layout */
-        .product-container { 
-            max-width: 1100px; margin: 40px auto; padding: 30px; 
-            display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; 
-            background: #fff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
-        }
-        
-        /* Left Side: Image */
-        .product-image img { 
-            width: 100%; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
-            object-fit: cover;
-        }
-
-        /* Right Side: Info */
-        .product-info h1 { font-size: 36px; margin: 0 0 10px 0; color: #1a4d2e; }
-        .product-price { font-size: 32px; font-weight: 800; color: #2d2d2d; display: block; margin-bottom: 20px; }
-        
-        .stock-badge { 
-            display: inline-block; background: #e11d48; color: white; 
-            padding: 5px 10px; border-radius: 5px; font-size: 12px; 
-            font-weight: bold; margin-bottom: 15px; 
-        }
-
-        /* Eco Dashboard */
-        .eco-dashboard { background: #f8fafc; padding: 20px; border-radius: 15px; margin-bottom: 25px; border: 1px solid #e2e8f0; }
-        .eco-header { display: flex; justify-content: space-between; margin-bottom: 10px; font-weight: bold; color: #1e293b; }
-        .eco-bar-bg { height: 12px; background: #e2e8f0; border-radius: 6px; overflow: hidden; margin-bottom: 15px; }
-        .eco-bar-fill { height: 100%; border-radius: 6px; transition: width 1s ease-in-out; }
-        
-        .eco-high .eco-bar-fill { background: linear-gradient(90deg, #4ade80, #16a34a); }
-        .eco-med .eco-bar-fill  { background: linear-gradient(90deg, #facc15, #ca8a04); }
-        .eco-low .eco-bar-fill  { background: linear-gradient(90deg, #f87171, #dc2626); }
-        
-        .co2-pill { 
-            display: inline-flex; align-items: center; gap: 6px; background: #dcfce7; 
-            color: #15803d; font-size: 12px; font-weight: bold; padding: 6px 12px; border-radius: 20px; 
-        }
-
-        /* Seller Card */
-        .seller-card { 
-            display: flex; align-items: center; gap: 15px; padding: 15px; 
-            background: #fff; border: 1px solid #eee; border-radius: 12px; 
-            margin-bottom: 25px; text-decoration: none; color: inherit; transition: transform 0.2s; 
-        }
-        .seller-card:hover { transform: translateY(-2px); border-color: #1a4d2e; }
-        .seller-icon { 
-            width: 45px; height: 45px; background: #f3f4f6; border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; color: #1a4d2e; font-size: 20px; 
-        }
-
-        .product-desc { font-size: 16px; line-height: 1.6; color: #666; margin-bottom: 30px; }
-
-        /* Buttons */
-        .action-buttons { display: flex; gap: 15px; align-items: center; }
-        
-        .btn-main { 
-            padding: 15px 40px; background: #1a4d2e; color: white; border: none; 
-            border-radius: 30px; font-weight: bold; font-size: 16px; cursor: pointer; 
-            transition: 0.3s; display: flex; align-items: center; gap: 10px; flex-grow: 1; justify-content: center;
-            text-decoration: none;
-        }
-        .btn-main:hover { background: #143d23; transform: translateY(-2px); }
-        
-        .btn-back { 
-            padding: 15px 25px; background: #f3f4f6; color: #333; 
-            text-decoration: none; border-radius: 30px; font-weight: bold; 
-            display: flex; align-items: center; 
-        }
-
-        /* Reviews */
-        .reviews-container { grid-column: 1 / -1; margin-top: 40px; padding-top: 30px; border-top: 1px solid #eee; }
-        .reviews-title { font-size: 24px; color: #1a4d2e; margin-bottom: 20px; }
-        .review-card { background: #f9fafb; padding: 20px; border-radius: 12px; margin-bottom: 15px; border-left: 4px solid #1a4d2e; }
-        .review-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
-        .review-user { font-weight: bold; color: #333; }
-        .review-stars { color: #f59e0b; font-size: 14px; }
-        .review-comment { color: #555; line-height: 1.5; font-style: italic; }
-        .verified-badge { background: #dcfce7; color: #15803d; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-left: 8px; font-weight: bold; text-transform: uppercase; }
-
-        @media (max-width: 768px) { 
-            .product-container { grid-template-columns: 1fr; padding: 20px; } 
-        }
-    </style>
 </head>
-<body>
+<body class="product-detail-body">
+        
 
-<?php include 'navbar.php'; ?>
 
 <div class="product-container">
     <?php if ($product): ?>

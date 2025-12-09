@@ -11,6 +11,10 @@ if ($cart_notice) {
     unset($_SESSION['cart_notice']);
 }
 
+// Get wishlist count
+$wishlist_items = isset($_SESSION['wishlist']) && is_array($_SESSION['wishlist']) ? $_SESSION['wishlist'] : [];
+$wishlist_count = count($wishlist_items);
+
 // Determine Profile Link based on Role
 $profile_link = 'profile.php';
 if (isset($_SESSION['role']) && $_SESSION['role'] === 'seller') {
@@ -22,13 +26,19 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === 'seller') {
     <div class="nav-top">
         <div class="logo"><a href="index.php">Leaf Leaf Market</a></div>
         
-        <form action="search.php" method="GET" class="search-bar">
-            <input type="text" name="q" placeholder="<?php echo isset($text['search_place']) ? $text['search_place'] : 'Search...'; ?>" required>
-            <button type="submit"><i class="fas fa-search"></i></button>
-        </form>
+        <div class="nav-links">
+            <a href="index.php" class="nav-link"><i class="fas fa-home"></i> <?php echo isset($text['nav_home']) ? $text['nav_home'] : 'Home'; ?></a>
+            <a href="category_page.php?category=all" class="nav-link"><i class="fas fa-th-large"></i> Catalog</a>
+            <a href="about.php" class="nav-link"><i class="fas fa-info-circle"></i> <?php echo isset($text['nav_about']) ? $text['nav_about'] : 'About'; ?></a>
+        </div>
 
         <div class="user-actions">
-            <a href="#"><i class="far fa-heart"></i></a>
+            <a href="wishlist.php" class="wishlist-icon-btn">
+                <i class="far fa-heart"></i>
+                <?php if ($wishlist_count > 0): ?>
+                    <span class="wishlist-count"><?php echo $wishlist_count; ?></span>
+                <?php endif; ?>
+            </a>
             
             <?php if(isset($_SESSION['user_id']) && !empty($_SESSION['username'])): ?>
                 <span class="user-welcome" style="margin-left: 15px; font-size: 14px;">
@@ -55,20 +65,14 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === 'seller') {
                 </span>
                 <span class="basket-label"><?php echo isset($text['basket']) ? $text['basket'] : 'Basket'; ?></span>
             </a>
+            
+            <!-- Language Switcher -->
+            <div class="header-language">
+                <a href="?lang=en" class="lang-link <?php echo ($_SESSION['lang'] == 'en') ? 'active' : ''; ?>" title="English">EN</a>
+                <span class="lang-divider">|</span>
+                <a href="?lang=tr" class="lang-link <?php echo ($_SESSION['lang'] == 'tr') ? 'active' : ''; ?>" title="Türkçe">TR</a>
+            </div>
         </div>
-    </div>
-
-    <div class="nav-bottom">
-        <ul>
-            <li><a href="index.php"><i class="fas fa-home"></i> <?php echo isset($text['nav_home']) ? $text['nav_home'] : 'Home'; ?></a></li>
-            <li><a href="category_page.php?category=fresh_produce"><?php echo isset($text['cat_fresh']) ? $text['cat_fresh'] : 'Fresh Produce'; ?></a></li>
-            <li><a href="category_page.php?category=dairy_eggs"><?php echo isset($text['cat_dairy']) ? $text['cat_dairy'] : 'Dairy & Eggs'; ?></a></li>
-            <li><a href="category_page.php?category=bakery"><?php echo isset($text['cat_bakery']) ? $text['cat_bakery'] : 'Bakery'; ?></a></li>
-            <li><a href="category_page.php?category=pantry"><?php echo isset($text['cat_pantry']) ? $text['cat_pantry'] : 'Pantry'; ?></a></li>
-            <li><a href="category_page.php?category=beverages"><?php echo isset($text['cat_bev']) ? $text['cat_bev'] : 'Beverages'; ?></a></li>
-            <li><a href="category_page.php?category=home_garden"><?php echo isset($text['cat_home']) ? $text['cat_home'] : 'Home & Garden'; ?></a></li>
-            <li class="nav-special"><a href="about.php"><?php echo isset($text['nav_about']) ? $text['nav_about'] : 'About'; ?></a></li>
-        </ul>
     </div>
 </nav>
 
