@@ -1048,7 +1048,7 @@ footer {
 /* Container shared with other carousels */
 .carousel-container {
     position: relative;
-    max-width: 1195px;
+    max-width: 1215px;
     margin: 0 auto;
     padding: 0 20px;
 }
@@ -1181,6 +1181,7 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
     margin: 25px 0;
 }
 .carousel-header h2 {
@@ -1224,7 +1225,8 @@ footer {
     overflow-x: auto;
     gap: 25px;
     padding: 20px 0 35px;
-    max-width: 1195px;
+    min-width: 1195px ;
+    max-width: 1200px;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
