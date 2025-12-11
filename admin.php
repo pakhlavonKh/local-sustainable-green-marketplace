@@ -65,64 +65,21 @@ if ($db) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="admin-page-body">
-        body { font-family: 'Arial', sans-serif; background: #f1f5f9; margin: 0; display: flex; }
-        
-        /* Sidebar */
-        .sidebar { width: 250px; background: #1a4d2e; color: white; min-height: 100vh; padding: 20px; position: fixed; }
-        .brand { font-size: 24px; font-weight: bold; margin-bottom: 40px; display: block; color: white; text-decoration: none; }
-        .menu-item { display: block; color: #cbd5e1; text-decoration: none; padding: 12px; margin-bottom: 5px; border-radius: 5px; transition: 0.2s; }
-        .menu-item:hover, .menu-item.active { background: #14532d; color: white; }
-        .menu-item i { margin-right: 10px; width: 20px; }
-        
-        /* Main Content */
-        .main-content { margin-left: 250px; padding: 30px; width: 100%; }
-        
-        /* Stats Grid */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px; }
-        .stat-card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .stat-card h3 { margin: 0; font-size: 28px; color: #1e293b; }
-        .stat-card p { margin: 5px 0 0; color: #64748b; font-size: 14px; text-transform: uppercase; }
-        
-        /* Tables & Search */
-        .panel { background: white; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); padding: 20px; margin-bottom: 40px; }
-        
-        .panel-header { 
-            display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;
-        }
-        
-        .search-box {
-            display: flex;
-            align-items: center;
-            background: #f8fafc;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 5px 10px;
-        }
-        .search-box input { border: none; background: transparent; outline: none; padding: 5px; font-size: 14px; width: 200px; }
-        .search-box button { background: none; border: none; cursor: pointer; color: #666; }
-
-        h2 { margin: 0; color: #1e293b; font-size: 20px; }
-        
-        table { width: 100%; border-collapse: collapse; }
-        th { text-align: left; padding: 12px; background: #f8fafc; color: #64748b; font-size: 12px; text-transform: uppercase; }
-        td { padding: 12px; border-bottom: 1px solid #f1f5f9; color: #333; font-size: 14px; }
-        
-        .btn-add { background: #1a4d2e; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 14px; border: none; cursor: pointer; }
-        .btn-action { padding: 5px 10px; border-radius: 4px; text-decoration: none; font-size: 12px; margin-right: 5px; }
-        .btn-edit { background: #e0f2fe; color: #0284c7; }
-        .btn-delete { background: #fee2e2; color: #991b1b; }
-        
-        /* Modal for Adding Product */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; }
-
-        <a href="index.php" class="brand">Leaf Admin</a>
+    
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a href="index.php" class="brand"><i class="fas fa-leaf"></i> Leaf Admin</a>
         <a href="#" class="menu-item active"><i class="fas fa-chart-line"></i> Dashboard</a>
         <a href="#products" class="menu-item"><i class="fas fa-box"></i> Products</a>
         <a href="#orders" class="menu-item"><i class="fas fa-shopping-cart"></i> Orders</a>
+        <a href="#users" class="menu-item"><i class="fas fa-users"></i> Users</a>
         <a href="logout.php" class="menu-item" style="margin-top: auto;"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
 
+    <!-- Main Content -->
     <div class="main-content">
+        
+        <h1 style="font-size: 32px; color: #1a4d2e; margin-bottom: 30px; font-weight: 700;">Dashboard Overview</h1>
         
         <!-- Stats -->
         <div class="stats-grid">
@@ -231,6 +188,62 @@ if ($db) {
             </table>
         </div>
 
+        <!-- Users Panel -->
+        <div class="panel" id="users">
+            <div class="panel-header">
+                <h2>User Management</h2>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Joined</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php 
+                    if ($db) {
+                        $allUsers = $db->users->find([], ['sort' => ['created_at' => -1]])->toArray();
+                        foreach ($allUsers as $user):
+                            $user = (array)$user;
+                    ?>
+                        <tr>
+                            <td><strong><?php echo htmlspecialchars($user['name'] ?? 'Unknown'); ?></strong></td>
+                            <td><?php echo htmlspecialchars($user['email'] ?? ''); ?></td>
+                            <td>
+                                <span style="
+                                    padding: 4px 12px; 
+                                    border-radius: 12px; 
+                                    font-size: 11px; 
+                                    font-weight: 600; 
+                                    text-transform: uppercase;
+                                    <?php 
+                                    if ($user['role'] === 'admin') echo 'background: #fee2e2; color: #991b1b;';
+                                    elseif ($user['role'] === 'seller') echo 'background: #dbeafe; color: #1e40af;';
+                                    else echo 'background: #dcfce7; color: #166534;';
+                                    ?>
+                                ">
+                                    <?php echo htmlspecialchars($user['role'] ?? 'customer'); ?>
+                                </span>
+                            </td>
+                            <td>
+                                <?php 
+                                    if(isset($user['created_at']) && $user['created_at'] instanceof MongoDB\BSON\UTCDateTime) {
+                                        echo $user['created_at']->toDateTime()->format('M d, Y'); 
+                                    } else { echo "Unknown"; }
+                                ?>
+                            </td>
+                        </tr>
+                    <?php 
+                        endforeach;
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+
     </div>
 
     <!-- Add Product Modal -->
@@ -265,12 +278,48 @@ if ($db) {
                     <input type="number" name="stock" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label>Image URL (Unsplash ID)</label>
+                    <label>Image URL</label>
                     <input type="text" name="image" class="form-control" placeholder="e.g. https://images.unsplash.com/..." required>
                 </div>
                 <div class="form-group">
-                    <label>Seller Name</label>
-                    <input type="text" name="seller_name" class="form-control" value="Leaf Market" required>
+                    <label>Description</label>
+                    <textarea name="desc" class="form-control" rows="3" placeholder="Product description..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Seller</label>
+                    <select name="seller_name" class="form-control" required>
+                        <option value="">-- Select Seller --</option>
+                        <?php 
+                        if ($db) {
+                            $sellers = $db->users->find(['role' => 'seller'], ['sort' => ['name' => 1]])->toArray();
+                            foreach ($sellers as $s) {
+                                $s = (array)$s;
+                                echo '<option value="' . htmlspecialchars($s['name']) . '">' . htmlspecialchars($s['name']) . ' (' . htmlspecialchars($s['location'] ?? 'Unknown') . ')</option>';
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Delivery Mode</label>
+                    <select name="delivery_mode" class="form-control">
+                        <option value="bike">Bike Courier</option>
+                        <option value="walk">Walking Courier</option>
+                        <option value="public">Public Transport</option>
+                        <option value="cargo">Standard Cargo</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Packaging Type</label>
+                    <select name="packaging_type" class="form-control">
+                        <option value="plastic_free">Plastic-Free</option>
+                        <option value="recycled">Recycled Paper</option>
+                        <option value="standard">Standard</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>CO₂ Saved (kg)</label>
+                    <input type="number" step="0.1" name="co2_saved" class="form-control" value="0.3">
                 </div>
 
                 <button type="submit" class="btn-add" style="width:100%;">Save Product</button>

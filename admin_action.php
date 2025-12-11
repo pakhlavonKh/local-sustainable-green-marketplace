@@ -19,6 +19,12 @@ if ($db && isset($_REQUEST['action'])) {
             $lastItem = $collection->findOne([], ['sort' => ['id' => -1]]);
             $newId = $lastItem ? ($lastItem['id'] + 1) : 1;
 
+            // Get seller ID from seller_name if exists
+            $sellerName = $_POST['seller_name'];
+            $seller = $db->users->findOne(['name' => $sellerName, 'role' => 'seller']);
+            $sellerId = $seller ? ($seller['seller_id'] ?? 100) : 100;
+            $location = $seller ? ($seller['location'] ?? 'Istanbul') : 'Istanbul';
+
             $newProduct = [
                 'id' => $newId,
                 'title' => $_POST['title'],
@@ -27,14 +33,26 @@ if ($db && isset($_REQUEST['action'])) {
                 'price' => (float)$_POST['price'],
                 'stock' => (int)$_POST['stock'],
                 'image' => $_POST['image'],
-                'seller_name' => $_POST['seller_name'],
-                'desc' => 'Newly added product.',
-                'delivery_mode' => 'cargo', // Default
-                'co2_saved' => 0.2,
-                'seller_id' => 100
+                'seller_name' => $sellerName,
+                'seller_id' => $sellerId,
+                'location' => $location,
+                'desc' => $_POST['desc'] ?? 'Newly added product.',
+                'delivery_mode' => $_POST['delivery_mode'] ?? 'cargo',
+                'packaging_type' => $_POST['packaging_type'] ?? 'standard',
+                'co2_saved' => (float)($_POST['co2_saved'] ?? 0.2),
+                'distance' => '5 km'
             ];
 
             $collection->insertOne($newProduct);
+            
+            // Update seller's product list
+            if ($seller) {
+                $db->users->updateOne(
+                    ['_id' => $seller['_id']],
+                    ['$addToSet' => ['products' => $newId]]
+                );
+            }
+            
             header("Location: admin.php");
             exit();
         }

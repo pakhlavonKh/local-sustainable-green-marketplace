@@ -10,8 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
     $role = $_POST['role'] ?? 'customer';
 
-    // Validate role
-    if (!in_array($role, ['customer', 'seller', 'admin'])) {
+    // Validate role - ONLY customer or seller allowed from registration
+    if (!in_array($role, ['customer', 'seller'])) {
         $role = 'customer';
     }
 
@@ -114,7 +114,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <select name="role" class="form-input" required>
                         <option value="customer">Customer</option>
                         <option value="seller">Seller</option>
-                        <option value="admin">Administrator</option>
                     </select>
                 </div>
 
