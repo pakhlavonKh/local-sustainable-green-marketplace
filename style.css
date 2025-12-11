@@ -1377,7 +1377,7 @@ footer {
     background-image: url('https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
     width: 100%;
     min-height: 400px;
-    margin: 60px 0;
+    margin: 0;
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;

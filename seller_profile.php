@@ -37,51 +37,7 @@ $seller = isset($sellers_db[$seller_id]) ? $sellers_db[$seller_id] : null;
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body class="seller-profile-body">
-        body { margin: 0; font-family: 'Arial', sans-serif; background: #fdfbf7; color: #333; }
         
-        .seller-header {
-            background: #fff;
-            padding: 40px 20px;
-            text-align: center;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .seller-avatar {
-            width: 100px; height: 100px;
-            background: #1a4d2e;
-            color: white;
-            font-size: 40px;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 20px auto;
-        }
-
-        .seller-name { font-size: 32px; margin: 0; color: #1a4d2e; }
-        .seller-meta { color: #666; margin-top: 10px; font-size: 14px; }
-        
-        .badges { margin-top: 15px; display: flex; gap: 10px; justify-content: center; }
-        .badge { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; }
-        .badge-verified { background: #dcfce7; color: #166534; }
-        .badge-gold { background: #fef9c3; color: #854d0e; }
-
-        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
-        
-        .section-title { font-size: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .product-card {
-            background: white; border-radius: 10px; overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05); text-decoration: none; color: inherit;
-            transition: transform 0.2s;
-        }
-        .product-card:hover { transform: translateY(-5px); }
-        .p-img { height: 200px; background-size: cover; background-position: center; }
-        .p-info { padding: 15px; }
 
 
 <?php include 'navbar.php'; ?>

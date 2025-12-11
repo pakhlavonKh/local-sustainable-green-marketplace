@@ -86,20 +86,16 @@ if (!empty($wishlist_ids)) {
                          : $product['title'];
             ?>
                 <div class="product-card">
-                    <a href="product_detail.php?id=<?php echo $product['id']; ?>" style="text-decoration:none; color:inherit;">
-                        <div class="card-image-wrapper">
-                            <img src="<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($title); ?>">
-                        </div>
-                    </a>
-                    <div class="card-info">
-                        <h3 class="card-title"><?php echo htmlspecialchars($title); ?></h3>
-                        <div class="card-price">₺<?php echo number_format($product['price'], 2); ?></div>
-                        <div class="card-meta">
-                            <i class="fas fa-leaf"></i> <?php echo $product['co2_saved']; ?> kg CO₂
+                    <div class="product-card-img" style="background-image: url('<?php echo htmlspecialchars($product['image']); ?>');"></div>
+                    <div class="product-card-content">
+                        <h3 class="product-card-title"><?php echo htmlspecialchars($title); ?></h3>
+                        <div class="product-card-price">₺<?php echo number_format($product['price'], 2); ?></div>
+                        <div class="product-card-meta">
+                            <span><i class="fas fa-leaf"></i> <?php echo $product['co2_saved']; ?> kg CO₂</span>
                         </div>
                         <div style="display: flex; gap: 10px; margin-top: 15px;">
-                            <a href="product_detail.php?id=<?php echo $product['id']; ?>" class="btn-view">View</a>
-                            <button onclick="removeFromWishlist(<?php echo $product['id']; ?>)" class="btn-remove">
+                            <a href="product_detail.php?id=<?php echo $product['id']; ?>" class="btn-view" style="flex: 1; background: #1a4d2e; color: white; padding: 10px; text-align: center; text-decoration: none; border-radius: 4px; font-size: 14px;">View</a>
+                            <button onclick="removeFromWishlist(<?php echo $product['id']; ?>)" class="btn-remove" style="background: #ef4444; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-size: 14px;">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>

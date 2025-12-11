@@ -122,8 +122,8 @@ $my_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '';
 
                 <div class="product-card">
                     <a href="product_detail.php?id=<?php echo $id; ?>" style="text-decoration:none; color:inherit;">
-                        <div class="card-image-wrapper">
-                            <img src="<?php echo $img; ?>" alt="<?php echo htmlspecialchars($display_title); ?>">
+                        <div class="p-img-wrapper">
+                            <div class="p-img" style="background-image: url('<?php echo $img; ?>');"></div>
 
                             <!-- Wishlist Heart Icon -->
                             <button class="wishlist-btn" data-product-id="<?php echo $id; ?>"
@@ -140,24 +140,31 @@ $my_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '';
                             <?php endif; ?>
 
                             <?php if ($p['stock'] < 5): ?>
-                                <span class="badge-low-stock">Low Stock</span>
+                                <span
+                                    style="position:absolute; top:10px; left:10px; background:#e11d48; color:white; font-size:10px; padding:4px 8px; border-radius:4px; font-weight:bold;">Low
+                                    Stock</span>
                             <?php endif; ?>
                         </div>
                     </a>
 
-                    <div class="card-info">
-                        <h3 class="card-title"><?php echo htmlspecialchars($display_title); ?></h3>
-                        <div class="card-meta">by <?php echo $p['seller_name']; ?></div>
-                        <div class="card-price"><?php echo number_format($price, 2); ?> TL</div>
-                        <form action="cart_action.php" method="POST" style="margin-top: auto;">
-                            <input type="hidden" name="action" value="add">
-                            <input type="hidden" name="product_id" value="<?php echo $id; ?>">
-                            <input type="hidden" name="title" value="<?php echo htmlspecialchars($display_title); ?>">
-                            <input type="hidden" name="price" value="<?php echo $price; ?>">
-                            <input type="hidden" name="image" value="<?php echo $img; ?>">
-                            <input type="hidden" name="co2" value="<?php echo $p['co2_saved']; ?>">
-                            <button type="submit" class="add-btn" title="Add to Cart">+</button>
-                        </form>
+                    <div class="p-info">
+                        <div>
+                            <span class="p-title"><?php echo htmlspecialchars($display_title); ?></span>
+                            <span class="p-seller">by <?php echo $p['seller_name']; ?></span>
+                        </div>
+
+                        <div class="p-footer">
+                            <span class="p-price"><?php echo number_format($price, 2); ?> TL</span>
+                            <form action="cart_action.php" method="POST">
+                                <input type="hidden" name="action" value="add">
+                                <input type="hidden" name="product_id" value="<?php echo $id; ?>">
+                                <input type="hidden" name="title" value="<?php echo htmlspecialchars($display_title); ?>">
+                                <input type="hidden" name="price" value="<?php echo $price; ?>">
+                                <input type="hidden" name="image" value="<?php echo $img; ?>">
+                                <input type="hidden" name="co2" value="<?php echo $p['co2_saved']; ?>">
+                                <button type="submit" class="add-btn" title="Add to Cart">+</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             <?php endforeach; ?>
