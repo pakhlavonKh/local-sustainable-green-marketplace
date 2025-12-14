@@ -145,7 +145,7 @@ if ($db) {
                                     </span>
                                 </td>
                                 <td>
-                                    <a href="admin_action.php?action=delete&id=<?php echo $p['id']; ?>" class="btn-action btn-delete" onclick="return confirm('Are you sure?')">Delete</a>
+                                    <!-- Delete button removed -->
                                 </td>
                             </tr>
                         <?php endforeach; ?>
