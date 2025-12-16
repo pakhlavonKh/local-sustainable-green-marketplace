@@ -80,29 +80,15 @@ if (!empty($wishlist_ids)) {
             <a href="category_page.php?category=all" class="btn-browse">Browse Products</a>
         </div>
     <?php else: ?>
-        <div class="products-grid">
+        <?php require_once 'product_card.php'; ?>
+        <div class="product-grid">
             <?php foreach ($wishlist_products as $product): 
-                $title = isset($_SESSION['lang']) && $_SESSION['lang'] === 'tr' && !empty($product['title_tr']) 
-                         ? $product['title_tr'] 
-                         : $product['title'];
-            ?>
-                <div class="product-card">
-                    <div class="product-card-img" style="background-image: url('<?php echo htmlspecialchars($product['image']); ?>');"></div>
-                    <div class="product-card-content">
-                        <h3 class="product-card-title"><?php echo htmlspecialchars($title); ?></h3>
-                        <div class="product-card-price">₺<?php echo number_format($product['price'], 2); ?></div>
-                        <div class="product-card-meta">
-                            <span><i class="fas fa-leaf"></i> <?php echo $product['co2_saved']; ?> kg CO₂</span>
-                        </div>
-                        <div style="display: flex; gap: 10px; margin-top: 15px;">
-                            <a href="product_detail.php?id=<?php echo $product['id']; ?>" class="btn-view" style="flex: 1; background: #1a4d2e; color: white; padding: 10px; text-align: center; text-decoration: none; border-radius: 4px; font-size: 14px;">View</a>
-                            <button onclick="removeFromWishlist(<?php echo $product['id']; ?>)" class="btn-remove" style="background: #ef4444; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-size: 14px;">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            <?php endforeach; ?>
+                $product_array = is_array($product) ? $product : (array)$product;
+                renderProductCard($product_array, [
+                    'show_wishlist' => true,
+                    'show_add_to_cart' => true
+                ]);
+            endforeach; ?>
         </div>
     <?php endif; ?>
 </div>

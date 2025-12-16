@@ -63,19 +63,19 @@ if ($db) {
                 <button onclick="document.getElementById('addModal').style.display='block'" style="color:#1a4d2e; background:none; border:none; font-weight:bold; text-decoration:underline; cursor:pointer;">List your first item</button>
             </div>
         <?php else: ?>
+            <?php require_once 'product_card.php'; ?>
             <div class="product-grid">
-                <?php foreach($my_products as $p): ?>
-                    <div class="seller-card">
-                        <div class="sc-img" style="background-image: url('<?php echo $p['image']; ?>');"></div>
-                        <a href="seller_action.php?action=delete&id=<?php echo $p['id']; ?>" class="btn-delete" onclick="return confirm('Delete this product?')" title="Delete">
-                            <i class="fas fa-trash"></i>
-                        </a>
-                        <div class="sc-info">
-                            <span class="sc-title"><?php echo $p['title']; ?></span>
-                            <span class="sc-price"><?php echo number_format($p['price'], 2); ?> TL</span>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
+                <?php foreach($my_products as $p): 
+                    // Convert MongoDB document to array if needed
+                    $product_array = is_array($p) ? $p : (array)$p;
+                    renderProductCard($product_array, [
+                        'show_wishlist' => false,
+                        'show_add_to_cart' => false,
+                        'show_delete' => true,
+                        'is_owner' => true,
+                        'redirect_after_delete' => 'seller_dashboard.php'
+                    ]);
+                endforeach; ?>
             </div>
         <?php endif; ?>
     </div>

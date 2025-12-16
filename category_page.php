@@ -109,65 +109,24 @@ $my_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '';
         <?php endif; ?>
     </div>
 
+    <?php require_once 'product_card.php'; ?>
     <div class="product-grid">
         <?php if (count($filtered_products) > 0): ?>
             <?php foreach ($filtered_products as $p): ?>
                 <?php
-                $id = $p['id'];
-                $display_title = ($_SESSION['lang'] == 'tr' && !empty($p['title_tr'])) ? $p['title_tr'] : $p['title'];
-                $price = $p['price'];
-                $img = $p['image'];
                 // Check ownership
                 $is_mine = ($is_seller && isset($p['seller_id']) && (string) $p['seller_id'] === (string) $my_id);
+                
+                // Convert to array if needed
+                $product_array = is_array($p) ? $p : (array)$p;
+                
+                renderProductCard($product_array, [
+                    'show_wishlist' => true,
+                    'show_add_to_cart' => true,
+                    'is_owner' => $is_mine,
+                    'redirect_after_delete' => 'category_page.php?category=' . $cat_slug
+                ]);
                 ?>
-
-                <div class="product-card">
-                    <a href="product_detail.php?id=<?php echo $id; ?>" style="text-decoration:none; color:inherit;">
-                        <div class="p-img-wrapper">
-                            <div class="p-img" style="background-image: url('<?php echo $img; ?>');"></div>
-
-                            <!-- Wishlist Heart Icon -->
-                            <button class="wishlist-btn" data-product-id="<?php echo $id; ?>"
-                                onclick="toggleWishlist(event, <?php echo $id; ?>)">
-                                <i class="far fa-heart"></i>
-                            </button>
-
-                            <!-- SELLER ONLY: Delete Button -->
-                            <?php if ($is_mine): ?>
-                                <a href="seller_action.php?action=delete&id=<?php echo $id; ?>&redirect=category_page.php?category=<?php echo $cat_slug; ?>"
-                                    class="btn-delete-overlay" onclick="return confirm('Delete this product?');">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            <?php endif; ?>
-
-                            <?php if ($p['stock'] < 5): ?>
-                                <span
-                                    style="position:absolute; top:10px; left:10px; background:#e11d48; color:white; font-size:10px; padding:4px 8px; border-radius:4px; font-weight:bold;">Low
-                                    Stock</span>
-                            <?php endif; ?>
-                        </div>
-                    </a>
-
-                    <div class="p-info">
-                        <div>
-                            <span class="p-title"><?php echo htmlspecialchars($display_title); ?></span>
-                            <span class="p-seller">by <?php echo $p['seller_name']; ?></span>
-                        </div>
-
-                        <div class="p-footer">
-                            <span class="p-price"><?php echo number_format($price, 2); ?> TL</span>
-                            <form action="cart_action.php" method="POST">
-                                <input type="hidden" name="action" value="add">
-                                <input type="hidden" name="product_id" value="<?php echo $id; ?>">
-                                <input type="hidden" name="title" value="<?php echo htmlspecialchars($display_title); ?>">
-                                <input type="hidden" name="price" value="<?php echo $price; ?>">
-                                <input type="hidden" name="image" value="<?php echo $img; ?>">
-                                <input type="hidden" name="co2" value="<?php echo $p['co2_saved']; ?>">
-                                <button type="submit" class="add-btn" title="Add to Cart">+</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
             <?php endforeach; ?>
         <?php else: ?>
             <div class="empty-msg">

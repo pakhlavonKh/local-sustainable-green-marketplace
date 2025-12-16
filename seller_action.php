@@ -52,6 +52,8 @@ if ($db) {
     }
 }
 
-header("Location: seller_dashboard.php");
+// Handle redirects after actions
+$redirect = isset($_POST['redirect']) ? $_POST['redirect'] : (isset($_GET['redirect']) ? $_GET['redirect'] : 'seller_dashboard.php');
+header("Location: " . $redirect);
 exit();
 ?>

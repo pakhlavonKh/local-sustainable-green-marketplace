@@ -68,16 +68,15 @@ if ($q !== '') {
         <?php if (empty($results)): ?>
             <p>No results found.</p>
         <?php else: ?>
-            <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap:20px; margin-top:20px;">
-                <?php foreach ($results as $r): ?>
-                    <a href="product_detail.php?id=<?php echo urlencode($r['id']); ?>" class="product-card" style="text-decoration:none;">
-                        <div class="card-image-wrapper" style="height:160px;"><img src="<?php echo htmlspecialchars($r['image']); ?>" alt="" style="width:100%; height:100%; object-fit:cover;"></div>
-                        <div class="card-info">
-                            <div class="card-title"><?php echo htmlspecialchars($r['title'] ?? ($r['name'] ?? 'Product')); ?></div>
-                            <div class="card-price"><?php echo number_format($r['price'] ?? 0, 2); ?> <?php echo isset($text['currency']) ? $text['currency'] : 'TL'; ?></div>
-                        </div>
-                    </a>
-                <?php endforeach; ?>
+            <?php require_once 'product_card.php'; ?>
+            <div class="product-grid">
+                <?php foreach ($results as $r): 
+                    $product_array = is_array($r) ? $r : (array)$r;
+                    renderProductCard($product_array, [
+                        'show_wishlist' => true,
+                        'show_add_to_cart' => true
+                    ]);
+                endforeach; ?>
             </div>
         <?php endif; ?>
     <?php endif; ?>
