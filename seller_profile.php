@@ -1,29 +1,76 @@
 <?php
+session_start();
 require_once 'lang_config.php';
+require_once 'db_connect.php';
 
-// 1. Get Seller ID
-$seller_id = isset($_GET['id']) ? (int)$_GET['id'] : 1;
+// Get Seller ID from URL (can be username or user_id)
+$seller_identifier = isset($_GET['id']) ? $_GET['id'] : null;
 
-// 2. Mock Databases (Ideally this comes from SQL)
-$sellers_db = [
-    101 => ['name' => 'Ahmet\'s Orchard', 'rating' => 4.9, 'eco_level' => 'Gold', 'location' => 'Kadikoy, Istanbul', 'bio' => 'Growing organic fruits since 1998. No pesticides, just love.'],
-    102 => ['name' => 'Green Roots Farm', 'rating' => 4.7, 'eco_level' => 'Silver', 'location' => 'Besiktas, Istanbul', 'bio' => 'Urban farming initiative bringing fresh roots to the city.'],
-    103 => ['name' => 'Happy Hen Coop', 'rating' => 5.0, 'eco_level' => 'Gold', 'location' => 'Moda, Istanbul', 'bio' => 'Free-range chickens living their best lives.'],
-    104 => ['name' => 'Uskudar Gardens', 'rating' => 4.5, 'eco_level' => 'Bronze', 'location' => 'Uskudar, Istanbul', 'bio' => 'Community garden project supported by locals.'],
-    105 => ['name' => 'Pera Bakery', 'rating' => 4.8, 'eco_level' => 'Silver', 'location' => 'Beyoglu, Istanbul', 'bio' => 'Traditional sourdough recipes passed down for generations.'],
-    106 => ['name' => 'Bee Natural', 'rating' => 4.9, 'eco_level' => 'Gold', 'location' => 'Sariyer, Istanbul', 'bio' => 'Pure honey from the forests of Northern Istanbul.']
-];
+$db = getDBConnection();
+$seller = null;
+$seller_products = [];
 
-$products_db = [
-    1 => ['id'=>1, 'seller_id'=>101, 'title'=>'Red Apples', 'price'=>25.00, 'image'=>'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=500'],
-    2 => ['id'=>2, 'seller_id'=>102, 'title'=>'Organic Carrots', 'price'=>15.00, 'image'=>'https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?w=500'],
-    3 => ['id'=>3, 'seller_id'=>103, 'title'=>'Free Range Eggs', 'price'=>45.00, 'image'=>'https://images.unsplash.com/photo-1511690656952-34342d5c2899?w=500'],
-    4 => ['id'=>4, 'seller_id'=>104, 'title'=>'Fresh Spinach', 'price'=>20.00, 'image'=>'https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=500'],
-    5 => ['id'=>5, 'seller_id'=>105, 'title'=>'Sourdough Bread', 'price'=>35.00, 'image'=>'https://images.unsplash.com/photo-1585476263060-b55d7612e69a?w=500'],
-    6 => ['id'=>6, 'seller_id'=>106, 'title'=>'Honey Jar', 'price'=>85.00, 'image'=>'https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=500']
-];
-
-$seller = isset($sellers_db[$seller_id]) ? $sellers_db[$seller_id] : null;
+if ($seller_identifier && $db) {
+    try {
+        $usersCollection = $db->users;
+        $productsCollection = $db->products;
+        
+        // Build query to find seller
+        $query = ['role' => 'seller'];
+        
+        // Check if identifier is a valid ObjectId format (24-character hex string)
+        if (strlen($seller_identifier) === 24 && ctype_xdigit($seller_identifier)) {
+            try {
+                $query['_id'] = new MongoDB\BSON\ObjectId($seller_identifier);
+            } catch (Exception $e) {
+                // If conversion fails, treat as username
+                $query['username'] = $seller_identifier;
+            }
+        } else {
+            // Not a valid ObjectId format, treat as username
+            $query['username'] = $seller_identifier;
+        }
+        
+        $seller = $usersCollection->findOne($query);
+        
+        // If not found and we have an identifier, try alternative searches
+        if (!$seller && $seller_identifier) {
+            // Search all sellers and match by ObjectId string conversion
+            $allSellers = $usersCollection->find(['role' => 'seller'])->toArray();
+            foreach ($allSellers as $s) {
+                if ((string)$s['_id'] === $seller_identifier) {
+                    $seller = $s;
+                    break;
+                }
+            }
+            
+            // If still not found, check if there are products with this seller_id
+            if (!$seller) {
+                $product = $productsCollection->findOne(['seller_id' => $seller_identifier]);
+                if ($product) {
+                    // Create a minimal seller profile from product data
+                    $seller = [
+                        '_id' => $seller_identifier,
+                        'username' => $product['seller_name'] ?? 'Seller',
+                        'role' => 'seller',
+                        'created_at' => date('Y-m-d H:i:s')
+                    ];
+                }
+            }
+        }
+        
+        // If seller found, get their products
+        if ($seller) {
+            $seller_id_str = is_string($seller['_id']) ? $seller['_id'] : (string)$seller['_id'];
+            $seller_products = $productsCollection->find(
+                ['seller_id' => $seller_id_str],
+                ['sort' => ['id' => -1]]
+            )->toArray();
+        }
+    } catch (Exception $e) {
+        error_log('Seller profile error: ' . $e->getMessage());
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -44,55 +91,73 @@ $seller = isset($sellers_db[$seller_id]) ? $sellers_db[$seller_id] : null;
 <?php include 'navbar.php'; ?>
 
 <?php if ($seller): ?>
-    <div class="seller-header">
-        <div class="seller-avatar">
-            <i class="fas fa-store"></i>
-        </div>
-        <h1 class="seller-name"><?php echo $seller['name']; ?></h1>
-        <div class="seller-meta">
-            <i class="fas fa-map-marker-alt"></i> <?php echo $seller['location']; ?> 
-            &bull; 
-            <i class="fas fa-star" style="color: gold;"></i> <?php echo $seller['rating']; ?>/5.0
+    <div class="seller-profile-header">
+        <div class="seller-profile-banner">
+            <div class="seller-profile-avatar">
+                <?php echo strtoupper(substr($seller['username'], 0, 2)); ?>
+            </div>
         </div>
         
-        <div class="badges">
-            <span class="badge badge-verified"><i class="fas fa-check-circle"></i> <?php echo $text['verified_seller']; ?></span>
-            <span class="badge badge-gold"><i class="fas fa-leaf"></i> <?php echo $seller['eco_level']; ?> Level</span>
+        <div class="seller-profile-info">
+            <h1 class="seller-profile-name"><?php echo htmlspecialchars($seller['username']); ?></h1>
+            <div class="seller-profile-meta">
+                <span class="meta-badge">
+                    <i class="fas fa-check-circle"></i> 
+                    <?php echo isset($text['verified_seller']) ? $text['verified_seller'] : 'Verified Seller'; ?>
+                </span>
+                <span class="meta-item">
+                    <i class="fas fa-box"></i> 
+                    <?php echo count($seller_products); ?> <?php echo count($seller_products) == 1 ? 'Product' : 'Products'; ?>
+                </span>
+                <span class="meta-item">
+                    <i class="fas fa-calendar-alt"></i> 
+                    Member since <?php echo date('M Y', strtotime($seller['created_at'] ?? 'now')); ?>
+                </span>
+            </div>
+            
+            <?php if (isset($seller['bio'])): ?>
+                <p class="seller-profile-bio"><?php echo htmlspecialchars($seller['bio']); ?></p>
+            <?php endif; ?>
         </div>
-        
-        <p style="max-width: 600px; margin: 20px auto; color: #555;">
-            "<?php echo $seller['bio']; ?>"
-        </p>
     </div>
 
-    <div class="container">
-        <h2 class="section-title"><?php echo $text['other_products']; ?></h2>
+    <div class="container" style="padding: 40px 20px;">
+        <h2 class="section-title">
+            <i class="fas fa-shopping-bag"></i> 
+            <?php echo isset($text['seller_products']) ? $text['seller_products'] : 'Products from this seller'; ?>
+        </h2>
         
-        <div class="product-grid">
-            <?php 
-            // Loop through ALL products and show only ones for this seller
-            foreach($products_db as $p) {
-                if ($p['seller_id'] == $seller_id) {
-                    $original_title = $p['title'];
-                    $display_title = (isset($text['products']) && isset($text['products'][$original_title])) 
-                                     ? $text['products'][$original_title] 
-                                     : $original_title;
-                    ?>
-                    <a href="product_detail.php?id=<?php echo $p['id']; ?>" class="product-card">
-                        <div class="p-img" style="background-image: url('<?php echo $p['image']; ?>');"></div>
-                        <div class="p-info">
-                            <span class="p-title"><?php echo $display_title; ?></span>
-                            <span class="p-price"><?php echo number_format($p['price'], 2); ?> TL</span>
-                        </div>
-                    </a>
-                    <?php
+        <?php if (empty($seller_products)): ?>
+            <div class="empty-state" style="text-align: center; padding: 60px 20px; background: white; border-radius: 12px; margin-top: 20px;">
+                <i class="fas fa-box-open" style="font-size: 48px; color: #ccc; margin-bottom: 20px;"></i>
+                <p style="color: #666; font-size: 16px;">This seller hasn't listed any products yet.</p>
+            </div>
+        <?php else: ?>
+            <?php require_once 'product_card.php'; ?>
+            <div class="product-grid">
+                <?php 
+                foreach($seller_products as $p) {
+                    $product_array = is_array($p) ? $p : (array)$p;
+                    renderProductCard($product_array, [
+                        'show_wishlist' => true,
+                        'show_add_to_cart' => true
+                    ]);
                 }
-            }
-            ?>
-        </div>
+                ?>
+            </div>
+        <?php endif; ?>
     </div>
 <?php else: ?>
-    <div style="text-align:center; padding: 50px;">Seller not found.</div>
+    <div class="error-container">
+        <div class="error-content">
+            <i class="fas fa-user-slash" style="font-size: 64px; color: #ccc; margin-bottom: 20px;"></i>
+            <h2 style="color: #333; margin-bottom: 10px;">Seller Not Found</h2>
+            <p style="color: #666; margin-bottom: 30px;">The seller profile you're looking for doesn't exist or is no longer available.</p>
+            <a href="category_page.php?category=all" class="btn btn-primary" style="background: #1a4d2e; color: white; padding: 12px 30px; border-radius: 8px; text-decoration: none;">
+                <i class="fas fa-shopping-bag"></i> Browse All Products
+            </a>
+        </div>
+    </div>
 <?php endif; ?>
 
 <?php include 'footer.php'; ?>

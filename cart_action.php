@@ -24,10 +24,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['a
     $price = $_POST['price'];
     $image = $_POST['image'];
     $co2 = isset($_POST['co2']) ? $_POST['co2'] : 0;
+    $quantity = isset($_POST['quantity']) ? max(1, (int)$_POST['quantity']) : 1;
 
     // Check if item already exists in cart
     if (isset($_SESSION['cart'][$id])) {
-        $_SESSION['cart'][$id]['quantity']++;
+        $_SESSION['cart'][$id]['quantity'] += $quantity;
     } else {
         $_SESSION['cart'][$id] = [
             'id' => $id,
@@ -35,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['a
             'price' => $price,
             'image' => $image,
             'co2_saved' => $co2,
-            'quantity' => 1
+            'quantity' => $quantity
         ];
     }
 

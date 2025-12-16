@@ -111,29 +111,39 @@ if ($product) {
             </div>
 
             <!-- SELLER CARD -->
-            <a href="seller_profile.php?id=<?php echo isset($product['seller_id']) ? $product['seller_id'] : 0; ?>" class="seller-card">
-                <div class="seller-icon"><i class="fas fa-store"></i></div>
-                <div style="flex-grow: 1;">
-                    <strong style="display:block; color:#333;">
-                        <?php echo isset($product['seller_name']) ? $product['seller_name'] : 'Leaf Market'; ?>
-                    </strong>
-                    <small style="color:#666;">
-                        <i class="fas fa-map-marker-alt"></i> <?php echo isset($product['distance']) ? $product['distance'] : 'Local'; ?> away
-                    </small>
+            <?php if (isset($product['seller_id']) && !empty($product['seller_id'])): ?>
+                <a href="seller_profile.php?id=<?php echo htmlspecialchars($product['seller_id']); ?>" class="seller-card">
+                    <div class="seller-icon"><i class="fas fa-store"></i></div>
+                    <div style="flex-grow: 1;">
+                        <strong style="display:block; color:#333;">
+                            <?php echo isset($product['seller_name']) ? htmlspecialchars($product['seller_name']) : 'Seller'; ?>
+                        </strong>
+                        <small style="color:#666;">
+                            <i class="fas fa-map-marker-alt"></i> <?php echo isset($product['distance']) ? htmlspecialchars($product['distance']) : 'Local'; ?> away
+                        </small>
+                    </div>
+                    <div style="text-align:right;">
+                        <span style="background:#f3f4f6; padding:4px 8px; border-radius:4px; font-size:11px; font-weight:bold; color:#1a4d2e;">
+                            <?php echo isset($text['seller_profile']) ? $text['seller_profile'] : 'View Profile'; ?> &rarr;
+                        </span>
+                    </div>
+                </a>
+            <?php else: ?>
+                <div class="seller-card" style="cursor: default; opacity: 0.7;">
+                    <div class="seller-icon"><i class="fas fa-store"></i></div>
+                    <div style="flex-grow: 1;">
+                        <strong style="display:block; color:#333;">Leaf Market</strong>
+                        <small style="color:#666;">Direct from marketplace</small>
+                    </div>
                 </div>
-                <div style="text-align:right;">
-                    <span style="background:#f3f4f6; padding:4px 8px; border-radius:4px; font-size:11px; font-weight:bold; color:#1a4d2e;">
-                        <?php echo isset($text['seller_profile']) ? $text['seller_profile'] : 'View'; ?> &rarr;
-                    </span>
-                </div>
-            </a>
+            <?php endif; ?>
 
             <p class="product-desc"><?php echo isset($product['desc']) ? $product['desc'] : 'No description available.'; ?></p>
 
             <div class="action-buttons">
                 <?php if (isset($_SESSION['user_id'])): ?>
-                    <!-- LOGGED IN: Add to Cart Form -->
-                    <form action="cart_action.php" method="POST" style="flex: 1;">
+                    <!-- LOGGED IN: Add to Cart Form with Quantity -->
+                    <form action="cart_action.php" method="POST" style="flex: 1; display: flex; gap: 15px; align-items: center;">
                         <input type="hidden" name="action" value="add">
                         <input type="hidden" name="product_id" value="<?php echo $product_id; ?>">
                         <input type="hidden" name="title" value="<?php echo htmlspecialchars($display_title); ?>">
@@ -141,8 +151,14 @@ if ($product) {
                         <input type="hidden" name="image" value="<?php echo $product['image']; ?>">
                         <input type="hidden" name="co2" value="<?php echo isset($product['co2_saved']) ? $product['co2_saved'] : 0; ?>">
                         
-                        <button type="submit" class="btn-main">
-                            <i class="fas fa-shopping-basket"></i> <?php echo isset($text['add_cart']) ? $text['add_cart'] : 'Add'; ?>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <label style="font-weight: 600; color: #333;">Qty:</label>
+                            <input type="number" name="quantity" value="1" min="1" max="<?php echo $product['stock']; ?>" 
+                                   style="width: 80px; padding: 10px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 16px; font-weight: 600; text-align: center;">
+                        </div>
+                        
+                        <button type="submit" class="btn-main" style="flex: 1;">
+                            <i class="fas fa-shopping-basket"></i> <?php echo isset($text['add_cart']) ? $text['add_cart'] : 'Add to Cart'; ?>
                         </button>
                     </form>
                 <?php else: ?>

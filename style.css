@@ -2894,6 +2894,177 @@ tr.order-row {
 }
 
 /* =========================================
+   SELLER PROFILE PAGE
+   ========================================= */
+.seller-profile-header {
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+    margin-bottom: 40px;
+}
+
+.seller-profile-banner {
+    height: 200px;
+    background: linear-gradient(135deg, var(--green-600) 0%, var(--green-800) 100%);
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.seller-profile-avatar {
+    width: 120px;
+    height: 120px;
+    background: white;
+    border-radius: 50%;
+    border: 5px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--green-700);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    margin-bottom: -60px;
+    z-index: 10;
+    position: relative;
+}
+
+.seller-profile-info {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 20px 40px;
+    text-align: center;
+}
+
+.seller-profile-name {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1a4d2e;
+    margin-bottom: 15px;
+    font-family: 'Playfair Display', serif;
+}
+
+.seller-profile-meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.meta-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #dcfce7;
+    color: #15803d;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #666;
+    font-size: 14px;
+}
+
+.meta-item i {
+    color: #1a4d2e;
+}
+
+.seller-profile-bio {
+    max-width: 700px;
+    margin: 0 auto;
+    color: #555;
+    font-size: 15px;
+    line-height: 1.6;
+    font-style: italic;
+}
+
+.section-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a4d2e;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Playfair Display', serif;
+}
+
+.section-title i {
+    color: var(--green-600);
+    font-size: 20px;
+}
+
+.error-container {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.error-content {
+    text-align: center;
+    background: white;
+    padding: 60px 40px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    max-width: 500px;
+}
+
+.btn-primary {
+    background: var(--green-600);
+    color: white;
+    padding: 12px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: var(--green-700);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(26, 77, 46, 0.3);
+}
+
+@media (max-width: 768px) {
+    .seller-profile-banner {
+        height: 150px;
+    }
+    
+    .seller-profile-avatar {
+        width: 100px;
+        height: 100px;
+        font-size: 40px;
+        margin-bottom: -50px;
+    }
+    
+    .seller-profile-info {
+        padding: 70px 20px 30px;
+    }
+    
+    .seller-profile-name {
+        font-size: 24px;
+    }
+    
+    .seller-profile-meta {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* =========================================
    PRODUCT DETAIL PAGE
    ========================================= */
 .product-detail-body {
