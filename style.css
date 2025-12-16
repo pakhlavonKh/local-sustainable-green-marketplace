@@ -42,12 +42,55 @@ body {
     flex-direction: column;
 }
 
-/* Layout Utility */
+/* =========================================
+   UTILITY CLASSES
+   ========================================= */
 .container {
     max-width: 1300px;
     margin: 0 auto;
     padding: 0 20px;
 }
+
+/* Common Button Base Styles */
+.btn {
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    font-family: inherit;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Grid Utilities */
+.grid {
+    display: grid;
+    gap: 20px;
+}
+
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+@media (max-width: 768px) {
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+}
+
+/* Flex Utilities */
+.flex { display: flex; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.gap-1 { gap: 10px; }
+.gap-2 { gap: 20px; }
+.gap-3 { gap: 30px; }
 
 /* =========================================
    NAVBAR (Chic Forest Green)
@@ -477,76 +520,8 @@ body {
     gap: 30px;
     padding: 40px 0;
 }
-.product-card {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: var(--shadow);
-    display: flex;
-    flex-direction: column;
-    cursor: pointer;
-}
-.product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-lg);
-}
-.card-image-wrapper {
-    height: 250px;
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-    background-color: #f9f9f9;
-}
-.card-image-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.6s ease;
-}
-.product-card:hover .card-image-wrapper img {
-    transform: scale(1.08);
-}
-.card-info {
-    padding: 15px;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-}
-.card-title {
-    font-size: 1.1rem;
-    margin-bottom: 5px;
-    color: #333;
-    font-weight: 600;
-}
-.card-price {
-    font-size: 1.2rem;
-    color: var(--green-600);
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-.seller-tag {
-    font-size: 0.85rem;
-    color: #888;
-    margin-bottom: 15px;
-}
-.card-actions {
-    margin-top: auto;
-    display: flex;
-    gap: 10px;
-}
-.btn-success {
-    background: var(--green-500);
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: 500;
-    width: 100%;
-    transition: background 0.2s;
-}
-.btn-success:hover { background: var(--green-600); }
+
+/* Product card styles are defined in UNIFIED PRODUCT CARD section below */
 
 /* Footer */
 footer {
@@ -967,37 +942,7 @@ footer {
     white-space: nowrap;
 }
 
-/* =========================================
-   WISHLIST / HEART BUTTON
-   ========================================= */
-.wishlist-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: white;
-    border: none;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    z-index: 10;
-    transition: all 0.3s;
-    color: #666;
-}
-.wishlist-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-}
-.wishlist-btn i.fas {
-    color: #e53e3e;
-}
-.wishlist-btn i {
-    font-size: 18px;
-}
+/* Wishlist button styles moved to UNIFIED PRODUCT CARD section */
 
 /* =========================================
    PRODUCT SHOWCASE CAROUSEL (Home)
@@ -1067,6 +1012,7 @@ footer {
 
 /* ============================================
    UNIFIED PRODUCT CARD - Used everywhere
+   Supports both <img> tags and background-image divs
    ============================================ */
 .product-card {
     flex: 0 0 auto;
@@ -1088,40 +1034,80 @@ footer {
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
-.card-image-wrapper {
+
+/* Image wrappers - supports both img tags and background-image */
+.card-image-wrapper,
+.p-img-wrapper,
+.carousel-image-wrapper {
     height: 250px;
     width: 100%;
     position: relative;
     overflow: hidden;
     background: #f9f9f9;
 }
-.card-image-wrapper img {
+
+.card-image-wrapper img,
+.carousel-image-wrapper img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.6s ease;
 }
-.product-card:hover .card-image-wrapper img {
+
+.p-img {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.6s ease;
+}
+
+.product-card:hover .card-image-wrapper img,
+.product-card:hover .carousel-image-wrapper img,
+.product-card:hover .p-img {
     transform: scale(1.08);
 }
-.card-info {
+
+/* Info section */
+.card-info,
+.p-info,
+.carousel-info {
     padding: 15px;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
 }
-.card-title {
+
+.card-title,
+.p-title {
     font-size: 1rem;
     font-weight: 600;
     color: #333;
+    display: block;
     margin-bottom: 5px;
 }
-.card-price {
+
+.card-price,
+.p-price {
     font-size: 1.1rem;
     color: var(--forest-green);
     font-weight: 700;
-    margin-bottom: 8px;
 }
+
+.p-seller {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.p-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+
 .card-meta {
     font-size: 0.85rem;
     color: #888;
@@ -1129,9 +1115,12 @@ footer {
     align-items: center;
     gap: 5px;
 }
+
 .card-meta i {
     color: #22c55e;
 }
+
+/* Badges and buttons */
 .badge-low-stock {
     position: absolute;
     top: 10px;
@@ -1143,43 +1132,6 @@ footer {
     border-radius: 4px;
     font-weight: bold;
     z-index: 5;
-}
-
-/* Image wrapper for product cards with background-image */
-.p-img-wrapper {
-    height: 250px;
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-    background: #f9f9f9;
-}
-
-.p-img {
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    transition: transform 0.6s ease;
-}
-
-.product-card:hover .p-img {
-    transform: scale(1.08);
-}
-
-/* Info section for product cards */
-.p-info {
-    padding: 15px;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.p-title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #333;
-    display: block;
-    margin-bottom: 5px;
 }
 
 .wishlist-btn {
@@ -1210,38 +1162,55 @@ footer {
     font-size: 16px;
 }
 
+.wishlist-btn i.fas {
+    color: #e53e3e;
+}
+
 .wishlist-btn.active i {
     font-weight: 900;
 }
 
-/* Showcase arrows */
-.scroll-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 45px;
-    height: 45px;
-    background: white;
-    border: 1px solid #eee;
+.add-btn {
+    background: #f3f4f6;
+    color: #333;
+    border: none;
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    z-index: 10;
-    transition: all 0.3s ease;
-    color: var(--forest-green);
+    transition: 0.2s;
 }
-.scroll-btn:hover {
-    background: var(--forest-green);
-    color: white;
-    border-color: var(--forest-green);
-}
-.scroll-left { left: -20px; }
-.scroll-right { right: -20px; }
 
-/* =========================================
+.add-btn:hover {
+    background: #1a4d2e;
+    color: white;
+}
+
+.btn-delete-overlay {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: white;
+    color: #ef4444;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    cursor: pointer;
+    transition: 0.2s;
+    text-decoration: none;
+}
+
+.btn-delete-overlay:hover {
+    background: #ef4444;
+    color: white========================
    GENERIC PRODUCT CAROUSEL (You Might Be Interested In)
    Uses .carousel-track + dots
    ========================================= */
@@ -1913,68 +1882,7 @@ footer {
 
 /* Product card styles now unified above - see UNIFIED PRODUCT CARD section */
 
-/* Delete Button (Only for Owner) */
-.btn-delete-overlay {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: white;
-    color: #ef4444;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    z-index: 10;
-    cursor: pointer;
-    transition: 0.2s;
-    text-decoration: none;
-}
-
-.btn-delete-overlay:hover {
-    background: #ef4444;
-    color: white;
-}
-
-.p-seller {
-    font-size: 12px;
-    color: #888;
-    margin-bottom: 10px;
-}
-
-.p-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: auto;
-}
-
-.p-price {
-    font-size: 18px;
-    font-weight: 800;
-    color: #1a4d2e;
-}
-
-.add-btn {
-    background: #f3f4f6;
-    color: #333;
-    border: none;
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.add-btn:hover {
-    background: #1a4d2e;
-    color: white;
-}
+/* Product card button styles moved to UNIFIED PRODUCT CARD section */
 
 /* Wishlist Popup */
 .wishlist-popup {
