@@ -37,7 +37,7 @@ $products_db = [
         'title'=>'Ripe Avocados', 'title_tr'=>'Olgun Avokado',
         'price'=>45.00, 'stock'=>10, 
         'desc'=>'Creamy, perfectly ripe avocados from the Mediterranean coast.',
-        'image'=>'https://images.unsplash.com/photo-1523049673856-38866ea6c0d1?w=500',
+        'image'=>'https://i.pinimg.com/736x/a8/32/dc/a832dc4c3c955171786001198ce539f5.jpg',
         'delivery_mode'=>'cargo', 'packaging_type'=>'recycled', 'location'=>'Antalya',
         'seller_name'=>'Sunny Groves', 'seller_id'=>110, 'distance'=>'500 km', 'co2_saved'=>'0.1'
     ],
@@ -46,7 +46,7 @@ $products_db = [
         'title'=>'Cherry Tomatoes', 'title_tr'=>'Çeri Domates',
         'price'=>18.00, 'stock'=>40, 
         'desc'=>'Sweet and juicy cherry tomatoes, perfect for salads.',
-        'image'=>'https://images.unsplash.com/photo-1561136594-7f68413baa99?w=500',
+        'image'=>'https://i.pinimg.com/736x/59/51/13/595113f5bf672c3288bb5eac92e6bcb7.jpg',
         'delivery_mode'=>'bike', 'packaging_type'=>'plastic_free', 'location'=>'Sariyer',
         'seller_name'=>'City Greenhouse', 'seller_id'=>111, 'distance'=>'12 km', 'co2_saved'=>'0.4'
     ],
@@ -57,7 +57,7 @@ $products_db = [
         'title'=>'Free Range Eggs', 'title_tr'=>'Gezen Tavuk Yumurtası',
         'price'=>45.00, 'stock'=>20, 
         'desc'=>'Farm-fresh eggs from happy, free-roaming chickens.',                   
-        'image'=>'https://images.unsplash.com/photo-1511690656952-34342d5c2899?w=500',
+        'image'=>'https://i.pinimg.com/1200x/20/e5/35/20e5351bb7012cd0f28b660fdfeb9e7f.jpg',
         'delivery_mode'=>'walk', 'packaging_type'=>'recycled', 'location'=>'Moda',
         'seller_name'=>'Happy Hen Coop', 'seller_id'=>103, 'distance'=>'1.2 km', 'co2_saved'=>'0.8'
     ],
@@ -84,7 +84,7 @@ $products_db = [
         'title'=>'Greek Yogurt', 'title_tr'=>'Süzme Yoğurt',
         'price'=>35.00, 'stock'=>15, 
         'desc'=>'Thick and creamy traditional yogurt.',
-        'image'=>'https://images.unsplash.com/photo-1488477181946-6428a029177b?w=500',
+        'image'=>'https://i.pinimg.com/736x/6c/1e/9a/6c1e9a24ad599212c76b3bd1de0c1fa9.jpg',
         'delivery_mode'=>'bike', 'packaging_type'=>'glass', 'location'=>'Besiktas',
         'seller_name'=>'Yogurt Mama', 'seller_id'=>113, 'distance'=>'6 km', 'co2_saved'=>'0.5'
     ],
@@ -104,7 +104,7 @@ $products_db = [
         'title'=>'Sourdough Bread', 'title_tr'=>'Ekşi Mayalı Ekmek',
         'price'=>35.00, 'stock'=>5,  
         'desc'=>'Artisanal sourdough bread with a perfect crust.',                       
-        'image'=>'https://images.unsplash.com/photo-1585476263060-b55d7612e69a?w=500',
+        'image'=>'https://i.pinimg.com/1200x/e1/b9/c6/e1b9c6aabac12aa71f5260a449468eb9.jpg',
         'delivery_mode'=>'cargo', 'packaging_type'=>'standard', 'location'=>'Beyoglu',
         'seller_name'=>'Pera Bakery', 'seller_id'=>105, 'distance'=>'8.0 km', 'co2_saved'=>'0.1'
     ],
@@ -113,7 +113,7 @@ $products_db = [
         'title'=>'Simit (Sesame Ring)', 'title_tr'=>'Simit',
         'price'=>10.00, 'stock'=>50, 
         'desc'=>'Freshly baked Turkish sesame bagel.',
-        'image'=>'https://images.unsplash.com/photo-1621262659368-e67c88029272?w=500',
+        'image'=>'https://i.pinimg.com/736x/2d/52/7f/2d527f0863a5aeec0bad3df8be32def5.jpg',
         'delivery_mode'=>'walk', 'packaging_type'=>'paper', 'location'=>'Karakoy',
         'seller_name'=>'Uncle Simit', 'seller_id'=>115, 'distance'=>'2 km', 'co2_saved'=>'0.9'
     ],
@@ -140,7 +140,7 @@ $products_db = [
         'title'=>'Oatmeal Cookies', 'title_tr'=>'Yulaflı Kurabiye',
         'price'=>30.00, 'stock'=>20, 
         'desc'=>'Homemade cookies with oats and raisins.',
-        'image'=>'https://images.unsplash.com/photo-1499636138143-bd630f5cf38b?w=500',
+        'image'=>'https://i.pinimg.com/736x/78/6f/9f/786f9fe9f5fe6b06269c72c4ac2d56fa.jpg',
         'delivery_mode'=>'cargo', 'packaging_type'=>'recycled', 'location'=>'Kadikoy',
         'seller_name'=>'Grandma\'s Oven', 'seller_id'=>118, 'distance'=>'3 km', 'co2_saved'=>'0.4'
     ],
@@ -151,7 +151,7 @@ $products_db = [
         'title'=>'Honey Jar', 'title_tr'=>'Bal Kavanozu',
         'price'=>85.00, 'stock'=>12, 
         'desc'=>'Pure, raw honey from local wildflowers.',                               
-        'image'=>'https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=500',
+        'image'=>'https://i.pinimg.com/736x/d5/d2/26/d5d226d0eff9708d5dcc324888daa6be.jpg',
         'delivery_mode'=>'cargo', 'packaging_type'=>'plastic_free', 'location'=>'Sariyer',
         'seller_name'=>'Bee Natural', 'seller_id'=>106, 'distance'=>'12.5 km', 'co2_saved'=>'0.2'
     ],
@@ -169,7 +169,7 @@ $products_db = [
         'title'=>'Dried Apricots', 'title_tr'=>'Kuru Kayısı',
         'price'=>60.00, 'stock'=>25, 
         'desc'=>'Sun-dried apricots with no added sugar.',
-        'image'=>'https://images.unsplash.com/photo-1596558697693-4e4b77f9cd4d?w=500',
+        'image'=>'https://i.pinimg.com/736x/a0/56/b9/a056b936e98b3504d039b74c5b82fa15.jpg',
         'delivery_mode'=>'cargo', 'packaging_type'=>'plastic_free', 'location'=>'Malatya',
         'seller_name'=>'Sun Dry', 'seller_id'=>120, 'distance'=>'800 km', 'co2_saved'=>'0.1'
     ],
@@ -178,7 +178,7 @@ $products_db = [
         'title'=>'Red Lentils', 'title_tr'=>'Kırmızı Mercimek',
         'price'=>25.00, 'stock'=>40, 
         'desc'=>'Organic red lentils, great for soups.',
-        'image'=>'https://images.unsplash.com/photo-1515543904379-3d757afe72e3?w=500',
+        'image'=>'https://i.pinimg.com/736x/e6/12/3a/e6123a2556c975587b39faab4d5566d1.jpg',
         'delivery_mode'=>'cargo', 'packaging_type'=>'paper', 'location'=>'Gaziantep',
         'seller_name'=>'Anatolia Grains', 'seller_id'=>121, 'distance'=>'900 km', 'co2_saved'=>'0.1'
     ],
@@ -187,7 +187,7 @@ $products_db = [
         'title'=>'Walnuts', 'title_tr'=>'Ceviz',
         'price'=>120.00, 'stock'=>15, 
         'desc'=>'Freshly shelled walnuts.',
-        'image'=>'https://images.unsplash.com/photo-1563519890692-a633633d74c3?w=500',
+        'image'=>'https://i.pinimg.com/736x/9e/e0/89/9ee08915fc37dba82dffd83a8e0eb83d.jpg',
         'delivery_mode'=>'cargo', 'packaging_type'=>'plastic_free', 'location'=>'Bursa',
         'seller_name'=>'Nut House', 'seller_id'=>122, 'distance'=>'150 km', 'co2_saved'=>'0.2'
     ],
@@ -216,7 +216,7 @@ $products_db = [
         'title'=>'Basil Plant', 'title_tr'=>'Fesleğen Bitkisi',
         'price'=>40.00, 'stock'=>5, 
         'desc'=>'Potted basil plant for your kitchen window.',
-        'image'=>'https://images.unsplash.com/photo-1618331835717-801e976710b2?w=500',
+        'image'=>'https://i.pinimg.com/1200x/78/4a/8f/784a8fa2f9e55826c4432428be208d16.jpg',
         'delivery_mode'=>'public', 'packaging_type'=>'plastic_free', 'location'=>'Besiktas',
         'seller_name'=>'City Green', 'seller_id'=>109, 'distance'=>'4 km', 'co2_saved'=>'0.6'
     ],
@@ -225,7 +225,7 @@ $products_db = [
         'title'=>'Aloe Vera', 'title_tr'=>'Aloe Vera',
         'price'=>55.00, 'stock'=>8, 
         'desc'=>'Healing succulent plant, easy to care for.',
-        'image'=>'https://images.unsplash.com/photo-1596547609652-9cf5d8d71321?w=500',
+        'image'=>'https://i.pinimg.com/736x/05/63/eb/0563eb8ec49c67915b279ce013bbe0a7.jpg',
         'delivery_mode'=>'cargo', 'packaging_type'=>'plastic_free', 'location'=>'Uskudar',
         'seller_name'=>'Plant Mom', 'seller_id'=>124, 'distance'=>'5 km', 'co2_saved'=>'0.4'
     ],
@@ -234,7 +234,7 @@ $products_db = [
         'title'=>'Lavender Soap', 'title_tr'=>'Lavanta Sabunu',
         'price'=>20.00, 'stock'=>30, 
         'desc'=>'Handmade natural soap with lavender oil.',
-        'image'=>'https://images.unsplash.com/photo-1600857062241-98e5dba7f214?w=500',
+        'image'=>'https://i.pinimg.com/1200x/db/4e/12/db4e123d312a8694921b5e38e1c30c51.jpg',
         'delivery_mode'=>'cargo', 'packaging_type'=>'paper', 'location'=>'Izmir',
         'seller_name'=>'Pure Soap', 'seller_id'=>125, 'distance'=>'350 km', 'co2_saved'=>'0.3'
     ]
