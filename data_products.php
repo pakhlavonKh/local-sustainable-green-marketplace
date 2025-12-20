@@ -255,6 +255,15 @@ $products_db = [
         'image'=>'https://i.pinimg.com/736x/67/2f/24/672f24b541ac59c81f348f1ae63c67f4.jpg',
         'delivery_mode'=>'bike', 'packaging_type'=>'glass', 'location'=>'Moda',
         'seller_name'=>'The Herbalist Co.', 'seller_id'=>110, 'distance'=>'1.9 km', 'co2_saved'=>'0,8'
+    ],
+    28=> [
+        'id' => 28, 'category' => 'beverages',
+        'title'=>'Cold Pressed Pomegranate Juice', 'title_tr'=>'Soğuk Sıkım Nar Suyu',
+        'price'=>35.00, 'stock'=>15, 
+        'desc'=>'100% pure pomegranate juice, no added sugar',
+        'image'=>'https://i.pinimg.com/736x/cf/5c/02/cf5c02e2adbeda271f9ac4abc9ddf7e3.jpg',
+        'delivery_mode'=>'bike', 'packaging_type'=>'glass_bottle', 'location'=>'Antalya',
+        'seller_name'=>'Fruit Master.', 'seller_id'=>207, 'distance'=>'0.5 km', 'co2_saved'=>'0,9'
     ]
     
 ];
