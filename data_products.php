@@ -264,6 +264,24 @@ $products_db = [
         'image'=>'https://i.pinimg.com/736x/cf/5c/02/cf5c02e2adbeda271f9ac4abc9ddf7e3.jpg',
         'delivery_mode'=>'bike', 'packaging_type'=>'glass_bottle', 'location'=>'Antalya',
         'seller_name'=>'Fruit Master.', 'seller_id'=>207, 'distance'=>'0.5 km', 'co2_saved'=>'0,9'
+    ],
+    29=> [
+        'id' => 29, 'category' => 'dairy_eggs',
+        'title'=>'Probiotic Kefir', 'title_tr'=>'Probiyotik Kefir',
+        'price'=>35.00, 'stock'=>30, 
+        'desc'=>'Fermented with live kefir grains, no additives or preservatives',
+        'image'=>'https://i.pinimg.com/736x/e7/65/73/e76573444f4b8cfd02e60c74bd5c9afb.jpg',
+        'delivery_mode'=>'bike', 'packaging_type'=>'glass_bottle', 'location'=>'Sivas',
+        'seller_name'=>'The Living Kitchen.', 'seller_id'=>560, 'distance'=>'1.2 km', 'co2_saved'=>'1.2'
+    ],
+    30=> [
+        'id' => 30, 'category' => 'dairy_eggs',
+        'title'=>' Clotted Cream', 'title_tr'=>'Kaymak',
+        'price'=>75.00, 'stock'=>22, 
+        'desc'=>'Traditionally made, thick and creamy clotted cream. Perfect for breakfast.',
+        'image'=>'https://i.pinimg.com/736x/c4/8d/a7/c48da74a8d99a35303149c0ae5d0e294.jpg',
+        'delivery_mode'=>'bike', 'packaging_type'=>'glass_jar', 'location'=>'Afyon',
+        'seller_name'=>'Golden Meadows Dairy.', 'seller_id'=>115, 'distance'=>'1.9 km', 'co2_saved'=>'0.5'
     ]
     
 ];
