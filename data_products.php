@@ -288,7 +288,7 @@ $products_db = [
         'title'=>'Heavy Cream', 'title_tr'=>'Krema',
         'price'=>45.00, 'stock'=>35, 
         'desc'=>'Rich and smooth heavy cream,perfect for sauces, soups, and desserts.',
-        'image'=>'https://i.pinimg.com/1200x/0b/88/1b/0b881b3660c158b06326aa3655b6ff9a.jpg',
+        'image'=>'https://i.pinimg.com/1200x/27/e7/68/27e7681269c6890470043a6625c46dea.jpg',
         'delivery_mode'=>'bike', 'packaging_type'=>'glass_jar', 'location'=>'Mersin',
         'seller_name'=>'Velvet Dairy Co.', 'seller_id'=>127, 'distance'=>'1.0 km', 'co2_saved'=>'0.7'
     ],
