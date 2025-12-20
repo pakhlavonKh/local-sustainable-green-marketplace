@@ -198,7 +198,7 @@ $products_db = [
         'title'=>'Organic Lemonade', 'title_tr'=>'Organik Limonata',
         'price'=>25.00, 'stock'=>20, 
         'desc'=>'Homemade lemonade with organic lemons and mint.',
-        'image'=>'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500',
+        'image'=>'https://i.pinimg.com/736x/7b/58/33/7b5833756a2877c47417e33379e40143.jpg',
         'delivery_mode'=>'walk', 'packaging_type'=>'glass', 'location'=>'Kadikoy',
         'seller_name'=>'Citrus & Co', 'seller_id'=>108, 'distance'=>'1 km', 'co2_saved'=>'0.2'
     ],
@@ -207,7 +207,7 @@ $products_db = [
         'title'=>'Kombucha', 'title_tr'=>'Kombu Çayı',
         'price'=>45.00, 'stock'=>10, 
         'desc'=>'Fermented tea drink, rich in probiotics.',
-        'image'=>'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=500',
+        'image'=>'https://i.pinimg.com/736x/50/71/35/507135eaecaf8b1a12a7421d9f29d9db.jpg',
         'delivery_mode'=>'bike', 'packaging_type'=>'glass', 'location'=>'Moda',
         'seller_name'=>'Ferment Lab', 'seller_id'=>123, 'distance'=>'2 km', 'co2_saved'=>'0.6'
     ],
@@ -237,7 +237,17 @@ $products_db = [
         'image'=>'https://i.pinimg.com/1200x/db/4e/12/db4e123d312a8694921b5e38e1c30c51.jpg',
         'delivery_mode'=>'cargo', 'packaging_type'=>'paper', 'location'=>'Izmir',
         'seller_name'=>'Pure Soap', 'seller_id'=>125, 'distance'=>'350 km', 'co2_saved'=>'0.3'
+    ],
+    26 => [
+        'id' => 26, 'category' => 'beverages',
+        'title'=>'Freshly Squeezed Orange Juice', 'title_tr'=>'Taze Sıkılmış Portakal Suyu',
+        'price'=>30.00, 'stock'=>25, 
+        'desc'=>'Daily squuezed,100% natural orange juice from local groves',
+        'image'=>'https://i.pinimg.com/736x/ee/8d/7d/ee8d7d23a124c326f4f05936a6d12d3c.jpg',
+        'delivery_mode'=>'bike', 'packaging_type'=>'glass_bottle', 'location'=>'Kadikoy',
+        'seller_name'=>'Citrus Garden', 'seller_id'=>108, 'distance'=>'1.5 km', 'co2_saved'=>'1.2'
     ]
+    
 ];
 
 // 2. TRY MONGODB CONNECTION
