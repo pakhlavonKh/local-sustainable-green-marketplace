@@ -66,7 +66,7 @@ $products_db = [
         'title'=>'Fresh Farm Milk', 'title_tr'=>'Taze Çiftlik Sütü',
         'price'=>30.00, 'stock'=>12, 
         'desc'=>'Raw, unpasteurized milk from local grass-fed cows.',
-        'image'=>'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=500',
+        'image'=>'https://i.pinimg.com/736x/51/35/b3/5135b376e824714d9430c8391f3be4c1.jpg',
         'delivery_mode'=>'bike', 'packaging_type'=>'glass', 'location'=>'Kemerburgaz',
         'seller_name'=>'Milky Way', 'seller_id'=>107, 'distance'=>'15 km', 'co2_saved'=>'0.4'
     ],
@@ -282,6 +282,24 @@ $products_db = [
         'image'=>'https://i.pinimg.com/736x/c4/8d/a7/c48da74a8d99a35303149c0ae5d0e294.jpg',
         'delivery_mode'=>'bike', 'packaging_type'=>'glass_jar', 'location'=>'Afyon',
         'seller_name'=>'Golden Meadows Dairy.', 'seller_id'=>115, 'distance'=>'1.9 km', 'co2_saved'=>'0.5'
+    ],
+    31=> [
+        'id' => 31, 'category' => 'dairy_eggs',
+        'title'=>'Heavy Cream', 'title_tr'=>'Krema',
+        'price'=>45.00, 'stock'=>35, 
+        'desc'=>'Rich and smooth heavy cream,perfect for sauces, soups, and desserts.',
+        'image'=>'https://i.pinimg.com/1200x/0b/88/1b/0b881b3660c158b06326aa3655b6ff9a.jpg',
+        'delivery_mode'=>'bike', 'packaging_type'=>'glass_jar', 'location'=>'Mersin',
+        'seller_name'=>'Velvet Dairy Co.', 'seller_id'=>127, 'distance'=>'1.0 km', 'co2_saved'=>'0.7'
+    ],
+    32=> [
+        'id' => 32, 'category' => 'dairy_eggs',
+        'title'=>'Blueberry Probiotic Yogurt', 'title_tr'=>' Yaban Mersinli Probiyotik Yoğurt ',
+        'price'=>35.00, 'stock'=>40, 
+        'desc'=>'Creamy yogurt blended with organic blueberries.',
+        'image'=>'https://i.pinimg.com/1200x/c5/1d/73/c51d739d5093bb61c4e70a6208a8c73a.jpg',
+        'delivery_mode'=>'bike', 'packaging_type'=>'glass_jar', 'location'=>'Muğla',
+        'seller_name'=>'Berry Bliss Dairy.', 'seller_id'=>132, 'distance'=>'1.3 km', 'co2_saved'=>'0.4'
     ]
     
 ];
