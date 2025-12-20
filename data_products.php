@@ -246,6 +246,15 @@ $products_db = [
         'image'=>'https://i.pinimg.com/736x/ee/8d/7d/ee8d7d23a124c326f4f05936a6d12d3c.jpg',
         'delivery_mode'=>'bike', 'packaging_type'=>'glass_bottle', 'location'=>'Kadikoy',
         'seller_name'=>'Citrus Garden', 'seller_id'=>108, 'distance'=>'1.5 km', 'co2_saved'=>'1.2'
+    ],
+    27=> [
+        'id' => 27, 'category' => 'beverages',
+        'title'=>'Hibiscus Tea', 'title_tr'=>'Hibiskus Çayı',
+        'price'=>40.00, 'stock'=>18, 
+        'desc'=>'Naturally dried hibiscus petals,rich in antioxidants and prefect for hot or cold brewing',
+        'image'=>'https://i.pinimg.com/736x/67/2f/24/672f24b541ac59c81f348f1ae63c67f4.jpg',
+        'delivery_mode'=>'bike', 'packaging_type'=>'glass', 'location'=>'Moda',
+        'seller_name'=>'The Herbalist Co.', 'seller_id'=>110, 'distance'=>'1.9 km', 'co2_saved'=>'0,8'
     ]
     
 ];
