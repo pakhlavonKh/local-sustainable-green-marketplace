@@ -10,7 +10,7 @@ $results = [];
 if ($q !== '') {
     $qLower = mb_strtolower($q, 'UTF-8');
 
-    // MongoDB Kontrolü (Orijinal kodundaki mantık)
+   
     if (function_exists('getDBConnection')) {
         $db = @getDBConnection();
         if ($db) {
@@ -29,7 +29,7 @@ if ($q !== '') {
         }
     }
 
-    // Yerel Dizi Araması (Orijinal kodundaki mantık)
+    
     if (empty($results)) {
         foreach ($products_db as $p) {
             $hay = mb_strtolower($p['title'] . ' ' . ($p['title_tr'] ?? '') . ' ' . ($p['desc'] ?? ''), 'UTF-8');
