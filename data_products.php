@@ -300,7 +300,26 @@ $products_db = [
         'image'=>'https://i.pinimg.com/1200x/c5/1d/73/c51d739d5093bb61c4e70a6208a8c73a.jpg',
         'delivery_mode'=>'bike', 'packaging_type'=>'glass_jar', 'location'=>'Muğla',
         'seller_name'=>'Berry Bliss Dairy.', 'seller_id'=>132, 'distance'=>'1.3 km', 'co2_saved'=>'0.4'
+    ],
+    33 => [
+        'id' => 33, 'category' => 'fresh_produce',
+        'title'=>'Cucumber', 'title_tr'=>'Salatalık',
+        'price'=>13.00, 'stock'=>100, 
+        'desc'=>'Freshly harvested, crunchy cucumbers grown with organic methods, ideal for salads and healthy snacks.',
+        'image'=>'https://i.pinimg.com/736x/07/19/86/0719867e48912f9da9289ed10267f59e.jpg',
+        'delivery_mode'=>'bike', 'packaging_type'=>'plastic_free', 'location'=>'Cengelkoy',
+        'seller_name'=>'Green Field Organics', 'seller_id'=>166, 'distance'=>'10 km', 'co2_saved'=>'1.2'
+    ],
+    34 => [
+        'id' => 34, 'category' => 'home_garden',
+        'title'=>'Hand-Poured Lavender Soy Candle', 'title_tr'=>'El Yapımı Lavantalı Soya Mumu',
+        'price'=>65.00, 'stock'=>17, 
+        'desc'=>'Long-lasting, eco-friendly soy wax candle infused with natural lavender essential oil, presented in a reusable glass container.',
+        'image'=>'https://i.pinimg.com/736x/f2/d5/f9/f2d5f9539d23131dd2850211d6c3f942.jpg',
+        'delivery_mode'=>'cargo', 'packaging_type'=>'plastic_free', 'location'=>'Sakarya',
+        'seller_name'=>'The Candle Atelier', 'seller_id'=>153, 'distance'=>'7 km', 'co2_saved'=>'0.3'
     ]
+    
     
 ];
 
