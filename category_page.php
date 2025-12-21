@@ -58,9 +58,12 @@ $my_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '';
 
         <!-- Search Bar -->
         <form action="search.php" method="GET" class="catalog-search-bar">
-            <input type="text" name="q"
-                placeholder="<?php echo isset($text['search_place']) ? $text['search_place'] : 'Search products...'; ?>">
-            <button type="submit"><i class="fas fa-search"></i> Search</button>
+            <input type="text" name="q" id="searchInput" oninput="liveSearch()" 
+       placeholder="<?php echo isset($text['search_place']) ? $text['search_place'] : 'Search products...'; ?>" 
+       autocomplete="off">
+           
+           
+                <button type="submit"><i class="fas fa-search"></i> Search</button>
         </form>
 
         <!-- Category Navigation -->
@@ -110,15 +113,18 @@ $my_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '';
     </div>
 
     <?php require_once 'product_card.php'; ?>
+
+<div id="search-results-container"> 
     <div class="product-grid">
         <?php if (count($filtered_products) > 0): ?>
             <?php foreach ($filtered_products as $p): ?>
                 <?php
-                // Check ownership
+                
                 $is_mine = ($is_seller && isset($p['seller_id']) && (string) $p['seller_id'] === (string) $my_id);
                 
-                // Convert to array if needed
+               
                 $product_array = is_array($p) ? $p : (array)$p;
+                
                 
                 renderProductCard($product_array, [
                     'show_wishlist' => true,
@@ -130,13 +136,12 @@ $my_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '';
             <?php endforeach; ?>
         <?php else: ?>
             <div class="empty-msg">
-                <i class="fas fa-leaf"
-                    style="font-size: 40px; margin-bottom: 20px; display:block; opacity:0.3; color: #1a4d2e;"></i>
+                <i class="fas fa-leaf" style="font-size: 40px; margin-bottom: 20px; display:block; opacity:0.3; color: #1a4d2e;"></i>
                 <p>No products found in this category.</p>
             </div>
         <?php endif; ?>
     </div>
-
+</div>
 
     <!-- SELLER MODAL -->
     <div id="addModal" class="modal">
@@ -259,6 +264,22 @@ $my_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '';
                 });
         });
     </script>
+
+  <script>
+function liveSearch() {
+    const query = document.getElementById('searchInput').value;
+    const container = document.getElementById('search-results-container');
+
+    
+    fetch('search_ajax.php?q=' + encodeURIComponent(query))
+        .then(response => response.text())
+        .then(data => {
+            
+            container.innerHTML = data;
+        })
+        .catch(err => console.error('Arama hatası:', err));
+}
+</script>
 
 </body>
 
