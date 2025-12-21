@@ -56,10 +56,10 @@ $products_db = [
         'id' => 6, 'category' => 'dairy_eggs',
         'title'=>'Free Range Eggs', 'title_tr'=>'Gezen Tavuk Yumurtası',
         'price'=>45.00, 'stock'=>20, 
-        'desc'=>'Farm-fresh eggs from happy, free-roaming chickens.',                   
+        'desc'=>'Farm-fresh eggs from golden nest, free-roaming chickens.',                   
         'image'=>'https://i.pinimg.com/1200x/20/e5/35/20e5351bb7012cd0f28b660fdfeb9e7f.jpg',
         'delivery_mode'=>'walk', 'packaging_type'=>'recycled', 'location'=>'Moda',
-        'seller_name'=>'Happy Hen Coop', 'seller_id'=>103, 'distance'=>'1.2 km', 'co2_saved'=>'0.8'
+        'seller_name'=>'The Golden Nest Farm', 'seller_id'=>103, 'distance'=>'1.2 km', 'co2_saved'=>'0.8'
     ],
     7 => [
         'id' => 7, 'category' => 'dairy_eggs',
@@ -215,7 +215,7 @@ $products_db = [
         'id' => 23, 'category' => 'home_garden',
         'title'=>'Basil Plant', 'title_tr'=>'Fesleğen Bitkisi',
         'price'=>40.00, 'stock'=>5, 
-        'desc'=>'Potted basil plant for your kitchen window.',
+        'desc'=>'Potted basil plant for kitchen window.',
         'image'=>'https://i.pinimg.com/1200x/78/4a/8f/784a8fa2f9e55826c4432428be208d16.jpg',
         'delivery_mode'=>'public', 'packaging_type'=>'plastic_free', 'location'=>'Besiktas',
         'seller_name'=>'City Green', 'seller_id'=>109, 'distance'=>'4 km', 'co2_saved'=>'0.6'
@@ -224,7 +224,7 @@ $products_db = [
         'id' => 24, 'category' => 'home_garden',
         'title'=>'Aloe Vera', 'title_tr'=>'Aloe Vera',
         'price'=>55.00, 'stock'=>8, 
-        'desc'=>'Healing succulent plant, easy to care for.',
+        'desc'=>'Low-maintenance succulent with soothing medicinal properties, planted in a decorative ceramic pot..',
         'image'=>'https://i.pinimg.com/736x/05/63/eb/0563eb8ec49c67915b279ce013bbe0a7.jpg',
         'delivery_mode'=>'cargo', 'packaging_type'=>'plastic_free', 'location'=>'Uskudar',
         'seller_name'=>'Plant Mom', 'seller_id'=>124, 'distance'=>'5 km', 'co2_saved'=>'0.4'
