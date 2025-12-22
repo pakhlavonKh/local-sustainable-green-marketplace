@@ -24,15 +24,23 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === 'seller') {
 
 <nav class="navbar">
     <div class="nav-top">
-        <div class="logo"><a href="index.php">Leaf Leaf Market</a></div>
-        
-        <div class="nav-links">
-            <a href="index.php" class="nav-link"><i class="fas fa-home"></i> <?php echo isset($text['nav_home']) ? $text['nav_home'] : 'Home'; ?></a>
-            <a href="category_page.php?category=all" class="nav-link"><i class="fas fa-th-large"></i> Catalog</a>
-            <a href="about.php" class="nav-link"><i class="fas fa-info-circle"></i> <?php echo isset($text['nav_about']) ? $text['nav_about'] : 'About'; ?></a>
+        <div class="nav-header">
+            <div class="logo"><a href="index.php">Leaf Leaf Market</a></div>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
         </div>
+        
+        <div class="nav-menu" id="navMenu">
+            <div class="nav-links">
+                <a href="index.php" class="nav-link"><i class="fas fa-home"></i> <?php echo isset($text['nav_home']) ? $text['nav_home'] : 'Home'; ?></a>
+                <a href="category_page.php?category=all" class="nav-link"><i class="fas fa-th-large"></i> Catalog</a>
+                <a href="about.php" class="nav-link"><i class="fas fa-info-circle"></i> <?php echo isset($text['nav_about']) ? $text['nav_about'] : 'About'; ?></a>
+            </div>
 
-        <div class="user-actions">
+            <div class="user-actions">
             <a href="wishlist.php" class="wishlist-icon-btn">
                 <i class="far fa-heart"></i>
                 <?php if ($wishlist_count > 0): ?>
@@ -73,8 +81,44 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === 'seller') {
                 <a href="?lang=tr" class="lang-link <?php echo ($_SESSION['lang'] == 'tr') ? 'active' : ''; ?>" title="Türkçe">TR</a>
             </div>
         </div>
+        </div>
     </div>
 </nav>
+
+<script>
+// Mobile menu toggle functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const menuToggle = document.getElementById('mobileMenuToggle');
+    const navMenu = document.getElementById('navMenu');
+    
+    if (menuToggle && navMenu) {
+        menuToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+            document.body.classList.toggle('menu-open');
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.nav-top')) {
+                navMenu.classList.remove('active');
+                menuToggle.classList.remove('active');
+                document.body.classList.remove('menu-open');
+            }
+        });
+        
+        // Close menu when clicking on a nav link
+        const navLinks = navMenu.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navMenu.classList.remove('active');
+                menuToggle.classList.remove('active');
+                document.body.classList.remove('menu-open');
+            });
+        });
+    }
+});
+</script>
 
 <?php if ($cart_notice): ?>
     <div class="toast-stack" aria-live="polite" aria-atomic="true">

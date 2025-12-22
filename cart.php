@@ -21,6 +21,7 @@ $phones_charged = ($total_co2 > 0) ? floor($total_co2 / 0.015) : 0;
 <html lang="<?php echo $_SESSION['lang']; ?>">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo isset($text['cart_title']) ? $text['cart_title'] : 'Basket'; ?> - Leaf Market</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🍃</text></svg>">
     <link rel="stylesheet" href="style.css?v=26">
