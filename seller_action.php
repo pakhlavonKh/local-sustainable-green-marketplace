@@ -38,6 +38,31 @@ if ($db) {
             $productsCollection->insertOne($newProduct);
         }
 
+        // UPDATE PRODUCT
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] == 'update') {
+            $updateData = [
+                'title' => $_POST['title'],
+                'title_tr' => $_POST['title'],
+                'category' => $_POST['category'],
+                'price' => (float)$_POST['price'],
+                'stock' => (int)$_POST['stock']
+            ];
+            
+            // Only update image if provided
+            if (!empty($_POST['image_id'])) {
+                $imgId = trim($_POST['image_id']);
+                $updateData['image'] = "https://images.unsplash.com/photo-" . $imgId . "?auto=format&fit=crop&w=500&q=80";
+            }
+            
+            $productsCollection->updateOne(
+                [
+                    'id' => (int)$_POST['product_id'],
+                    'seller_id' => (string)$_SESSION['user_id']
+                ],
+                ['$set' => $updateData]
+            );
+        }
+
         // DELETE PRODUCT
         if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
             $productsCollection->deleteOne([

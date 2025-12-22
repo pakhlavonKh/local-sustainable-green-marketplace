@@ -108,6 +108,48 @@ if ($db) {
         </form>
     </div>
 </div>
+
+<!-- EDIT MODAL -->
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="document.getElementById('editModal').style.display='none'">&times;</span>
+        <h2 style="margin-top:0; color:#1a4d2e; font-family:'Playfair Display', serif;">Edit Product</h2>
+        <form action="seller_action.php" method="POST">
+            <input type="hidden" name="action" value="update">
+            <input type="hidden" name="product_id" id="edit_product_id">
+            <div class="form-group"><label class="form-label">Product Name</label><input type="text" name="title" id="edit_title" class="form-input" required></div>
+            <div class="form-group"><label class="form-label">Category</label>
+                <select name="category" id="edit_category" class="form-input">
+                    <option value="fresh_produce">Fresh Produce</option>
+                    <option value="dairy_eggs">Dairy & Eggs</option>
+                    <option value="bakery">Bakery</option>
+                    <option value="pantry">Pantry</option>
+                    <option value="beverages">Beverages</option>
+                    <option value="home_garden">Home & Garden</option>
+                </select>
+            </div>
+            <div style="display:flex; gap:20px;">
+                <div class="form-group" style="flex:1;"><label class="form-label">Price</label><input type="number" name="price" id="edit_price" step="0.01" class="form-input" required></div>
+                <div class="form-group" style="flex:1;"><label class="form-label">Stock</label><input type="number" name="stock" id="edit_stock" class="form-input" required></div>
+            </div>
+            <div class="form-group"><label class="form-label">Unsplash Image ID (leave empty to keep current)</label><input type="text" name="image_id" id="edit_image_id" class="form-input" placeholder="e.g. 1560806887-1e4cd0b6cbd6"></div>
+            <button type="submit" class="btn-action">Update Product</button>
+        </form>
+    </div>
+</div>
+
+<script>
+function openEditModal(id, product) {
+    document.getElementById('edit_product_id').value = id;
+    document.getElementById('edit_title').value = product.title;
+    document.getElementById('edit_category').value = product.category;
+    document.getElementById('edit_price').value = product.price;
+    document.getElementById('edit_stock').value = product.stock;
+    document.getElementById('edit_image_id').value = '';
+    document.getElementById('editModal').style.display = 'block';
+}
+</script>
+
 <?php include 'footer.php'; ?>
 </body>
 </html>

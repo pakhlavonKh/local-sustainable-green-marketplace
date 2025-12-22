@@ -2,12 +2,33 @@
 // API endpoint to fetch product details for modal
 session_start();
 require_once 'lang_config.php';
-require_once 'data_products.php';
+require_once 'db_connect.php';
 
 header('Content-Type: application/json');
 
 $product_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-$product = isset($products_db[$product_id]) ? $products_db[$product_id] : null;
+
+// Try to get product from MongoDB
+$db = getDBConnection();
+$product = null;
+
+if ($db) {
+    try {
+        $collection = $db->products;
+        $product = $collection->findOne(['id' => $product_id]);
+        if ($product) {
+            $product = (array)$product;
+        }
+    } catch (Exception $e) {
+        error_log('Error fetching product: ' . $e->getMessage());
+    }
+}
+
+// Fallback to data_products.php if MongoDB fails
+if (!$product) {
+    require_once 'data_products.php';
+    $product = isset($products_db[$product_id]) ? $products_db[$product_id] : null;
+}
 
 if (!$product) {
     echo json_encode(['error' => 'Product not found']);

@@ -78,7 +78,7 @@ if ($seller_identifier && $db) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $seller ? $seller['name'] : 'Seller'; ?> - Leaf Market</title>
+    <title><?php echo $seller ? ($seller['name'] ?? $seller['username'] ?? 'Seller') : 'Seller'; ?> - Leaf Market</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🍃</text></svg>">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -91,15 +91,19 @@ if ($seller_identifier && $db) {
 <?php include 'navbar.php'; ?>
 
 <?php if ($seller): ?>
+    <?php 
+        $seller_name = $seller['name'] ?? $seller['username'] ?? 'Seller';
+        $seller_initials = strtoupper(substr($seller_name, 0, 2));
+    ?>
     <div class="seller-profile-header">
         <div class="seller-profile-banner">
             <div class="seller-profile-avatar">
-                <?php echo strtoupper(substr($seller['username'], 0, 2)); ?>
+                <?php echo $seller_initials; ?>
             </div>
         </div>
         
         <div class="seller-profile-info">
-            <h1 class="seller-profile-name"><?php echo htmlspecialchars($seller['username']); ?></h1>
+            <h1 class="seller-profile-name"><?php echo htmlspecialchars($seller_name); ?></h1>
             <div class="seller-profile-meta">
                 <span class="meta-badge">
                     <i class="fas fa-check-circle"></i> 

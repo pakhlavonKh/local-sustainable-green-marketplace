@@ -1,8 +1,29 @@
 <?php
 require_once 'lang_config.php';
-require_once 'data_products.php';
+require_once 'db_connect.php';
 
-$carousel_items = array_values($products_db);
+// Try to load from MongoDB first
+$carousel_items = [];
+$db = getDBConnection();
+
+if ($db) {
+    try {
+        $collection = $db->products;
+        $cursor = $collection->find([], ['limit' => 50]);
+        foreach ($cursor as $doc) {
+            $carousel_items[] = (array)$doc;
+        }
+    } catch (Exception $e) {
+        error_log('Carousel MongoDB error: ' . $e->getMessage());
+    }
+}
+
+// Fallback to data_products.php if MongoDB fails
+if (empty($carousel_items)) {
+    require_once 'data_products.php';
+    $carousel_items = array_values($products_db);
+}
+
 shuffle($carousel_items);
 $carousel_items = array_slice($carousel_items, 0, 12);
 

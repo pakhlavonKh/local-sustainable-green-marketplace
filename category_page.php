@@ -3,7 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 require_once 'lang_config.php';
-require_once 'data_products.php';
+require_once 'db_connect.php';
 
 // 1. Get Category from URL
 $cat_slug = isset($_GET['category']) ? $_GET['category'] : 'all';
@@ -21,12 +21,31 @@ $cat_titles = [
 
 $page_title = isset($cat_titles[$cat_slug]) ? $cat_titles[$cat_slug] : 'Category';
 
-// 3. Filter Products
+// 3. Load products from MongoDB first
 $filtered_products = [];
-if (isset($products_db) && is_array($products_db)) {
-    foreach ($products_db as $p) {
-        if ($cat_slug == 'all' || (isset($p['category']) && $p['category'] == $cat_slug)) {
-            $filtered_products[] = $p;
+$db = getDBConnection();
+
+if ($db) {
+    try {
+        $collection = $db->products;
+        $query = ($cat_slug == 'all') ? [] : ['category' => $cat_slug];
+        $cursor = $collection->find($query);
+        foreach ($cursor as $doc) {
+            $filtered_products[] = (array)$doc;
+        }
+    } catch (Exception $e) {
+        error_log('Category page MongoDB error: ' . $e->getMessage());
+    }
+}
+
+// Fallback to data_products.php if MongoDB fails
+if (empty($filtered_products)) {
+    require_once 'data_products.php';
+    if (isset($products_db) && is_array($products_db)) {
+        foreach ($products_db as $p) {
+            if ($cat_slug == 'all' || (isset($p['category']) && $p['category'] == $cat_slug)) {
+                $filtered_products[] = $p;
+            }
         }
     }
 }

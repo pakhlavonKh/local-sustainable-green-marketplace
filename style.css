@@ -1207,25 +1207,51 @@ footer {
     color: white;
 }
 
-.btn-delete-overlay {
+.product-actions-overlay {
     position: absolute;
     top: 10px;
     right: 10px;
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+}
+
+.btn-delete-overlay,
+.btn-edit-overlay {
     background: white;
-    color: #ef4444;
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    z-index: 10;
     cursor: pointer;
-    transition: 0.2s;
+    transition: all 0.2s;
     text-decoration: none;
+    border: none;
+    font-size: 14px;
 }
 
+.btn-delete-overlay {
+    color: #ef4444;
+}
+
+.btn-delete-overlay:hover {
+    background: #ef4444;
+    color: white;
+    transform: scale(1.1);
+}
+
+.btn-edit-overlay {
+    color: #2563eb;
+}
+
+.btn-edit-overlay:hover {
+    background: #2563eb;
+    color: white;
+    transform: scale(1.1);
+}
 
 /* Header inside generic carousel */
 .carousel-header {
@@ -2084,10 +2110,168 @@ footer {
     flex-direction: column;
 }
 
+/* Eco Dashboard (used in modal) */
+.eco-dashboard {
+    background: #f8fafc;
+    padding: 20px;
+    border-radius: 15px;
+    margin: 20px 0;
+    border: 1px solid #e2e8f0;
+}
+
+.eco-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #1e293b;
+}
+
+.eco-bar-bg {
+    height: 12px;
+    background: #e2e8f0;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.eco-bar-fill {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 1s ease-in-out;
+}
+
+.eco-high .eco-bar-fill {
+    background: linear-gradient(90deg, #4ade80, #16a34a);
+}
+
+.eco-med .eco-bar-fill {
+    background: linear-gradient(90deg, #facc15, #ca8a04);
+}
+
+.eco-low .eco-bar-fill {
+    background: linear-gradient(90deg, #f87171, #dc2626);
+}
+
+.co2-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #dcfce7;
+    color: #15803d;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 20px;
+}
+
+/* Seller Card (used in modal) */
+.seller-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    margin: 20px 0;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s;
+}
+
+.seller-card:hover {
+    transform: translateY(-2px);
+    border-color: #1a4d2e;
+}
+
+.seller-icon {
+    width: 45px;
+    height: 45px;
+    background: #f3f4f6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1a4d2e;
+    font-size: 20px;
+}
+
+/* Button Styles (used in modal) */
+.btn-main {
+    padding: 15px 40px;
+    background: #1a4d2e;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.btn-main:hover {
+    background: #143d23;
+    transform: translateY(-2px);
+}
+
+.btn-main:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Reviews Section (used in modal) */
 .modal-reviews-section {
     margin-top: 40px;
     padding-top: 30px;
     border-top: 2px solid #e5e7eb;
+}
+
+.review-card {
+    background: #f9fafb;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    border-left: 4px solid #1a4d2e;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.review-user {
+    font-weight: bold;
+    color: #333;
+}
+
+.review-stars {
+    color: #f59e0b;
+    font-size: 14px;
+}
+
+.review-comment {
+    color: #555;
+    line-height: 1.5;
+    font-style: italic;
+}
+
+.verified-badge {
+    background: #dcfce7;
+    color: #15803d;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    margin-left: 8px;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 /* Responsive Modal */
@@ -2123,8 +2307,16 @@ footer {
     right: 20px;
     top: 15px;
     font-size: 28px;
+    font-weight: bold;
+    line-height: 1;
     cursor: pointer;
     color: #999;
+    transition: color 0.2s;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: #1a4d2e;
 }
 
 .form-group {
@@ -3042,74 +3234,6 @@ tr.order-row {
     color: white;
 }
 
-/* CONTENT */
-.seller-card {
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    position: relative;
-    border: 1px solid #f0f0f0;
-    transition: transform 0.2s;
-}
-
-.seller-card:hover {
-    transform: translateY(-3px);
-}
-
-.sc-img {
-    height: 160px;
-    background-size: cover;
-    background-position: center;
-}
-
-.sc-info {
-    padding: 15px;
-}
-
-.sc-title {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 5px;
-    font-size: 15px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.sc-price {
-    color: #1a4d2e;
-    font-weight: bold;
-}
-
-.btn-delete {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: white;
-    color: #ef4444;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: 0.2s;
-}
-
-.btn-delete:hover {
-    background: #ef4444;
-    color: white;
-}
-
-@media (max-width: 900px) {
-    .seller-container {
-        grid-template-columns: 1fr;
-    }
-}
-
 /* =========================================
    SELLER PROFILE PAGE
    ========================================= */
@@ -3593,21 +3717,6 @@ tr.order-row {
         opacity: 1;
         transform: translateY(0);
     }
-}
-
-.close-btn {
-    color: #aaa;
-    float: right;
-    font-size: 32px;
-    font-weight: bold;
-    line-height: 1;
-    cursor: pointer;
-    transition: color 0.2s;
-}
-
-.close-btn:hover,
-.close-btn:focus {
-    color: #1a4d2e;
 }
 
 .modal-content h2 {

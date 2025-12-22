@@ -70,11 +70,18 @@ function renderProductCard($product, $options = []) {
             <?php endif; ?>
             
             <?php if ($options['show_delete'] || $options['is_owner']): ?>
-                <a href="seller_action.php?action=delete&id=<?php echo $id; ?><?php echo $options['redirect_after_delete'] ? '&redirect=' . urlencode($options['redirect_after_delete']) : ''; ?>" 
-                   class="btn-delete-overlay" 
-                   onclick="event.stopPropagation(); return confirm('Delete this product?');">
-                    <i class="fas fa-trash"></i>
-                </a>
+                <div class="product-actions-overlay">
+                    <button class="btn-edit-overlay" 
+                            onclick="event.stopPropagation(); openEditModal(<?php echo $id; ?>, <?php echo htmlspecialchars(json_encode($product), ENT_QUOTES, 'UTF-8'); ?>);"
+                            title="Edit product">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <a href="seller_action.php?action=delete&id=<?php echo $id; ?><?php echo $options['redirect_after_delete'] ? '&redirect=' . urlencode($options['redirect_after_delete']) : ''; ?>" 
+                       class="btn-delete-overlay" 
+                       onclick="event.stopPropagation(); return confirm('Delete this product?');">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </div>
             <?php endif; ?>
             
             <?php if ($stock < 5 && $stock > 0): ?>
@@ -96,8 +103,8 @@ function renderProductCard($product, $options = []) {
             <div>
                 <span class="p-title"><?php echo htmlspecialchars($display_title); ?></span>
                 <span class="p-seller">by <?php echo htmlspecialchars($seller_name); ?></span>
-                <?php if ($stock > 0 && $stock < 20): ?>
-                    <span class="stock-indicator" style="font-size: 11px; color: #666; display: block; margin-top: 2px;">
+                <?php if ($stock > 0): ?>
+                    <span class="stock-indicator" style="font-size: 11px; color: <?php echo $stock < 10 ? '#d97706' : '#16a34a'; ?>; display: block; margin-top: 2px;">
                         <i class="fas fa-box"></i> <?php echo $stock; ?> in stock
                     </span>
                 <?php elseif ($stock == 0): ?>
