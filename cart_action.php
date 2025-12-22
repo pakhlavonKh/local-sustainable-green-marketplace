@@ -13,9 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['a
     
     // SECURITY CHECK: Are you logged in?
     if (!isset($_SESSION['user_id'])) {
-        // If not logged in, go to Login, but set the "Return To" address to where they currently are
-        // This ensures they come back to Home/Category after login, not just the product page
-        $current_page = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "product_detail.php?id=" . $id;
+        $current_page = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "index.php";
         header("Location: login.php?redirect=" . urlencode($current_page));
         exit();
     }
@@ -64,13 +62,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['a
         'message' => sprintf('%s added to your basket', strip_tags($title))
     ];
     
-    // --- FIX: SMART REDIRECT ---
-    // Instead of forcing product_detail.php, we go back to wherever the user clicked the button.
-    // If they were on Home, they stay on Home. If on Category, they stay on Category.
     if (isset($_SERVER['HTTP_REFERER'])) {
         header("Location: " . $_SERVER['HTTP_REFERER']);
     } else {
-        header("Location: index.php"); // Fallback
+        header("Location: index.php");
     }
     exit();
 }

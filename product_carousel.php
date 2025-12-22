@@ -33,7 +33,7 @@ $lang = $_SESSION['lang'] ?? 'en';
                 $title = $item['title_' . $lang] ?? $item['title'] ?? 'Product';
             ?>
             <div class="carousel-card">
-                <a href="product_detail.php?id=<?php echo $id; ?>" class="carousel-link">
+                <a href="javascript:void(0);" onclick="openProductModal(<?php echo $id; ?>)" class="carousel-link">
                     <div class="carousel-image-wrapper">
                         <img
                             src="<?php echo htmlspecialchars($img); ?>"

@@ -151,24 +151,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $db) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="checkout-page-body">
-        body { font-family: 'Arial', sans-serif; background: #fdfbf7; margin: 0; color: #333; }
-        .checkout-container { max-width: 900px; margin: 40px auto; padding: 20px; display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; }
-        .box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
-        h2 { color: #1a4d2e; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-top: 0; }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; color: #555; font-size: 14px; }
-        .form-control { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box; }
-        .option-card { border: 2px solid #eee; border-radius: 10px; padding: 15px; margin-bottom: 15px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: space-between; }
-        .option-card:hover { border-color: #1a4d2e; background: #f0fdf4; }
-        .option-card input { margin-right: 15px; transform: scale(1.5); accent-color: #1a4d2e; }
-        .info-block strong { display: block; color: #333; font-size: 16px; }
-        .info-block small { color: #666; }
-        .eco-badge { background: #dcfce7; color: #166534; font-size: 11px; padding: 4px 8px; border-radius: 10px; font-weight: bold; }
-        .summary-row { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 15px; }
-        .total-row { font-weight: 800; font-size: 20px; border-top: 1px solid #eee; padding-top: 15px; margin-top: 15px; color: #1a4d2e; }
-        .btn-confirm { width: 100%; background: #1a4d2e; color: white; padding: 15px; border: none; border-radius: 30px; font-weight: 800; font-size: 18px; cursor: pointer; margin-top: 20px; transition: 0.3s; }
-        .btn-confirm:hover { background: #143d23; transform: translateY(-2px); }
-
 
 <?php if($success): ?>
     <div class="success-overlay">

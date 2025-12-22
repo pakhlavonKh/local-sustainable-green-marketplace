@@ -1,5 +1,4 @@
 <?php
-// Load the library
 require_once __DIR__ . '/vendor/autoload.php';
 
 // Simple .env loader: if a .env file exists in project root, load values into environment

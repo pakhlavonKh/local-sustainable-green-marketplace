@@ -56,7 +56,7 @@ function renderProductCard($product, $options = []) {
     
     <div class="product-card <?php echo htmlspecialchars($options['class']); ?>">
         <?php if ($options['link_to_detail']): ?>
-            <a href="product_detail.php?id=<?php echo $id; ?>" style="text-decoration:none; color:inherit;">
+            <a href="javascript:void(0);" onclick="openProductModal(<?php echo $id; ?>)" style="text-decoration:none; color:inherit;">
         <?php endif; ?>
         
         <div class="p-img-wrapper">
@@ -112,7 +112,7 @@ function renderProductCard($product, $options = []) {
                 
                 <?php if ($options['show_add_to_cart']): ?>
                     <?php if ($stock > 0): ?>
-                        <form action="cart_action.php" method="POST" onclick="event.stopPropagation();">
+                        <form action="cart_action.php" method="POST" onclick="event.stopPropagation();" onsubmit="return handleQuickAddToCart(event, <?php echo $id; ?>, '<?php echo htmlspecialchars($display_title, ENT_QUOTES); ?>');">
                             <input type="hidden" name="action" value="add">
                             <input type="hidden" name="product_id" value="<?php echo $id; ?>">
                             <input type="hidden" name="title" value="<?php echo htmlspecialchars($display_title); ?>">

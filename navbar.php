@@ -109,3 +109,13 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === 'seller') {
         })();
     </script>
 <?php endif; ?>
+
+<!-- Product Detail Modal -->
+<div id="productModal" class="product-modal" style="display: none;">
+    <div class="product-modal-content">
+        <button class="product-modal-close" onclick="closeProductModal()" aria-label="Close">&times;</button>
+        <div id="modalProductBody"></div>
+    </div>
+</div>
+
+<script src="product_modal.js"></script>
