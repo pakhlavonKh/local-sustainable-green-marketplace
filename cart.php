@@ -35,6 +35,15 @@ $phones_charged = ($total_co2 > 0) ? floor($total_co2 / 0.015) : 0;
         <a href="index.php" style="color:#666; text-decoration:none;">&larr; <?php echo isset($text['continue_shop']) ? $text['continue_shop'] : 'Continue Shopping'; ?></a>
     </div>
 
+    <?php if (isset($_SESSION['cart_notice'])): ?>
+        <div class="cart-notice <?php echo $_SESSION['cart_notice']['type']; ?>">
+            <?php 
+            echo htmlspecialchars($_SESSION['cart_notice']['message']); 
+            unset($_SESSION['cart_notice']);
+            ?>
+        </div>
+    <?php endif; ?>
+
     <?php if($item_count > 0): ?>
         <div class="impact-box">
             <div>

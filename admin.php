@@ -136,7 +136,7 @@ if ($db) {
                             <?php $p = (array)$p; // Ensure array access ?>
                             <tr>
                                 <td>#<?php echo isset($p['id']) ? $p['id'] : '?'; ?></td>
-                                <td><img src="<?php echo isset($p['image']) ? $p['image'] : ''; ?>" width="40" height="40" style="object-fit:cover; border-radius:4px;"></td>
+                                <td><img src="<?php echo isset($p['image']) && !empty($p['image']) ? $p['image'] : 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=400'; ?>" width="40" height="40" style="object-fit:cover; border-radius:4px;"></td>
                                 <td><strong><?php echo isset($p['title']) ? $p['title'] : 'Unknown'; ?></strong></td>
                                 <td><?php echo isset($p['category']) ? $p['category'] : '-'; ?></td>
                                 <td><?php echo isset($p['price']) ? $p['price'] : 0; ?> TL</td>

@@ -77,9 +77,13 @@ function renderProductCard($product, $options = []) {
                 </a>
             <?php endif; ?>
             
-            <?php if ($stock < 5): ?>
+            <?php if ($stock < 5 && $stock > 0): ?>
                 <span class="badge-low-stock">
-                    <?php echo $text['low_stock'] ?? 'Low Stock'; ?>
+                    <?php echo $text['low_stock'] ?? 'Low Stock'; ?> (<?php echo $stock; ?> left)
+                </span>
+            <?php elseif ($stock == 0): ?>
+                <span class="badge-out-of-stock">
+                    <?php echo $text['out_of_stock'] ?? 'Out of Stock'; ?>
                 </span>
             <?php endif; ?>
         </div>
@@ -92,21 +96,35 @@ function renderProductCard($product, $options = []) {
             <div>
                 <span class="p-title"><?php echo htmlspecialchars($display_title); ?></span>
                 <span class="p-seller">by <?php echo htmlspecialchars($seller_name); ?></span>
+                <?php if ($stock > 0 && $stock < 20): ?>
+                    <span class="stock-indicator" style="font-size: 11px; color: #666; display: block; margin-top: 2px;">
+                        <i class="fas fa-box"></i> <?php echo $stock; ?> in stock
+                    </span>
+                <?php elseif ($stock == 0): ?>
+                    <span class="stock-indicator" style="font-size: 11px; color: #dc2626; display: block; margin-top: 2px;">
+                        <i class="fas fa-times-circle"></i> Out of stock
+                    </span>
+                <?php endif; ?>
             </div>
             
             <div class="p-footer">
                 <span class="p-price"><?php echo number_format((float)$price, 2); ?> <?php echo htmlspecialchars($currency); ?></span>
                 
                 <?php if ($options['show_add_to_cart']): ?>
-                    <form action="cart_action.php" method="POST" onclick="event.stopPropagation();">
-                        <input type="hidden" name="action" value="add">
-                        <input type="hidden" name="product_id" value="<?php echo $id; ?>">
-                        <input type="hidden" name="title" value="<?php echo htmlspecialchars($display_title); ?>">
-                        <input type="hidden" name="price" value="<?php echo $price; ?>">
-                        <input type="hidden" name="image" value="<?php echo htmlspecialchars($image); ?>">
-                        <input type="hidden" name="co2" value="<?php echo $co2_saved; ?>">
-                        <button type="submit" class="add-btn" title="Add to Cart">+</button>
-                    </form>
+                    <?php if ($stock > 0): ?>
+                        <form action="cart_action.php" method="POST" onclick="event.stopPropagation();">
+                            <input type="hidden" name="action" value="add">
+                            <input type="hidden" name="product_id" value="<?php echo $id; ?>">
+                            <input type="hidden" name="title" value="<?php echo htmlspecialchars($display_title); ?>">
+                            <input type="hidden" name="price" value="<?php echo $price; ?>">
+                            <input type="hidden" name="image" value="<?php echo htmlspecialchars($image); ?>">
+                            <input type="hidden" name="co2" value="<?php echo $co2_saved; ?>">
+                            <input type="hidden" name="stock" value="<?php echo $stock; ?>">
+                            <button type="submit" class="add-btn" title="Add to Cart">+</button>
+                        </form>
+                    <?php else: ?>
+                        <button type="button" class="add-btn" disabled style="opacity: 0.5; cursor: not-allowed;" title="Out of Stock">✕</button>
+                    <?php endif; ?>
                 <?php endif; ?>
             </div>
         </div>

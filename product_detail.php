@@ -140,9 +140,28 @@ if ($product) {
 
             <p class="product-desc"><?php echo isset($product['desc']) ? $product['desc'] : 'No description available.'; ?></p>
 
+            <!-- Stock Information -->
+            <div style="margin: 20px 0; padding: 15px; background: <?php echo ($product['stock'] > 10) ? '#f0fdf4' : (($product['stock'] > 0) ? '#fef3c7' : '#fee2e2'); ?>; border-radius: 10px; border-left: 4px solid <?php echo ($product['stock'] > 10) ? '#22c55e' : (($product['stock'] > 0) ? '#f59e0b' : '#dc2626'); ?>;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-box" style="color: <?php echo ($product['stock'] > 10) ? '#166534' : (($product['stock'] > 0) ? '#92400e' : '#991b1b'); ?>; font-size: 20px;"></i>
+                    <div>
+                        <?php if ($product['stock'] > 10): ?>
+                            <strong style="color: #166534;">In Stock</strong>
+                            <span style="color: #166534; font-size: 14px;"> - <?php echo $product['stock']; ?> available</span>
+                        <?php elseif ($product['stock'] > 0): ?>
+                            <strong style="color: #92400e;">Only <?php echo $product['stock']; ?> left in stock!</strong>
+                            <span style="color: #92400e; font-size: 14px;"> - Order soon</span>
+                        <?php else: ?>
+                            <strong style="color: #991b1b;">Out of Stock</strong>
+                            <span style="color: #991b1b; font-size: 14px;"> - Currently unavailable</span>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+
             <div class="action-buttons">
-                <?php if (isset($_SESSION['user_id'])): ?>
-                    <!-- LOGGED IN: Add to Cart Form with Quantity -->
+                <?php if ($product['stock'] > 0 && isset($_SESSION['user_id'])): ?>
+                    <!-- LOGGED IN & IN STOCK: Add to Cart Form with Quantity -->
                     <form action="cart_action.php" method="POST" style="flex: 1; display: flex; gap: 15px; align-items: center;">
                         <input type="hidden" name="action" value="add">
                         <input type="hidden" name="product_id" value="<?php echo $product_id; ?>">
@@ -150,6 +169,7 @@ if ($product) {
                         <input type="hidden" name="price" value="<?php echo $product['price']; ?>">
                         <input type="hidden" name="image" value="<?php echo $product['image']; ?>">
                         <input type="hidden" name="co2" value="<?php echo isset($product['co2_saved']) ? $product['co2_saved'] : 0; ?>">
+                        <input type="hidden" name="stock" value="<?php echo $product['stock']; ?>">
                         
                         <div style="display: flex; align-items: center; gap: 10px;">
                             <label style="font-weight: 600; color: #333;">Qty:</label>
@@ -161,6 +181,11 @@ if ($product) {
                             <i class="fas fa-shopping-basket"></i> <?php echo isset($text['add_cart']) ? $text['add_cart'] : 'Add to Cart'; ?>
                         </button>
                     </form>
+                <?php elseif ($product['stock'] == 0): ?>
+                    <!-- OUT OF STOCK -->
+                    <button class="btn-main" disabled style="flex: 1; opacity: 0.5; cursor: not-allowed; background: #9ca3af;">
+                        <i class="fas fa-times-circle"></i> Out of Stock
+                    </button>
                 <?php else: ?>
                     <!-- NOT LOGGED IN: Redirect to Login (preserving return path) -->
                     <a href="login.php?redirect=product_detail.php?id=<?php echo $product_id; ?>" class="btn-main">

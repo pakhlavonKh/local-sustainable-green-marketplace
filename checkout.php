@@ -92,6 +92,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $db) {
                 'order_date' => new MongoDB\BSON\UTCDateTime()
             ];
 
+            // Validate Stock Availability Before Processing
+            $stock_errors = [];
+            foreach ($cart as $item) {
+                $current_product = $productsCollection->findOne(['id' => (int)$item['id']]);
+                if (!$current_product) {
+                    $stock_errors[] = $item['title'] . ' is no longer available';
+                } elseif ($current_product['stock'] < $item['quantity']) {
+                    $stock_errors[] = $item['title'] . ' - only ' . $current_product['stock'] . ' available (you have ' . $item['quantity'] . ' in cart)';
+                }
+            }
+            
+            if (!empty($stock_errors)) {
+                throw new Exception('Stock validation failed: ' . implode(', ', $stock_errors));
+            }
+
             // Update Stock
             foreach ($cart as $item) {
                 $productsCollection->updateOne(
