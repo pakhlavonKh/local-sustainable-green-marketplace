@@ -27,6 +27,7 @@ $img_bakery = "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=60
 $img_pantry = "https://images.unsplash.com/photo-1542838132-92c53300491e?w=600";
 $img_bev    = "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=600";
 $img_home   = "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600";
+$img_pantry = "https://i.pinimg.com/1200x/5f/5e/a2/5f5ea2cdbfed44593e61389edc36cc1b.jpg";
 ?>
 
 <!-- CATEGORY GRID SECTION -->
@@ -50,9 +51,9 @@ $img_home   = "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=60
         <div class="cat-overlay"><h3><?php echo $t_bakery; ?></h3></div>
     </a>
 
-    <!-- 4. Pantry -->
-    <a href="category_page.php?category=pantry" class="catalog-item">
-        <div class="cat-img" style="background-image: url('<?php echo $img_pantry; ?>');"></div>
+    <!-- 4. Pantry (Gray Box) -->
+    <a href="category_page.php?category=pantry" class="catalog-item" style="background: #9ca3af;">
+        <div class="cat-img" style="background-image: none;"></div>
         <div class="cat-overlay"><h3><?php echo $t_pantry; ?></h3></div>
     </a>
 
