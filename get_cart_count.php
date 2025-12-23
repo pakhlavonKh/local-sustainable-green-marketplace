@@ -1,5 +1,4 @@
 <?php
-// Simple API to get current cart count
 session_start();
 
 header('Content-Type: application/json');

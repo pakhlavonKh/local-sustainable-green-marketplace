@@ -103,18 +103,15 @@ if ($db) {
             </div>
         </div>
 
-        <!-- Products Panel with Search -->
         <div class="panel" id="products">
             <div class="panel-header">
                 <h2>Product Management</h2>
                 
-                <!-- Search Form -->
                 <form action="admin.php" method="GET" class="search-box">
                     <input type="text" name="search" placeholder="Search products..." value="<?php echo htmlspecialchars($search_term); ?>">
                     <button type="submit"><i class="fas fa-search"></i></button>
                 </form>
 
-                <button onclick="document.getElementById('addModal').style.display='block'" class="btn-add">+ Add Product</button>
             </div>
             
             <table>
@@ -146,9 +143,6 @@ if ($db) {
                                         <?php echo isset($p['stock']) ? $p['stock'] : 0; ?>
                                     </span>
                                 </td>
-                                <td>
-                                    <!-- Delete button removed -->
-                                </td>
                             </tr>
                         <?php endforeach; ?>
                     <?php endif; ?>
@@ -156,7 +150,6 @@ if ($db) {
             </table>
         </div>
 
-        <!-- Orders Panel -->
         <div class="panel" id="orders">
             <div class="panel-header">
                 <h2>Recent Orders</h2>
@@ -248,86 +241,6 @@ if ($db) {
 
     </div>
 
-    <!-- Add Product Modal -->
-    <div id="addModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="document.getElementById('addModal').style.display='none'">&times;</span>
-            <h2>Add New Product</h2>
-            <form action="admin_action.php" method="POST">
-                <input type="hidden" name="action" value="add_product">
-                
-                <div class="form-group">
-                    <label>Title (English)</label>
-                    <input type="text" name="title" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label>Category</label>
-                    <select name="category" class="form-control">
-                        <option value="fresh_produce">Fresh Produce</option>
-                        <option value="dairy_eggs">Dairy & Eggs</option>
-                        <option value="bakery">Bakery</option>
-                        <option value="pantry">Pantry</option>
-                        <option value="beverages">Beverages</option>
-                        <option value="home_garden">Home & Garden</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Price</label>
-                    <input type="number" step="0.01" name="price" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label>Stock</label>
-                    <input type="number" name="stock" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label>Image URL</label>
-                    <input type="text" name="image" class="form-control" placeholder="e.g. https://images.unsplash.com/..." required>
-                </div>
-                <div class="form-group">
-                    <label>Description</label>
-                    <textarea name="desc" class="form-control" rows="3" placeholder="Product description..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Seller</label>
-                    <select name="seller_name" class="form-control" required>
-                        <option value="">-- Select Seller --</option>
-                        <?php 
-                        if ($db) {
-                            $sellers = $db->users->find(['role' => 'seller'], ['sort' => ['name' => 1]])->toArray();
-                            foreach ($sellers as $s) {
-                                $s = (array)$s;
-                                echo '<option value="' . htmlspecialchars($s['name']) . '">' . htmlspecialchars($s['name']) . ' (' . htmlspecialchars($s['location'] ?? 'Unknown') . ')</option>';
-                            }
-                        }
-                        ?>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Delivery Mode</label>
-                    <select name="delivery_mode" class="form-control">
-                        <option value="bike">Bike Courier</option>
-                        <option value="walk">Walking Courier</option>
-                        <option value="public">Public Transport</option>
-                        <option value="cargo">Standard Cargo</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Packaging Type</label>
-                    <select name="packaging_type" class="form-control">
-                        <option value="plastic_free">Plastic-Free</option>
-                        <option value="recycled">Recycled Paper</option>
-                        <option value="standard">Standard</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>CO₂ Saved (kg)</label>
-                    <input type="number" step="0.1" name="co2_saved" class="form-control" value="0.3">
-                </div>
-
-                <button type="submit" class="btn-add" style="width:100%;">Save Product</button>
-            </form>
-        </div>
-    </div>
 
 </body>
 </html>

@@ -1,13 +1,10 @@
 <?php 
-// IMPORTANT: Include the language logic
 require_once 'lang_config.php'; 
 ?>
 
-<!-- FOOTER SECTION -->
 <footer class="site-footer">
     <div class="footer-container">
         
-        <!-- Column 1: Contact Us -->
         <div class="footer-col">
             <h3><?php echo $text['contact_header']; ?></h3>
             <div class="contact-block">
@@ -21,7 +18,6 @@ require_once 'lang_config.php';
             </div>
         </div>
 
-        <!-- Column 2: Company Info -->
         <div class="footer-col">
             <h3><?php echo $text['about_header']; ?></h3>
             <ul>
@@ -30,7 +26,6 @@ require_once 'lang_config.php';
             </ul>
         </div>
 
-        <!-- Column 3: Categories -->
         <div class="footer-col">
             <h3><?php echo $text['you_like_header']; ?></h3>
             <ul>
@@ -43,7 +38,6 @@ require_once 'lang_config.php';
             </ul>
         </div>
         
-        <!-- Column 4: Quick Links -->
         <div class="footer-col">
             <h3>Quick Links</h3>
             <ul>

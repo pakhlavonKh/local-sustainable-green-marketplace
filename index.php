@@ -19,31 +19,24 @@ require_once 'lang_config.php';
     <title>Leaf Leaf Market</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🍃</text></svg>">
     
-    <!-- Stylesheets -->
     <link rel="stylesheet" href="style.css?v=25"> 
     <link rel="stylesheet" href="carousel_style.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <!-- 1. Navigation Bar -->
     <?php include 'navbar.php'; ?>
 
-    <!-- 2. Hero Slider (The Big Images) -->
     <?php include 'hero.php'; ?>
 
-    <!-- 3. Categories Grid (Kiler, Firin, etc.) -->
-    <!-- Added white background container for clean look -->
     <div style="background: #fff; padding-bottom: 40px; padding-top: 20px;">
         <?php include 'catalog.php'; ?>
     </div>
 
-    <!-- 4. Transition Banner (The Parallax Image) -->
     <div style="background: #f0f0f0; padding: 0; margin: 0;">
         <?php include 'transition_banner.php'; ?>
     </div>
 
-    <!-- 4.5 About Section Teaser -->
     <div style="background: #fff; padding: 60px 20px;">
         <div class="about-teaser">
             <div class="about-teaser-content">
@@ -58,12 +51,10 @@ require_once 'lang_config.php';
         </div>
     </div>
 
-    <!-- 5. Product Carousel (You Might Be Interested In) -->
     <div style="background: #fff; padding: 40px 0;">
         <?php include 'product_carousel.php'; ?>
     </div>
 
-    <!-- 6. Footer -->
     <?php include 'footer.php'; ?>
 
 </body>

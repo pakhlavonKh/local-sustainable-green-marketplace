@@ -1,5 +1,4 @@
 <?php
-// Simple search implementation that works with local products array or MongoDB
 require_once 'lang_config.php';
 require_once 'data_products.php';
 
@@ -9,7 +8,6 @@ $results = [];
 if ($q !== '') {
     $qLower = mb_strtolower($q, 'UTF-8');
 
-    // If MongoDB available and connected, prefer it
     if (function_exists('getDBConnection')) {
         $db = @getDBConnection();
         if ($db) {

@@ -267,7 +267,7 @@ body {
 .nav-links {
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 20px;
 }
 .nav-link {
     color: #e9f5ee;
@@ -277,13 +277,13 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    padding: 12px 32px;
+    padding: 10px 20px;
     border-radius: 25px;
     background: rgba(255,255,255,0.08);
     border: 1px solid rgba(255,255,255,0.12);
     transition: all 0.3s ease;
     letter-spacing: 0.3px;
-    min-width: 250px;
+    min-width: 180px;
     justify-content: center;
 }
 .nav-link:hover {
@@ -442,7 +442,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
+    width: 250px;
 }
 
 .nav-menu {

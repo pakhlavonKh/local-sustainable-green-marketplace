@@ -28,7 +28,7 @@ if ($db && isset($_REQUEST['action'])) {
             $newProduct = [
                 'id' => $newId,
                 'title' => $_POST['title'],
-                'title_tr' => $_POST['title'], // Default to english for now
+                'title_tr' => $_POST['title'], 
                 'category' => $_POST['category'],
                 'price' => (float)$_POST['price'],
                 'stock' => (int)$_POST['stock'],

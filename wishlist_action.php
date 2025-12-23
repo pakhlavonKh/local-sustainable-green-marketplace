@@ -12,7 +12,6 @@ if (!$product_id) {
     exit();
 }
 
-// Use session-based wishlist if not logged in
 if (!isset($_SESSION['user_id'])) {
     if (!isset($_SESSION['wishlist'])) {
         $_SESSION['wishlist'] = [];
@@ -32,10 +31,8 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// For logged-in users, sync with database
 $db = getDBConnection();
 if (!$db) {
-    // Fallback to session if DB unavailable
     if (!isset($_SESSION['wishlist'])) {
         $_SESSION['wishlist'] = [];
     }
@@ -57,12 +54,10 @@ try {
     $userId = new MongoDB\BSON\ObjectId($_SESSION['user_id']);
 
     if ($action === 'add') {
-        // Add to database wishlist
         $result = $usersCollection->updateOne(
             ['_id' => $userId],
             ['$addToSet' => ['wishlist' => $product_id]]
         );
-        // Also update session
         if (!isset($_SESSION['wishlist'])) {
             $_SESSION['wishlist'] = [];
         }
@@ -71,12 +66,10 @@ try {
         }
         echo json_encode(['success' => true, 'action' => 'added']);
     } elseif ($action === 'remove') {
-        // Remove from database wishlist
         $result = $usersCollection->updateOne(
             ['_id' => $userId],
             ['$pull' => ['wishlist' => $product_id]]
         );
-        // Also update session
         if (isset($_SESSION['wishlist'])) {
             $_SESSION['wishlist'] = array_values(array_diff($_SESSION['wishlist'], [$product_id]));
         }

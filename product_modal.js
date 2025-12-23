@@ -1,18 +1,10 @@
-// product_modal.js - Handle product detail modal and cart notifications
-// Features:
-// 1. Opens product details in a modal popup instead of separate page
-// 2. Shows toast notifications when items are added to cart
-// 3. Updates cart count in real-time
-// 4. Handles AJAX form submissions for seamless UX
 
-// Open product modal
 function openProductModal(productId) {
     const modal = document.getElementById('productModal');
     const modalBody = document.getElementById('modalProductBody');
     
     if (!modal || !modalBody) return;
     
-    // Show loading state
     modalBody.innerHTML = `
         <div style="text-align: center; padding: 60px;">
             <i class="fas fa-spinner fa-spin" style="font-size: 48px; color: #1a4d2e;"></i>
@@ -23,7 +15,6 @@ function openProductModal(productId) {
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
     
-    // Fetch product data
     fetch(`get_product_details.php?id=${productId}`)
         .then(response => response.json())
         .then(data => {
@@ -52,7 +43,6 @@ function openProductModal(productId) {
         });
 }
 
-// Close product modal
 function closeProductModal() {
     const modal = document.getElementById('productModal');
     if (modal) {
@@ -61,11 +51,9 @@ function closeProductModal() {
     }
 }
 
-// Render product modal content
 function renderProductModal(product) {
     const modalBody = document.getElementById('modalProductBody');
     
-    // Stock status
     let stockBadge = '';
     let stockInfo = '';
     if (product.stock > 10) {
@@ -173,7 +161,6 @@ function renderProductModal(product) {
         `;
     }
     
-    // Seller info
     const sellerHTML = product.seller_id ? `
         <a href="seller_profile.php?id=${product.seller_id}" class="seller-card" style="text-decoration: none; color: inherit;">
             <div class="seller-icon"><i class="fas fa-store"></i></div>

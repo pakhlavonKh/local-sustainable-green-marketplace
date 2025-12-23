@@ -39,7 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $db) {
     }
 }
 
-// Get all existing admins
 $admins = [];
 if ($db) {
     $admins = $db->users->find(['role' => 'admin'], ['sort' => ['created_at' => -1]])->toArray();

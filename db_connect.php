@@ -24,13 +24,6 @@ if (file_exists($envFile)) {
     }
 }
 
-/**
- * Return a MongoDB\Database instance based on environment configuration.
- *
- * Priority:
- * - If `MONGODB_URI` is set and not a placeholder, it will be used directly.
- * - Otherwise, the URI is composed from `MONGODB_USER`, `MONGODB_PASS`, `MONGODB_HOST`, `MONGODB_DB`, and `MONGODB_OPTS`.
- */
 function getDBConnection() {
     // Prefer full connection URI from environment
     $uri = getenv('MONGODB_URI') ?: false;
